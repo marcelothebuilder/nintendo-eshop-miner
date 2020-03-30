@@ -25,5 +25,63 @@ module.exports = {
     "import/prefer-default-export": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/no-explicit-any": "off", // temporary
+    "@typescript-eslint/explicit-member-accessibility": ["error", {accessibility: "no-public"}],
+    "@typescript-eslint/member-ordering": [
+      "error",
+      {
+        default: [
+          "signature",
+
+          "public-static-field",
+          "protected-static-field",
+          "private-static-field",
+
+          "public-instance-field",
+          "protected-instance-field",
+          "private-instance-field",
+
+          "public-abstract-field",
+          "protected-abstract-field",
+          "private-abstract-field",
+
+          "public-field",
+          "protected-field",
+          "private-field",
+
+          "static-field",
+          "instance-field",
+          "abstract-field",
+
+          "field",
+
+          "constructor",
+
+          "public-static-method",
+          "public-instance-method",
+          "public-abstract-method",
+          "public-method",
+
+          "protected-static-method",
+
+          "protected-instance-method",
+          "private-instance-method",
+
+          "protected-abstract-method",
+          "private-abstract-method",
+
+          "protected-method",
+          "private-method",
+
+          "instance-method",
+          "abstract-method",
+
+          "method",
+
+          "private-static-method",
+
+          "static-method",
+        ],
+      },
+    ],
   },
 };

@@ -43,34 +43,6 @@ export class NintendoOfAmericaDumper implements NintendoDumper {
   }
 
   /**
-   * Cannot be used  reliably to find distinct games because Nintendo stores duplicates (considering objectID as key)
-   */
-  private async getObjectsCount(): Promise<number> {
-    return this.index
-      .search("", {
-        facetFilters: [this.getPlatformFacetFilter()],
-        hitsPerPage: 0,
-      })
-      .then((r) => r.nbHits); // just a note to those who are reading... NEVER abbreviate number to nb.
-  }
-
-  async getGamesInAnyCategoryCount() {
-    const anyCategoryFilter = (await this.getCategories()).map((category) =>
-      NintendoOfAmericaDumper.getCategoryFilter(category),
-    );
-    return this.index
-      .search("", {
-        length: this.maxRequestLength,
-        facetFilters: [this.getPlatformFacetFilter() as any, anyCategoryFilter],
-        offset: 0,
-        hitsPerPage: 0,
-      })
-      .then((result) => {
-        return result.nbHits;
-      });
-  }
-
-  /**
    * loop through algolia index fetching until we have no more records
    */
   async searchAll(): Promise<NintendoOfAmericaGame[]> {
@@ -104,66 +76,20 @@ export class NintendoOfAmericaDumper implements NintendoDumper {
     return uniqe;
   }
 
-  private static getPriceRangeFilter(priceRange: string): string {
-    return `priceRange:"${priceRange}"`;
-  }
-
-  /**
-   * // TODO:  at each category crawl we can ask for angolia to NOT return games in categories already fetched previously
-   * @param category
-   * @param gamesInCategory
-   */
-  private async searchAllByCategory(category: string, gamesInCategory: number): Promise<NintendoOfAmericaGame[]> {
-    if (gamesInCategory > this.maxRequestLength) {
-      const priceRanges = await this.getPriceRanges();
-      // search by price range
-      if (!priceRanges || !priceRanges.length) {
-        throw Error("No price range, at this point it is required");
-      }
-
-      const rangesPromises = priceRanges.map(async (priceRange) => {
-        return this.index
-          .search("", {
-            length: this.maxRequestLength,
-            filters: NintendoOfAmericaDumper.getPriceRangeFilter(priceRange),
-            facetFilters: [this.getPlatformFacetFilter(), NintendoOfAmericaDumper.getCategoryFilter(category)],
-            offset: 0,
-          })
-          .then((result) => result.hits as NintendoOfAmericaGame[]);
-      });
-
-      const rangr = await Promise.all(rangesPromises);
-
-      let games: any[] = [];
-
-      // eslint-disable-next-line no-return-assign
-      rangr.forEach((gamesInRange) => (games = games.concat(gamesInRange)));
-
-      const gamesWithoutPriceRange = await this.getGamesWithoutPriceRangeByCategory(category);
-
-      games = games.concat(gamesWithoutPriceRange);
-
-      return games;
-    }
+  async getGamesInAnyCategoryCount() {
+    const anyCategoryFilter = (await this.getCategories()).map((category) =>
+      NintendoOfAmericaDumper.getCategoryFilter(category),
+    );
     return this.index
       .search("", {
         length: this.maxRequestLength,
-        facetFilters: [this.getPlatformFacetFilter(), NintendoOfAmericaDumper.getCategoryFilter(category)],
+        facetFilters: [this.getPlatformFacetFilter() as any, anyCategoryFilter],
         offset: 0,
+        hitsPerPage: 0,
       })
       .then((result) => {
-        const games = result.hits as NintendoOfAmericaGame[];
-
-        assert(
-          () => games.length === gamesInCategory,
-          () => `Search for category ${category} must return ${gamesInCategory} entries, returned ${games.length}`,
-        );
-        return games;
+        return result.nbHits;
       });
-  }
-
-  private static getCategoryFilter(category: string): string {
-    return `categories:${category}`;
   }
 
   async getPriceRanges() {
@@ -240,24 +166,10 @@ export class NintendoOfAmericaDumper implements NintendoDumper {
       });
   }
 
-  public async getFacetSearch(attribute: keyof NintendoOfAmericaGame) {
-    const facet = attribute;
-    return this.index
-      .search("", {
-        facets: [facet],
-        facetFilters: [this.getPlatformFacetFilter()],
-        hitsPerPage: 0,
-      })
-      .then((result) => {
-        if (!result.facets) return [];
-        return result.facets[facet];
-      });
-  }
-
   /**
    * This method is useless. Nintendo does not store games without an category.
    */
-  public async getGamesWithoutCategory() {
+  async getGamesWithoutCategory() {
     const categories = Object.keys(await this.getGamesPerCategory());
     const categoriesNegationFilter = categories.map((category) => `category:~${category}`);
 
@@ -273,7 +185,95 @@ export class NintendoOfAmericaDumper implements NintendoDumper {
       });
   }
 
+  private async getFacetSearch(attribute: keyof NintendoOfAmericaGame) {
+    const facet = attribute;
+    return this.index
+      .search("", {
+        facets: [facet],
+        facetFilters: [this.getPlatformFacetFilter()],
+        hitsPerPage: 0,
+      })
+      .then((result) => {
+        if (!result.facets) return [];
+        return result.facets[facet];
+      });
+  }
+
+  /**
+   * // TODO:  at each category crawl we can ask for angolia to NOT return games in categories already fetched previously
+   * @param category
+   * @param gamesInCategory
+   */
+  private async searchAllByCategory(category: string, gamesInCategory: number): Promise<NintendoOfAmericaGame[]> {
+    if (gamesInCategory > this.maxRequestLength) {
+      const priceRanges = await this.getPriceRanges();
+      // search by price range
+      if (!priceRanges || !priceRanges.length) {
+        throw Error("No price range, at this point it is required");
+      }
+
+      const rangesPromises = priceRanges.map(async (priceRange) => {
+        return this.index
+          .search("", {
+            length: this.maxRequestLength,
+            filters: NintendoOfAmericaDumper.getPriceRangeFilter(priceRange),
+            facetFilters: [this.getPlatformFacetFilter(), NintendoOfAmericaDumper.getCategoryFilter(category)],
+            offset: 0,
+          })
+          .then((result) => result.hits as NintendoOfAmericaGame[]);
+      });
+
+      const rangr = await Promise.all(rangesPromises);
+
+      let games: any[] = [];
+
+      // eslint-disable-next-line no-return-assign
+      rangr.forEach((gamesInRange) => (games = games.concat(gamesInRange)));
+
+      const gamesWithoutPriceRange = await this.getGamesWithoutPriceRangeByCategory(category);
+
+      games = games.concat(gamesWithoutPriceRange);
+
+      return games;
+    }
+    return this.index
+      .search("", {
+        length: this.maxRequestLength,
+        facetFilters: [this.getPlatformFacetFilter(), NintendoOfAmericaDumper.getCategoryFilter(category)],
+        offset: 0,
+      })
+      .then((result) => {
+        const games = result.hits as NintendoOfAmericaGame[];
+
+        assert(
+          () => games.length === gamesInCategory,
+          () => `Search for category ${category} must return ${gamesInCategory} entries, returned ${games.length}`,
+        );
+        return games;
+      });
+  }
+
+  /**
+   * Cannot be used  reliably to find distinct games because Nintendo stores duplicates (considering objectID as key)
+   */
+  private async getObjectsCount(): Promise<number> {
+    return this.index
+      .search("", {
+        facetFilters: [this.getPlatformFacetFilter()],
+        hitsPerPage: 0,
+      })
+      .then((r) => r.nbHits); // just a note to those who are reading... NEVER abbreviate number to nb.
+  }
+
   private getPlatformFacetFilter() {
     return `platform:${this.platform}`;
+  }
+
+  private static getPriceRangeFilter(priceRange: string): string {
+    return `priceRange:"${priceRange}"`;
+  }
+
+  private static getCategoryFilter(category: string): string {
+    return `categories:${category}`;
   }
 }
