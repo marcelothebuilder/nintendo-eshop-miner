@@ -18,8 +18,16 @@ npm start
 
 ## Developing
 
+Open in one terminal:
+
 ```sh
-npm start
+npm dev
+```
+
+And on the other:
+
+```sh
+node dist/index.js
 ```
 
 ## Run tests
