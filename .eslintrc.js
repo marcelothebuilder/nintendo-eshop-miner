@@ -25,7 +25,7 @@ module.exports = {
     "import/prefer-default-export": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/no-explicit-any": "off", // temporary
-    "@typescript-eslint/explicit-member-accessibility": ["error", {accessibility: "no-public"}],
+    "@typescript-eslint/explicit-member-accessibility": ["error", { accessibility: "no-public" }],
     "@typescript-eslint/member-ordering": [
       "error",
       {
@@ -56,10 +56,11 @@ module.exports = {
 
           "constructor",
 
-          "public-static-method",
           "public-instance-method",
           "public-abstract-method",
           "public-method",
+
+          "public-static-method",
 
           "protected-static-method",
 
