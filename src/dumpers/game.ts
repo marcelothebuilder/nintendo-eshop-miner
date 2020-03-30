@@ -23,7 +23,7 @@ export interface HighlightResult {
     publishers: Publisher[];
 }
 
-export interface Game {
+export interface NintendoOfAmericaGame {
     type: string;
     locale: string;
     url: string;
