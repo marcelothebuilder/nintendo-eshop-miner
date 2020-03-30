@@ -1,18 +1,12 @@
 import { NintendoOfAmericaDumper } from "./dumpers/NintendoOfAmericaDumper";
+import { logger } from "./logging/logger";
 
-const log = (data: any) => console.log(data);
-const error = (data: any) => console.error(data);
-
-async function main() {
-    try {
-        await new NintendoOfAmericaDumper()
-            .searchAll()
-    } catch (e) {
-        console.error(e);
-    }
-
-
+async function main(): Promise<void> {
+  try {
+    await new NintendoOfAmericaDumper().searchAll();
+  } catch (e) {
+    logger.error(e);
+  }
 }
 
-main().then(() => console.log('Done execution'));
-
+main().then(() => logger.info("Done execution"));
