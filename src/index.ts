@@ -81,11 +81,23 @@ async function getCanadaGames() {
   });
 }
 
+async function getCanadaFrGames() {
+  const canadaDumper: NintendoDumper = new NintendoOfAmericaDumper({
+    region: NintendoOfAmericaRegions.CANADA_FRENCH,
+  });
+  const canadaGames = await canadaDumper.searchAll();
+
+  logger.info(`Got ${canadaGames.games.length} from canada (fr) server.`, {
+    first: canadaGames.firstModified,
+    last: canadaGames.lastModified,
+  });
+}
+
 async function main(): Promise<void> {
   try {
-    await Promise.all([getCanadaGames(), getUsGames()]);
+    await Promise.all([getCanadaGames(), getUsGames(), getCanadaFrGames()]);
   } catch (e) {
-    logger.error(e);
+    logger.error("error in main", e);
   }
 }
 
