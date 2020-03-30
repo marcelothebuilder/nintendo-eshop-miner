@@ -14,7 +14,7 @@ class NintendoOfAmericaDumper {
     maxRequestLength = 1000;
     offset: number;
     platform: string;
-    priceRanges?: string[];
+    gamesPerPriceRange?: any[];
     gamesPerCategory?: any[];
 
     constructor(platform = 'Nintendo Switch') {
@@ -58,7 +58,7 @@ class NintendoOfAmericaDumper {
         const categories = Object.entries(gamesPerCategory)
             .map(e => ({ name: e[0], count: e[1] }));
 
-        await this.fetchPriceRanges();
+        await this.getPriceRanges();
 
         const categoriesPromsie = await Promise.all(categories.map(async category => {
             const gamesInCategory = await this.searchAllByCategory(category.name, category.count);
@@ -73,16 +73,6 @@ class NintendoOfAmericaDumper {
         return uniqe;
     }
 
-    private async fetchPriceRanges() {
-        if (this.priceRanges) {
-            return this.priceRanges;
-        }
-
-        this.priceRanges = await this.getPriceRanges();
-        return this.priceRanges;
-
-    }
-
     private getPriceRangeFilter(priceRange: string): string {
         return `priceRange:"${priceRange}"`;
     }
@@ -95,12 +85,14 @@ class NintendoOfAmericaDumper {
     private async searchAllByCategory(category: string, gamesInCategory: number): Promise<Game[]> {
         console.log([this.getPlatformFacetFilter(), this.getCategoryFilter(category)]);
         if (gamesInCategory > this.maxRequestLength) {
+
+            const priceRanges = await this.getPriceRanges();
             // search by price range
-            if (!this.priceRanges || !this.priceRanges.length) {
+            if (!priceRanges || !priceRanges.length) {
                 throw Error('No price range, at this point it is required');
             }
 
-            const rangesPromises = this.priceRanges.map(async priceRange => {
+            const rangesPromises = priceRanges.map(async priceRange => {
                 console.log(this.getPriceRangeFilter(priceRange));
                 return this.index.search('', {
                     length: this.maxRequestLength,
@@ -147,14 +139,18 @@ class NintendoOfAmericaDumper {
     }
 
     async getGamesByPriceRange(priceRange: Game['priceRange']) {
-        return this.index.search('', {
+        if (this.gamesPerPriceRange) {
+            return this.gamesPerPriceRange;
+        }
+
+        this.gamesPerPriceRange = (await this.index.search('', {
             length: this.maxRequestLength,
             filters: `priceRange: "${priceRange}"`,
             facetFilters: [this.getPlatformFacetFilter()],
             offset: 0
-        }).then(result => {
-            return result.hits as Game[];
-        });
+        })).hits as any[];
+
+        return this.gamesPerPriceRange;
     }
 
     async getGamesWithoutPriceRangeByCategory(category: string) {
