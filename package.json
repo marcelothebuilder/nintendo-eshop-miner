@@ -5,11 +5,13 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "watch": "tsc -w",
+    "dev": "tsc -w",
+    "start": "tsc && node dist/index.js",
     "lint": "eslint --fix ./src/**/*"
   },
-  "author": "",
-  "license": "ISC",
+  "private": true,
+  "author": "Revok",
+  "license": "private",
   "dependencies": {
     "algoliasearch": "^4.1.0",
     "date-fns": "^2.11.1",
