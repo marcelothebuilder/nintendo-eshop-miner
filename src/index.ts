@@ -1,6 +1,7 @@
-import { uniq, uniqBy, sum } from 'lodash';
+import { uniq, uniqBy, sum, uniqWith, isEqual, groupBy } from 'lodash';
 import algolia, { SearchIndex } from 'algoliasearch';
 import { Game } from './game';
+import * as fs from 'fs';
 
 const log = (data: any) => console.log(data);
 const error = (data: any) => console.error(data);
@@ -25,7 +26,7 @@ class NintendoOfAmericaDumper {
     }
 
     /**
-     * used internally for validation
+     * Cannot be used  reliably to find distinct games because Nintendo stores duplicates (considering objectID as key)
      */
     private async getObjectsCount(): Promise<number> {
         return this.index.search('', {
@@ -51,8 +52,6 @@ class NintendoOfAmericaDumper {
      */
     async searchAll(): Promise<Game[]> {
 
-        const gamesTotal =  await this.getObjectsCount();
-
         const gamesPerCategory = await this.getGamesPerCategory();
 
         const categories = Object.entries(gamesPerCategory)
@@ -60,16 +59,23 @@ class NintendoOfAmericaDumper {
 
         await this.getPriceRanges();
 
-        const categoriesPromsie = await Promise.all(categories.map(async category => {
+        const games = (await Promise.all(categories.map(async category => {
             const gamesInCategory = await this.searchAllByCategory(category.name, category.count);
 
             return gamesInCategory;
-        }));
+        }))).reduce((acc, games) => acc.concat(games), []);
 
-        const notCategorized = await this.getGamesWithoutCategory();
-        const join = categoriesPromsie.reduce((acc, games) => acc.concat(games), []).concat(notCategorized);
-        const uniqe =  uniqBy(join, (game: Game) => game.objectID)
-        console.assert(gamesTotal === uniqe.length, `There are ${gamesTotal} objects reported by algolia, but we could only fetch ${uniqe.length}`);
+        const uniqe = Object.values(groupBy(games, game => game.objectID))
+            .map((group: Game[]) => {
+                if (group.length === 1) {
+                    return group[0];
+                }
+
+                return group.sort((a, b) => {
+                    return b.lastModified - a.lastModified;
+                })[0];
+            });
+        // console.assert(gamesTotal === uniqe.length, `There are ${gamesTotal} objects reported by algolia, but we could only fetch ${uniqe.length}`);
         return uniqe;
     }
 
@@ -263,7 +269,7 @@ async function main() {
             // .getFacetSearch('categories');
             .searchAll()
 
-        console.log(games);
+        await fs.promises.writeFile('noa_games.json', JSON.stringify(games, null, 2), 'utf8').then(() => 'noa_games.json written');
         // const rlsdate = games.map(game => game.releaseDateMask);
         // console.log(rlsdate);
     } catch (e) {
