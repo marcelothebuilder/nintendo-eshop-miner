@@ -1,6 +1,6 @@
 import algolia, { SearchIndex } from "algoliasearch";
 import { groupBy, flatten, max, min } from "lodash";
-import { NintendoOfAmericaGame } from "./NintendoOfAmericaGame";
+import { NorthAmericaGame } from "./NorthAmericaGame";
 import { assert } from "../logging/assert";
 import { logger } from "../logging/logger";
 
@@ -20,7 +20,7 @@ export interface NintendoDumper {
 }
 
 export interface DumperResult {
-  games: NintendoOfAmericaGame[];
+  games: NorthAmericaGame[];
   firstModified?: Date | undefined;
   lastModified?: Date | undefined;
 }
@@ -32,7 +32,7 @@ export interface DumperResult {
  * NintendoOfAmericaDumper says: plz revok come back to refactor i love you
  * Revok says: Ok NintendoOfAmericaDumper *leaves to buy a pack of cigarettes*
  */
-export class NintendoOfAmericaDumper implements NintendoDumper {
+export class NorthAmericaDumper implements NintendoDumper {
   private index: SearchIndex;
 
   private maxRequestLength = 1000;
@@ -70,7 +70,7 @@ export class NintendoOfAmericaDumper implements NintendoDumper {
       ),
     );
 
-    const uniqe = Object.values(groupBy(games, (game) => game.objectID)).map((group: NintendoOfAmericaGame[]) => {
+    const uniqe = Object.values(groupBy(games, (game) => game.objectID)).map((group: NorthAmericaGame[]) => {
       if (group.length === 1) {
         return group[0];
       }
@@ -81,14 +81,14 @@ export class NintendoOfAmericaDumper implements NintendoDumper {
     });
 
     return {
-      ...NintendoOfAmericaDumper.getModificationTimes(uniqe),
+      ...NorthAmericaDumper.getModificationTimes(uniqe),
       games: uniqe,
     };
   }
 
   async getGamesInAnyCategoryCount() {
     const anyCategoryFilter = (await this.getCategories()).map((category) =>
-      NintendoOfAmericaDumper.getCategoryFilter(category),
+      NorthAmericaDumper.getCategoryFilter(category),
     );
     return this.index
       .search("", {
@@ -107,7 +107,7 @@ export class NintendoOfAmericaDumper implements NintendoDumper {
     return Object.keys(gamesPerPriceRange);
   }
 
-  async getGamesByPriceRange(priceRange: NintendoOfAmericaGame["priceRange"]) {
+  async getGamesByPriceRange(priceRange: NorthAmericaGame["priceRange"]) {
     if (this.gamesPerPriceRange) {
       return this.gamesPerPriceRange;
     }
@@ -135,11 +135,11 @@ export class NintendoOfAmericaDumper implements NintendoDumper {
       .search("", {
         length: this.maxRequestLength,
         filters: rangesFilter,
-        facetFilters: [this.getPlatformFacetFilter(), NintendoOfAmericaDumper.getCategoryFilter(category)],
+        facetFilters: [this.getPlatformFacetFilter(), NorthAmericaDumper.getCategoryFilter(category)],
         offset: 0,
       })
       .then((result) => {
-        return result.hits as NintendoOfAmericaGame[];
+        return result.hits as NorthAmericaGame[];
       });
   }
 
@@ -190,12 +190,12 @@ export class NintendoOfAmericaDumper implements NintendoDumper {
         offset: 0,
       })
       .then((result) => {
-        const games = result.hits as NintendoOfAmericaGame[];
+        const games = result.hits as NorthAmericaGame[];
         return games;
       });
   }
 
-  private async getFacetSearch(attribute: keyof NintendoOfAmericaGame) {
+  private async getFacetSearch(attribute: keyof NorthAmericaGame) {
     const facet = attribute;
     return this.index
       .search("", {
@@ -214,7 +214,7 @@ export class NintendoOfAmericaDumper implements NintendoDumper {
    * @param category
    * @param gamesInCategory
    */
-  private async searchAllByCategory(category: string, gamesInCategory: number): Promise<NintendoOfAmericaGame[]> {
+  private async searchAllByCategory(category: string, gamesInCategory: number): Promise<NorthAmericaGame[]> {
     if (gamesInCategory > this.maxRequestLength) {
       const priceRanges = await this.getPriceRanges();
       // search by price range
@@ -226,11 +226,11 @@ export class NintendoOfAmericaDumper implements NintendoDumper {
         return this.index
           .search("", {
             length: this.maxRequestLength,
-            filters: NintendoOfAmericaDumper.getPriceRangeFilter(priceRange),
-            facetFilters: [this.getPlatformFacetFilter(), NintendoOfAmericaDumper.getCategoryFilter(category)],
+            filters: NorthAmericaDumper.getPriceRangeFilter(priceRange),
+            facetFilters: [this.getPlatformFacetFilter(), NorthAmericaDumper.getCategoryFilter(category)],
             offset: 0,
           })
-          .then((result) => result.hits as NintendoOfAmericaGame[]);
+          .then((result) => result.hits as NorthAmericaGame[]);
       });
 
       const rangr = await Promise.all(rangesPromises);
@@ -249,11 +249,11 @@ export class NintendoOfAmericaDumper implements NintendoDumper {
     return this.index
       .search("", {
         length: this.maxRequestLength,
-        facetFilters: [this.getPlatformFacetFilter(), NintendoOfAmericaDumper.getCategoryFilter(category)],
+        facetFilters: [this.getPlatformFacetFilter(), NorthAmericaDumper.getCategoryFilter(category)],
         offset: 0,
       })
       .then((result) => {
-        const games = result.hits as NintendoOfAmericaGame[];
+        const games = result.hits as NorthAmericaGame[];
 
         assert(
           () => games.length === gamesInCategory,
@@ -288,7 +288,7 @@ export class NintendoOfAmericaDumper implements NintendoDumper {
   }
 
   private static getModificationTimes(
-    games: NintendoOfAmericaGame[],
+    games: NorthAmericaGame[],
   ): Partial<Pick<DumperResult, "firstModified" | "lastModified">> {
     const modificationEntries: number[] = games.map((game) => game.lastModified);
 

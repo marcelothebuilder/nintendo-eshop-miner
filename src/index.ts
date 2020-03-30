@@ -54,11 +54,11 @@
 // ...................  ▓███████▓  ░░░░░░░░░░░░░░░░░░░░░░ ░▒ ░░░░░░░░░
 // ..................... ░▓██████▓▓  ░░░░░░░░░░░░░░░░░░░░░  ░  ░░░░░░░░░
 
-import { NintendoOfAmericaDumper, NintendoOfAmericaRegions, NintendoDumper } from "./dumpers/NintendoOfAmericaDumper";
+import { NorthAmericaDumper, NintendoOfAmericaRegions, NintendoDumper } from "./dumpers/NorthAmericaDumper";
 import { logger } from "./logging/logger";
 
 async function getUsGames() {
-  const usDumper: NintendoDumper = new NintendoOfAmericaDumper({
+  const usDumper: NintendoDumper = new NorthAmericaDumper({
     region: NintendoOfAmericaRegions.UNITED_STATES,
   });
   const usGames = await usDumper.searchAll();
@@ -70,7 +70,7 @@ async function getUsGames() {
 }
 
 async function getCanadaGames() {
-  const canadaDumper: NintendoDumper = new NintendoOfAmericaDumper({
+  const canadaDumper: NintendoDumper = new NorthAmericaDumper({
     region: NintendoOfAmericaRegions.CANADA,
   });
   const canadaGames = await canadaDumper.searchAll();
@@ -82,7 +82,7 @@ async function getCanadaGames() {
 }
 
 async function getCanadaFrGames() {
-  const canadaDumper: NintendoDumper = new NintendoOfAmericaDumper({
+  const canadaDumper: NintendoDumper = new NorthAmericaDumper({
     region: NintendoOfAmericaRegions.CANADA_FRENCH,
   });
   const canadaGames = await canadaDumper.searchAll();
