@@ -1,5 +1,5 @@
 import algolia, { SearchIndex } from "algoliasearch";
-import { groupBy, flatten } from "lodash";
+import { groupBy, flatten, max, min } from "lodash";
 import { NintendoOfAmericaGame } from "./game";
 import { assert } from "../logging/assert";
 import { logger } from "../logging/logger";
@@ -14,7 +14,13 @@ export const NintendoOfAmericaPlatforms = {
 };
 
 export interface NintendoDumper {
-  searchAll(): Promise<NintendoOfAmericaGame[]>;
+  searchAll(): Promise<DumperResult>;
+}
+
+export interface DumperResult {
+  games: NintendoOfAmericaGame[];
+  firstModified: Date | undefined;
+  lastModified: Date | undefined;
 }
 
 /**
@@ -45,7 +51,7 @@ export class NintendoOfAmericaDumper implements NintendoDumper {
   /**
    * loop through algolia index fetching until we have no more records
    */
-  async searchAll(): Promise<NintendoOfAmericaGame[]> {
+  async searchAll(): Promise<DumperResult> {
     logger.info(`${this.index.indexName}:searchAll`);
 
     const gamesPerCategory = await this.getGamesPerCategory();
@@ -73,7 +79,11 @@ export class NintendoOfAmericaDumper implements NintendoDumper {
         return b.lastModified - a.lastModified;
       })[0];
     });
-    return uniqe;
+
+    return {
+      ...NintendoOfAmericaDumper.getModificationTimes(uniqe),
+      games: uniqe,
+    };
   }
 
   async getGamesInAnyCategoryCount() {
@@ -275,5 +285,19 @@ export class NintendoOfAmericaDumper implements NintendoDumper {
 
   private static getCategoryFilter(category: string): string {
     return `categories:${category}`;
+  }
+
+  private static getModificationTimes(
+    games: NintendoOfAmericaGame[],
+  ): Partial<Pick<DumperResult, "firstModified" | "lastModified">> {
+    const modificationEntries: number[] = games.map((game) => game.lastModified);
+
+    if (!modificationEntries || !modificationEntries.length) return {};
+
+    return {
+      // FUCK YOU TYPESCRIPT
+      firstModified: new Date(min(modificationEntries) as any),
+      lastModified: new Date(max(modificationEntries) as any),
+    };
   }
 }
