@@ -48,7 +48,9 @@ export interface NintendoOfAmericaGame {
   featured: boolean;
   freeToStart: boolean;
   priceRange?: any;
+  // original price
   msrp?: any;
+  // sale with discount
   salePrice?: any;
   availability: string[];
   objectID: string;
