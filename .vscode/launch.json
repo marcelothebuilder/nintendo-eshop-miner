@@ -17,6 +17,17 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "Launch Current file",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${file}",
+            "cwd": "${workspaceFolder}",
+            "outputCapture": "std"
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "Launch Test",
             "skipFiles": [
                 "<node_internals>/**"

@@ -54,6 +54,7 @@
 // ...................  ▓███████▓  ░░░░░░░░░░░░░░░░░░░░░░ ░▒ ░░░░░░░░░
 // ..................... ░▓██████▓▓  ░░░░░░░░░░░░░░░░░░░░░  ░  ░░░░░░░░░
 
+import fs from "fs";
 import { NorthAmericaDumper, NintendoOfAmericaRegions, NintendoDumper } from "./dumpers/NorthAmericaDumper";
 import { logger } from "./logging/logger";
 
@@ -95,7 +96,11 @@ async function getCanadaFrGames() {
 
 async function main(): Promise<void> {
   try {
-    await Promise.all([getCanadaGames(), getUsGames(), getCanadaFrGames()]);
+    const usDumper: NintendoDumper = new NorthAmericaDumper({
+      region: NintendoOfAmericaRegions.UNITED_STATES,
+    });
+    const usGames = await usDumper.searchAll();
+    await fs.promises.writeFile("usgames.json", JSON.stringify(usGames, null, 2));
   } catch (e) {
     logger.error("error in main", e);
   }
