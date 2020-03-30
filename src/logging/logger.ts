@@ -1,9 +1,9 @@
 import * as winston from "winston";
 
-export const logger = winston.createLogger({
+const logger = winston.createLogger({
   level: "info",
-  format: winston.format.json(),
-  defaultMeta: { service: "user-service" },
+  //   format: winston.format.json(),
+  format: winston.format.simple(),
   transports: [
     //
     // - Write all logs with level `error` and below to `error.log`
@@ -11,13 +11,20 @@ export const logger = winston.createLogger({
     //
     new winston.transports.File({ filename: "error.log", level: "error" }),
     new winston.transports.File({ filename: "combined.log" }),
+    new winston.transports.Console({
+      format: winston.format.simple(),
+      level: "debug",
+    }),
   ],
 });
 
-if (process.env.NODE_ENV !== "production") {
-  logger.add(
-    new winston.transports.Console({
-      format: winston.format.simple(),
-    }),
-  );
-}
+// if (process.env.NODE_ENV !== "production") {
+//   logger.add(
+//     new winston.transports.Console({
+//       format: winston.format.simple(),
+//       level: "debug",
+//     }),
+//   );
+// }
+
+export { logger };

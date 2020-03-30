@@ -2,12 +2,29 @@ import algolia, { SearchIndex } from "algoliasearch";
 import { groupBy, flatten } from "lodash";
 import { NintendoOfAmericaGame } from "./game";
 import { assert } from "../logging/assert";
+import { logger } from "../logging/logger";
+
+export const NintendoOfAmericaRegions = {
+  UNITED_STATES: "en_us",
+  CANADA: "en_ca",
+};
+
+export const NintendoOfAmericaPlatforms = {
+  SWITCH: "Nintendo Switch",
+};
+
+export interface NintendoDumper {
+  searchAll(): Promise<NintendoOfAmericaGame[]>;
+}
 
 /**
  * @tutorial https://www.algolia.com/doc/api-client/getting-started/what-is-the-api-client/javascript/?language=javascript
  * Nintendo limits search to only 1000 hits.
+ *
+ * NintendoOfAmericaDumper says: plz revok come back to refactor i love you
+ * Revok says: Ok NintendoOfAmericaDumper *leaves to buy a pack of cigarettes*
  */
-export class NintendoOfAmericaDumper {
+export class NintendoOfAmericaDumper implements NintendoDumper {
   private index: SearchIndex;
 
   private maxRequestLength = 1000;
@@ -18,9 +35,11 @@ export class NintendoOfAmericaDumper {
 
   private gamesPerCategory?: any[];
 
-  constructor(platform = "Nintendo Switch") {
+  constructor({ platform = NintendoOfAmericaPlatforms.SWITCH, region = NintendoOfAmericaRegions.UNITED_STATES } = {}) {
     this.platform = platform;
-    this.index = algolia("U3B6GR4UA3", "9a20c93440cf63cf1a7008d75f7438bf").initIndex("noa_aem_game_en_us_title_asc");
+    this.index = algolia("U3B6GR4UA3", "9a20c93440cf63cf1a7008d75f7438bf").initIndex(
+      `noa_aem_game_${region}_title_asc`,
+    );
   }
 
   /**
@@ -55,6 +74,8 @@ export class NintendoOfAmericaDumper {
    * loop through algolia index fetching until we have no more records
    */
   async searchAll(): Promise<NintendoOfAmericaGame[]> {
+    logger.info(`${this.index.indexName}:searchAll`);
+
     const gamesPerCategory = await this.getGamesPerCategory();
 
     const categories = Object.entries(gamesPerCategory).map((e) => ({ name: e[0], count: e[1] }));
