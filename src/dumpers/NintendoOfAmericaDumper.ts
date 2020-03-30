@@ -19,8 +19,8 @@ export interface NintendoDumper {
 
 export interface DumperResult {
   games: NintendoOfAmericaGame[];
-  firstModified: Date | undefined;
-  lastModified: Date | undefined;
+  firstModified?: Date | undefined;
+  lastModified?: Date | undefined;
 }
 
 /**
