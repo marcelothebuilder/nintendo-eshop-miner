@@ -1,6 +1,6 @@
 import algolia, { SearchIndex } from "algoliasearch";
 import { groupBy, flatten, max, min } from "lodash";
-import { NintendoOfAmericaGame } from "./game";
+import { NintendoOfAmericaGame } from "./NintendoOfAmericaGame";
 import { assert } from "../logging/assert";
 import { logger } from "../logging/logger";
 
