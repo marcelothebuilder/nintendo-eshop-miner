@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // .........................................................                                                      ..
 // ..................................   ................      ▒▒▒▒▓▓▓▓▓
 // .................................  ▒ .............    ▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░
@@ -97,9 +98,7 @@ async function getCanadaFrGames() {
 async function main(): Promise<void> {
   try {
     const usDumper: NintendoDumper = getDumper(NorthAmericaRegions.UNITED_STATES);
-    const usGames = await usDumper.searchAll();
-    await fs.promises.unlink("data/usgames.json");
-    await fs.promises.writeFile("data/usgames.json", JSON.stringify(usGames, null, 2));
+    await usDumper.searchAll();
   } catch (e) {
     logger.error("error in main", e);
   }

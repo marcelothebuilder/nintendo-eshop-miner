@@ -50,5 +50,9 @@ describe("NorthAmericaDumper tests", () => {
         expect(fakeSearch.callCount).to.be.eq(1);
       });
     });
+
+    describe("when algolia is has 3 games", () => {
+      it("should ", () => {});
+    });
   });
 });
