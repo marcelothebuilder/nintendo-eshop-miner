@@ -1,0 +1,23 @@
+{
+  "BDD Test": {
+    "prefix": "bdd",
+    "body": [
+      "import { expect } from \"chai\";",
+      "import { describe, it, afterEach } from \"mocha\";",
+      "import sinon from \"sinon\";",
+      "import { ${TM_FILENAME_BASE/(.spec)//} } from \"./${TM_FILENAME_BASE/(.spec)//}\";",
+      "",
+      "describe(\"${TM_FILENAME_BASE/(.spec)//} tests\", () => {",
+      "  afterEach(() => sinon.restore());",
+      "",
+      "  it(\"${TM_FILENAME_BASE/(.spec)//} should be created successfully\", () => {",
+      "    // eslint-disable-next-line no-new",
+      "    const instance = new ${TM_FILENAME_BASE/(.spec)//}();",
+      "    expect(instance).to.be.instanceOf(${TM_FILENAME_BASE/(.spec)//});",
+      "  });",
+      "});",
+      ""
+    ],
+    "description": "BDD Test"
+  }
+}
