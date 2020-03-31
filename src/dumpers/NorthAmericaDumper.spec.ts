@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-expressions */
 import { SearchIndex } from "algoliasearch";
-import { assert, expect } from "chai";
+import chai, { assert, expect } from "chai";
+import chaiAsPromised from "chai-as-promised";
 import randomString from "human-readable-random-string";
 import { afterEach, describe, it } from "mocha";
 import sinon from "sinon";
@@ -126,9 +127,14 @@ describe("NorthAmericaDumper tests", () => {
           search: fakeSearch,
         });
 
-        await instance.searchAll();
+        const r = await instance.searchAll();
 
         expect(fakeSearch.callCount).to.be.eq(1);
+
+        // reversed
+        expect(r.games).to.not.be.empty;
+        expect(r.firstModified).to.not.be.null;
+        expect(r.lastModified).to.not.be.null;
       });
     });
 
@@ -313,6 +319,62 @@ describe("NorthAmericaDumper tests", () => {
         const result = await instance.searchAll();
 
         expect(result.games.length).to.be.eq(2);
+      });
+
+      it("should error if theres no price ranges", async () => {
+        sinon.restore();
+
+        const searchStub = sinon.stub();
+
+        searchStub
+          .withArgs("", { facets: ["categories"], facetFilters: ["platform:Nintendo Switch"], hitsPerPage: 0 })
+          .resolves({
+            hits: [],
+            nbHits: 3,
+            page: 0,
+            nbPages: 0,
+            hitsPerPage: 0,
+            facets: {
+              categories: {
+                Adventure: 2,
+              },
+            },
+            exhaustiveFacetsCount: true,
+            exhaustiveNbHits: true,
+            query: "",
+            params: "facets=%5B%22categories%22%5D&facetFilters=%5B%22platform%3ANintendo+Switch%22%5D&hitsPerPage=0",
+            processingTimeMS: 1,
+          });
+
+        searchStub
+          .withArgs("", { facets: ["priceRange"], facetFilters: ["platform:Nintendo Switch"], hitsPerPage: 0 })
+          .resolves({
+            hits: [],
+            nbHits: 3,
+            page: 0,
+            nbPages: 0,
+            hitsPerPage: 0,
+            facets: {
+              priceRange: {},
+            },
+            exhaustiveFacetsCount: true,
+            exhaustiveNbHits: true,
+            query: "",
+            params: "facets=%5B%22priceRange%22%5D&facetFilters=%5B%22platform%3ANintendo+Switch%22%5D&hitsPerPage=0",
+            processingTimeMS: 1,
+          });
+
+        const dumper = getDumperWithIndex(
+          {
+            search: searchStub,
+          },
+          { maxRequestLength: 1 },
+        );
+
+        chai.use(chaiAsPromised);
+        chai.should();
+
+        return dumper.searchAll().should.be.rejectedWith("No price range, at this point it is required");
       });
     });
 

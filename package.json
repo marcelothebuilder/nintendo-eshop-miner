@@ -18,6 +18,7 @@
   "license": "private",
   "dependencies": {
     "@algolia/transporter": "^4.1.0",
+    "@types/chai-as-promised": "^7.1.2",
     "@types/uuid": "^7.0.2",
     "algoliasearch": "^4.1.0",
     "axios": "^0.19.2",
@@ -40,6 +41,7 @@
     "@typescript-eslint/eslint-plugin": "^2.25.0",
     "@typescript-eslint/parser": "^2.25.0",
     "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-config-prettier": "^6.10.1",
