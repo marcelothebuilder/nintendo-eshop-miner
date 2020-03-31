@@ -11,7 +11,8 @@
     "lint": "eslint --fix ./src/**/*",
     "test": "mocha",
     "test:watch": "mocha --watch",
-    "coverage": "nyc mocha"
+    "coverage": "nyc mocha",
+    "coverage:ci": "nyc mocha || true"
   },
   "private": true,
   "author": "Revok",
