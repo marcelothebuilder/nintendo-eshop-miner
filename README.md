@@ -127,6 +127,10 @@ Tab trigger keywords:
 
 👤 **Revok**
 
+## The index.ts banner
+
+[Here](https://github.com/syntax-samurai/zelda)
+
 ## Show your support
 
 Give a ⭐️ if this project helped you!
