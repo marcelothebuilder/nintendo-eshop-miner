@@ -115,27 +115,6 @@ describe("NorthAmericaDumper tests", () => {
 
         assert.deepEqual(await instance.searchAll(), { games: [] });
       });
-
-      it.skip("should call index only once", async () => {
-        const fakeSearch = sinon.fake.resolves({
-          result: {
-            facets: [],
-          },
-        } as any);
-
-        const instance = getDumperWithIndex({
-          search: fakeSearch,
-        });
-
-        const r = await instance.searchAll();
-
-        expect(fakeSearch.callCount).to.be.eq(1);
-
-        // reversed
-        expect(r.games).to.not.be.empty;
-        expect(r.firstModified).to.not.be.null;
-        expect(r.lastModified).to.not.be.null;
-      });
     });
 
     describe("when algolia has games", () => {
