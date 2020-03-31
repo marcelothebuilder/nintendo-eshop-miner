@@ -64,8 +64,6 @@ module.exports = {
 
           "public-static-method",
 
-          "protected-static-method",
-
           "protected-instance-method",
           "private-instance-method",
 
@@ -79,6 +77,8 @@ module.exports = {
           "abstract-method",
 
           "method",
+
+          "protected-static-method",
 
           "private-static-method",
 
