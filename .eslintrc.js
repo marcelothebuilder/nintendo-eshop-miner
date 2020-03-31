@@ -25,6 +25,7 @@ module.exports = {
     "import/prefer-default-export": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/no-explicit-any": "off", // temporary
+    "@typescript-eslint/no-unused-vars": "error",
     "import/no-extraneous-dependencies": ["error", { devDependencies: ["**/*.spec.ts"] }],
     "@typescript-eslint/explicit-member-accessibility": ["error", { accessibility: "no-public" }],
     "@typescript-eslint/member-ordering": [

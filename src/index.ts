@@ -55,13 +55,17 @@
 // ..................... ░▓██████▓▓  ░░░░░░░░░░░░░░░░░░░░░  ░  ░░░░░░░░░
 
 import fs from "fs";
-import { NorthAmericaDumper, NintendoOfAmericaRegions, NintendoDumper } from "./dumpers/NorthAmericaDumper";
+import { NintendoDumper } from "./dumpers/NorthAmericaDumper";
+import { NorthAmericaDumperFactory } from "./dumpers/NorthAmericaDumperFactory";
+import { NorthAmericaRegions } from "./dumpers/NorthAmericaRegions";
 import { logger } from "./logging/logger";
 
+function getDumper(region: string) {
+  return new NorthAmericaDumperFactory({ region }).getInstance();
+}
+
 async function getUsGames() {
-  const usDumper: NintendoDumper = new NorthAmericaDumper({
-    region: NintendoOfAmericaRegions.UNITED_STATES,
-  });
+  const usDumper: NintendoDumper = getDumper(NorthAmericaRegions.UNITED_STATES);
   const usGames = await usDumper.searchAll();
 
   logger.info(`Got ${usGames.games.length} from us server.`, {
@@ -71,9 +75,7 @@ async function getUsGames() {
 }
 
 async function getCanadaGames() {
-  const canadaDumper: NintendoDumper = new NorthAmericaDumper({
-    region: NintendoOfAmericaRegions.CANADA,
-  });
+  const canadaDumper: NintendoDumper = getDumper(NorthAmericaRegions.CANADA);
   const canadaGames = await canadaDumper.searchAll();
 
   logger.info(`Got ${canadaGames.games.length} from canada server.`, {
@@ -83,9 +85,7 @@ async function getCanadaGames() {
 }
 
 async function getCanadaFrGames() {
-  const canadaDumper: NintendoDumper = new NorthAmericaDumper({
-    region: NintendoOfAmericaRegions.CANADA_FRENCH,
-  });
+  const canadaDumper: NintendoDumper = getDumper(NorthAmericaRegions.CANADA_FRENCH);
   const canadaGames = await canadaDumper.searchAll();
 
   logger.info(`Got ${canadaGames.games.length} from canada (fr) server.`, {
@@ -96,11 +96,10 @@ async function getCanadaFrGames() {
 
 async function main(): Promise<void> {
   try {
-    const usDumper: NintendoDumper = new NorthAmericaDumper({
-      region: NintendoOfAmericaRegions.UNITED_STATES,
-    });
+    const usDumper: NintendoDumper = getDumper(NorthAmericaRegions.UNITED_STATES);
     const usGames = await usDumper.searchAll();
-    await fs.promises.writeFile("usgames.json", JSON.stringify(usGames, null, 2));
+    await fs.promises.unlink("data/usgames.json");
+    await fs.promises.writeFile("data/usgames.json", JSON.stringify(usGames, null, 2));
   } catch (e) {
     logger.error("error in main", e);
   }

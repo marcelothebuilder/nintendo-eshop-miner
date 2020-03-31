@@ -1,3 +1,4 @@
 {
-    "npm.enableScriptExplorer": true
+    "npm.enableScriptExplorer": true,
+    "editor.formatOnSave": true
 }

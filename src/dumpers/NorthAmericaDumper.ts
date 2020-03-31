@@ -1,15 +1,8 @@
-import algolia, { SearchIndex } from "algoliasearch";
-import { groupBy, flatten, max, min } from "lodash";
-import { NorthAmericaGame } from "./NorthAmericaGame";
+import { SearchIndex } from "algoliasearch";
+import { flatten, groupBy, max, min } from "lodash";
 import { assert } from "../logging/assert";
 import { logger } from "../logging/logger";
-
-export const NintendoOfAmericaRegions = {
-  UNITED_STATES: "en_us_title_asc",
-  CANADA: "en_ca_title_asc",
-  CANADA_FRENCH: "fr_ca_title_asc",
-  MEXICO: "es_la", // the index exists, but seems to be unused.
-};
+import { NorthAmericaGame } from "./NorthAmericaGame";
 
 export const NintendoOfAmericaPlatforms = {
   SWITCH: "Nintendo Switch",
@@ -43,9 +36,9 @@ export class NorthAmericaDumper implements NintendoDumper {
 
   private gamesPerCategory?: any[];
 
-  constructor({ platform = NintendoOfAmericaPlatforms.SWITCH, region = NintendoOfAmericaRegions.UNITED_STATES } = {}) {
+  constructor({ platform, algoliaIndex }: { platform: string; algoliaIndex: SearchIndex }) {
     this.platform = platform;
-    this.index = algolia("U3B6GR4UA3", "9a20c93440cf63cf1a7008d75f7438bf").initIndex(`noa_aem_game_${region}`);
+    this.index = algoliaIndex;
   }
 
   /**
