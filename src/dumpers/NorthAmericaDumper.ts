@@ -1,6 +1,5 @@
 import { SearchIndex } from "algoliasearch/lite";
 import { flatten, groupBy, max, min } from "lodash";
-import { assert } from "../logging/assert";
 import { logger } from "../logging/logger";
 import { NorthAmericaGame } from "./NorthAmericaGame";
 
@@ -28,7 +27,7 @@ export interface DumperResult {
 export class NorthAmericaDumper implements NintendoDumper {
   private index: SearchIndex;
 
-  private maxRequestLength = 1000;
+  private maxRequestLength: number;
 
   private platform: string;
 
@@ -36,9 +35,18 @@ export class NorthAmericaDumper implements NintendoDumper {
 
   private gamesPerCategory?: any[];
 
-  constructor({ platform, algoliaIndex }: { platform: string; algoliaIndex: SearchIndex }) {
-    this.platform = platform;
+  constructor({
+    platform,
+    algoliaIndex,
+    maxRequestLength,
+  }: {
+    platform?: string;
+    algoliaIndex: SearchIndex;
+    maxRequestLength?: number;
+  }) {
+    this.platform = platform || NintendoOfAmericaPlatforms.SWITCH;
     this.index = algoliaIndex;
+    this.maxRequestLength = maxRequestLength || 1000;
   }
 
   /**
@@ -239,21 +247,21 @@ export class NorthAmericaDumper implements NintendoDumper {
 
       return games;
     }
-    return this.index
-      .search("", {
-        length: this.maxRequestLength,
-        facetFilters: [this.getPlatformFacetFilter(), NorthAmericaDumper.getCategoryFilter(category)],
-        offset: 0,
-      })
-      .then((result) => {
-        const games = result.hits as NorthAmericaGame[];
 
-        assert(
-          () => games.length === gamesInCategory,
-          () => `Search for category ${category} must return ${gamesInCategory} entries, returned ${games.length}`,
-        );
-        return games;
-      });
+    const requestOptions = {
+      length: this.maxRequestLength,
+      facetFilters: [this.getPlatformFacetFilter(), NorthAmericaDumper.getCategoryFilter(category)],
+      offset: 0,
+    };
+
+    return this.index.search("", requestOptions).then((result) => {
+      const games = result.hits as NorthAmericaGame[];
+
+      if (games.length !== gamesInCategory)
+        throw Error(`Search for category ${category} must return ${gamesInCategory} entries, returned ${games.length}`);
+
+      return games;
+    });
   }
 
   /**

@@ -10,6 +10,7 @@
     "start": "tsc && node dist/index.js",
     "lint": "eslint --fix ./src/**/*",
     "test": "mocha",
+    "test:watch": "mocha --watch",
     "coverage": "nyc mocha"
   },
   "private": true,
@@ -17,6 +18,7 @@
   "license": "private",
   "dependencies": {
     "@algolia/transporter": "^4.1.0",
+    "@types/uuid": "^7.0.2",
     "algoliasearch": "^4.1.0",
     "axios": "^0.19.2",
     "date-fns": "^2.11.1",
@@ -24,6 +26,7 @@
     "https": "^1.0.0",
     "human-readable-random-string": "0.0.2",
     "lodash": "^4.17.15",
+    "node-uuid": "^1.4.8",
     "typescript": "^3.8.3",
     "winston": "^3.2.1"
   },
