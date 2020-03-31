@@ -96,7 +96,7 @@ function getDumperWithIndex(indexStub: Partial<SearchIndex>, extraOpts?: object)
 describe("NorthAmericaDumper", () => {
   afterEach(() => sinon.restore());
 
-  it("should be created successfully", () => {
+  it("should be created successfully!", () => {
     // eslint-disable-next-line no-new
     const instance = getDumperWithIndex({});
     expect(instance).to.be.instanceOf(NorthAmericaDumper);
