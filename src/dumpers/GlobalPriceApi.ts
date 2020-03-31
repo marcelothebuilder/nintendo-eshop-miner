@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosInstance } from "axios";
 import http from "http";
 import https from "https";
 import { logger } from "../logging/logger";
@@ -9,16 +9,20 @@ const httpAgent = new http.Agent({ keepAlive: true });
 const httpsAgent = new https.Agent({ keepAlive: true });
 
 export class GlobalPriceApi {
-  axios = axios.create({
-    httpAgent,
-    httpsAgent,
-    headers: {
-      "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:74.0) Gecko/20100101 Firefox/74.0",
-      Accept: "*/*",
-      Host: "api.ec.nintendo.com",
-      "Accept-Encoding": "gzip, deflate, br",
-    },
-  });
+  axios: AxiosInstance;
+
+  constructor() {
+    this.axios = axios.create({
+      httpAgent,
+      httpsAgent,
+      headers: {
+        "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:74.0) Gecko/20100101 Firefox/74.0",
+        Accept: "*/*",
+        Host: "api.ec.nintendo.com",
+        "Accept-Encoding": "gzip, deflate, br",
+      },
+    });
+  }
 
   async getByIds(countryCode: string, ids: number[]) {
     logger.info(`GlobalPriceApi.getByIds ${countryCode} ${ids}`);
