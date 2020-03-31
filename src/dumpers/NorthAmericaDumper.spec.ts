@@ -83,21 +83,123 @@ function makeGame(categories: string[], overrides = {}) {
   };
 }
 
-describe("NorthAmericaDumper tests", () => {
-  afterEach(() => sinon.restore());
+function getDumperWithIndex(indexStub: Partial<SearchIndex>, extraOpts?: object) {
+  return new NorthAmericaDumper({
+    algoliaIndex: indexStub as SearchIndex,
+    ...extraOpts,
+  });
+}
 
-  function getDumperWithIndex(indexStub: Partial<SearchIndex>, extraOpts?: object) {
-    return new NorthAmericaDumper({
-      platform: NintendoOfAmericaPlatforms.SWITCH,
-      algoliaIndex: indexStub as SearchIndex,
-      ...extraOpts,
-    });
-  }
+describe("NorthAmericaDumper", () => {
+  afterEach(() => sinon.restore());
 
   it("should be created successfully", () => {
     // eslint-disable-next-line no-new
     const instance = getDumperWithIndex({});
     expect(instance).to.be.instanceOf(NorthAmericaDumper);
+  });
+
+  it("should default to switch when platform is not specified", async () => {
+    const searchStub = sinon.stub();
+
+    const switchRequest = searchStub
+      .withArgs("", { facets: ["categories"], facetFilters: ["platform:Nintendo Switch"], hitsPerPage: 0 })
+      .resolves({
+        hits: [],
+        nbHits: 3,
+        page: 0,
+        nbPages: 0,
+        hitsPerPage: 0,
+        facets: {
+          categories: {},
+        },
+        exhaustiveFacetsCount: true,
+        exhaustiveNbHits: true,
+        query: "",
+        params: "facets=%5B%22categories%22%5D&facetFilters=%5B%22platform%3ANintendo+Switch%22%5D&hitsPerPage=0",
+        processingTimeMS: 1,
+      });
+
+    const fallbackRequest = searchStub
+      .withArgs("", { facets: ["categories"], facetFilters: ["platform:Nintendo 3DS"], hitsPerPage: 0 })
+      .resolves({
+        hits: [],
+        nbHits: 3,
+        page: 0,
+        nbPages: 0,
+        hitsPerPage: 0,
+        facets: {
+          categories: {},
+        },
+        exhaustiveFacetsCount: true,
+        exhaustiveNbHits: true,
+        query: "",
+        params: "facets=%5B%22categories%22%5D&facetFilters=%5B%22platform%3ANintendo+Switch%22%5D&hitsPerPage=0",
+        processingTimeMS: 1,
+      });
+
+    const instance = getDumperWithIndex({
+      search: searchStub,
+    });
+
+    assert.deepEqual(await instance.searchAll(), { games: [] });
+
+    expect(switchRequest.calledOnce).to.be.true;
+
+    expect(fallbackRequest.callCount).to.be.eq(0);
+  });
+
+  it("should query 3ds when platform is 3ds", async () => {
+    const searchStub = sinon.stub();
+
+    const switchRequest = searchStub
+      .withArgs("", { facets: ["categories"], facetFilters: ["platform:Nintendo Switch"], hitsPerPage: 0 })
+      .resolves({
+        hits: [],
+        nbHits: 3,
+        page: 0,
+        nbPages: 0,
+        hitsPerPage: 0,
+        facets: {
+          categories: {},
+        },
+        exhaustiveFacetsCount: true,
+        exhaustiveNbHits: true,
+        query: "",
+        params: "facets=%5B%22categories%22%5D&facetFilters=%5B%22platform%3ANintendo+Switch%22%5D&hitsPerPage=0",
+        processingTimeMS: 1,
+      });
+
+    const n3dsRequest = searchStub
+      .withArgs("", { facets: ["categories"], facetFilters: ["platform:Nintendo 3DS"], hitsPerPage: 0 })
+      .resolves({
+        hits: [],
+        nbHits: 3,
+        page: 0,
+        nbPages: 0,
+        hitsPerPage: 0,
+        facets: {
+          categories: {},
+        },
+        exhaustiveFacetsCount: true,
+        exhaustiveNbHits: true,
+        query: "",
+        params: "facets=%5B%22categories%22%5D&facetFilters=%5B%22platform%3ANintendo+Switch%22%5D&hitsPerPage=0",
+        processingTimeMS: 1,
+      });
+
+    const instance = getDumperWithIndex(
+      {
+        search: searchStub,
+      },
+      { platform: NintendoOfAmericaPlatforms.NINTENDO_3DS },
+    );
+
+    assert.deepEqual(await instance.searchAll(), { games: [] });
+
+    expect(switchRequest.callCount).to.be.eq(0);
+
+    expect(n3dsRequest.callCount).to.be.eq(1);
   });
 
   describe("searchAll", () => {

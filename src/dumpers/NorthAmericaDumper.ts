@@ -5,6 +5,7 @@ import { NorthAmericaGame } from "./NorthAmericaGame";
 
 export const NintendoOfAmericaPlatforms = {
   SWITCH: "Nintendo Switch",
+  NINTENDO_3DS: "Nintendo 3DS",
 };
 
 export interface NintendoDumper {
@@ -31,9 +32,9 @@ export class NorthAmericaDumper implements NintendoDumper {
 
   protected platform: string;
 
-  protected gamesPerPriceRange?: any[];
+  protected gamesPerPriceRange?: Record<string, any>;
 
-  protected gamesPerCategory?: any[];
+  protected gamesPerCategory?: Record<string, any>;
 
   constructor({
     platform,
@@ -58,6 +59,10 @@ export class NorthAmericaDumper implements NintendoDumper {
     const gamesPerCategory = await this.getGamesPerCategory();
 
     const categories = Object.entries(gamesPerCategory).map((e) => ({ name: e[0], count: e[1] }));
+
+    if (!categories.length) {
+      return { games: [] };
+    }
 
     await this.getPriceRanges();
 
@@ -97,7 +102,7 @@ export class NorthAmericaDumper implements NintendoDumper {
       return this.gamesPerCategory;
     }
 
-    this.gamesPerCategory = (await this.getFacetSearch("categories")) as any[];
+    this.gamesPerCategory = await this.getFacetSearch("categories");
     return this.gamesPerCategory;
   }
 
@@ -133,8 +138,8 @@ export class NorthAmericaDumper implements NintendoDumper {
         hitsPerPage: 0,
       })
       .then((result) => {
-        if (!result.facets) return [];
-        return result.facets[facet];
+        if (!result.facets) return {};
+        return result.facets[facet] || {};
       });
   }
 
