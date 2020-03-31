@@ -15,6 +15,7 @@
   "author": "Revok",
   "license": "private",
   "dependencies": {
+    "@algolia/transporter": "^4.1.0",
     "algoliasearch": "^4.1.0",
     "axios": "^0.19.2",
     "date-fns": "^2.11.1",

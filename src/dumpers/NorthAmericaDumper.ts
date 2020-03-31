@@ -1,4 +1,4 @@
-import { SearchIndex } from "algoliasearch";
+import { SearchIndex } from "algoliasearch/lite";
 import { flatten, groupBy, max, min } from "lodash";
 import { assert } from "../logging/assert";
 import { logger } from "../logging/logger";
