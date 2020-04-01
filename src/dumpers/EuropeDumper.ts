@@ -1,7 +1,6 @@
 import axios, { AxiosInstance } from "axios";
 import http from "http";
 import https from "https";
-import { logger } from "../logging/logger";
 import { EuropeSearchResponse, EuropeDocument, DocumentType, SystemID, SwitchGameDocument } from "./EuropeTypes";
 
 const httpAgent = new http.Agent({ keepAlive: true });

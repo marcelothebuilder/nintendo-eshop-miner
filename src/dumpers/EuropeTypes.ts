@@ -13,7 +13,7 @@
 // To parse this data:
 //
 //   import { Convert, EuropeTypes } from "./file";
-//type
+//
 //   const europeTypes = Convert.toEuropeTypes(json);
 //
 // These functions will throw an error if the JSON doesn't
@@ -797,11 +797,11 @@ export interface Params {
 // Converts JSON strings to/from your types
 // and asserts the results of JSON.parse at runtime
 export class Convert {
-  static toEuropeTypes(json: string): EuropeSearchResponse {
+  static toEuropeTypes(json: string): EuropeSearchResponse<EuropeDocument> {
     return cast(JSON.parse(json), r("EuropeTypes"));
   }
 
-  static europeTypesToJson(value: EuropeSearchResponse): string {
+  static europeTypesToJson(value: EuropeSearchResponse<EuropeDocument>): string {
     return JSON.stringify(uncast(value, r("EuropeTypes")), null, 2);
   }
 }
