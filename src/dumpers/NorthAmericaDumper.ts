@@ -204,13 +204,7 @@ export class NorthAmericaDumper implements NintendoDumper {
 
   private async searchGamesByCategoriesInParallel(categories: CategoryInfo[]): Promise<NorthAmericaGame[]> {
     const games = flatten(
-      await Promise.all(
-        categories.map(async (category) => {
-          const gamesInCategory = await this.searchAllByCategory(category.name, category.gamesCount);
-
-          return gamesInCategory;
-        }),
-      ),
+      await Promise.all(categories.map((category) => this.searchAllByCategory(category.name, category.gamesCount))),
     );
 
     return games;
