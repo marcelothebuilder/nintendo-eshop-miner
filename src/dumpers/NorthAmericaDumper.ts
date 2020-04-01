@@ -216,27 +216,18 @@ export class NorthAmericaDumper implements NintendoDumper {
       throw Error("No price range, at this point it is required");
     }
 
-    const rangesPromises = priceRanges.map(async (priceRange) => {
-      return this.indexSearch({
-        length: this.maxRequestLength,
-        filters: NorthAmericaDumper.getPriceRangeFilter(priceRange),
-        facetFilters: [this.getPlatformFacetFilter(), NorthAmericaDumper.getCategoryFilter(category)],
-        offset: 0,
-      }).then((result) => result.hits as NorthAmericaGame[]);
-    });
+    const rangesPromises = priceRanges
+      .map(async (priceRange) => {
+        return this.indexSearch({
+          length: this.maxRequestLength,
+          filters: NorthAmericaDumper.getPriceRangeFilter(priceRange),
+          facetFilters: [this.getPlatformFacetFilter(), NorthAmericaDumper.getCategoryFilter(category)],
+          offset: 0,
+        }).then((result) => result.hits as NorthAmericaGame[]);
+      })
+      .concat([this.getGamesWithoutPriceRangeByCategory(category)]);
 
-    const rangr = await Promise.all(rangesPromises);
-
-    let games: any[] = [];
-
-    // eslint-disable-next-line no-return-assign
-    rangr.forEach((gamesInRange) => (games = games.concat(gamesInRange)));
-
-    const gamesWithoutPriceRange = await this.getGamesWithoutPriceRangeByCategory(category);
-
-    games = games.concat(gamesWithoutPriceRange);
-
-    return games;
+    return flatten(await Promise.all(rangesPromises));
   }
 
   protected static getPriceRangeFilter(priceRange: string): string {
