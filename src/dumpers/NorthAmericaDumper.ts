@@ -73,21 +73,11 @@ export class NorthAmericaDumper implements NintendoDumper {
       return { games: [] };
     }
 
-    const games: NorthAmericaGame[] = await this.searchGamesByCategories(categories);
-
-    const uniqe = Object.values(groupBy(games, (game) => game.objectID)).map((group: NorthAmericaGame[]) => {
-      if (group.length === 1) {
-        return group[0];
-      }
-
-      return group.sort((a, b) => {
-        return b.lastModified - a.lastModified;
-      })[0];
-    });
+    const games: NorthAmericaGame[] = NorthAmericaDumper.unique(await this.searchGamesByCategories(categories));
 
     return {
-      ...NorthAmericaDumper.getModificationTimes(uniqe),
-      games: uniqe,
+      ...NorthAmericaDumper.getModificationTimes(games),
+      games,
     };
   }
 
@@ -269,5 +259,17 @@ export class NorthAmericaDumper implements NintendoDumper {
       firstModified: new Date(min(modificationEntries) as any),
       lastModified: new Date(max(modificationEntries) as any),
     };
+  }
+
+  private static unique(games: NorthAmericaGame[]): NorthAmericaGame[] {
+    return Object.values(groupBy(games, (game) => game.objectID)).map((group: NorthAmericaGame[]) => {
+      if (group.length === 1) {
+        return group[0];
+      }
+
+      return group.sort((a, b) => {
+        return b.lastModified - a.lastModified;
+      })[0];
+    });
   }
 }
