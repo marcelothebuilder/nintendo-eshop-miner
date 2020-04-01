@@ -21,6 +21,7 @@ module.exports = {
   },
   plugins: ["@typescript-eslint"],
   rules: {
+    "func-style": "error",
     "import/extensions": "off",
     "import/prefer-default-export": "off",
     "@typescript-eslint/explicit-function-return-type": "off",

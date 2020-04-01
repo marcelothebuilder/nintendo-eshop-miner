@@ -12,18 +12,18 @@ import { NintendoOfAmericaPlatforms, NorthAmericaDumper } from "./NorthAmericaDu
 chai.should();
 chai.use(chaiAsPromised);
 
-function randomDateBetween(start: Date, end: Date) {
+const randomDateBetween = (start: Date, end: Date) => {
   return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
-}
+};
 
-function randomDate(): Date {
+const randomDate = (): Date => {
   return randomDateBetween(new Date(0), new Date());
-}
+};
 
-function getFakeNSuid(): number {
+const getFakeNSuid = (): number => {
   return Math.floor(Math.random() * (70010000009564 - 70010000000000)) + 70010000000000;
-}
-function makeGame(categories: string[], overrides = {}) {
+};
+const makeGame = (categories: string[], overrides = {}) => {
   const nsuid = getFakeNSuid();
   const title = randomString(30);
   return {
@@ -84,16 +84,16 @@ function makeGame(categories: string[], overrides = {}) {
     },
     ...overrides,
   };
-}
+};
 
-function testNorthAmericaDumper(allowSimultaneousRequests: boolean) {
-  function getDumperWithIndex(indexStub: Partial<SearchIndex>, extraOpts?: object) {
+const testNorthAmericaDumper = (allowSimultaneousRequests: boolean) => {
+  const getDumperWithIndex = (indexStub: Partial<SearchIndex>, extraOpts?: object) => {
     return new NorthAmericaDumper({
       algoliaIndex: indexStub as SearchIndex,
       ...extraOpts,
       allowSimultaneousRequests,
     });
-  }
+  };
   describe(`NorthAmericaDumper ${allowSimultaneousRequests ? "with" : "without"} simultaneous requests`, () => {
     afterEach(() => sinon.restore());
 
@@ -633,7 +633,7 @@ function testNorthAmericaDumper(allowSimultaneousRequests: boolean) {
       });
     });
   });
-}
+};
 
 testNorthAmericaDumper(false);
 testNorthAmericaDumper(true);
