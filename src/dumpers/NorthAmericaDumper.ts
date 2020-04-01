@@ -1,7 +1,8 @@
 import { SearchIndex } from "algoliasearch/lite";
-import { flatten, groupBy, max, min } from "lodash";
+import { groupBy, max, min, flatten } from "lodash";
 import { logger } from "../logging/logger";
 import { NorthAmericaGame } from "./NorthAmericaGame";
+import { SearchResponse } from "@algolia/client-search";
 
 export const NintendoOfAmericaPlatforms = {
   SWITCH: "Nintendo Switch",
@@ -16,6 +17,18 @@ export interface DumperResult {
   games: NorthAmericaGame[];
   firstModified?: Date | undefined;
   lastModified?: Date | undefined;
+}
+
+export interface CategoryInfo {
+  name: string;
+  gamesCount: number;
+}
+
+export interface NorthAmericaDumperConstructor {
+  platform?: string;
+  algoliaIndex: SearchIndex;
+  maxRequestLength?: number;
+  allowSimultaneousRequests?: boolean;
 }
 
 /**
@@ -36,18 +49,15 @@ export class NorthAmericaDumper implements NintendoDumper {
 
   protected gamesPerCategory?: Record<string, any>;
 
-  constructor({
-    platform,
-    algoliaIndex,
-    maxRequestLength,
-  }: {
-    platform?: string;
-    algoliaIndex: SearchIndex;
-    maxRequestLength?: number;
-  }) {
+  protected allowSimultaneousRequests: boolean;
+
+  private facetSearchCache: Record<string, Readonly<Promise<SearchResponse<object>>>> = {};
+
+  constructor({ platform, algoliaIndex, maxRequestLength, allowSimultaneousRequests }: NorthAmericaDumperConstructor) {
     this.platform = platform || NintendoOfAmericaPlatforms.SWITCH;
     this.index = algoliaIndex;
     this.maxRequestLength = maxRequestLength || 1000;
+    this.allowSimultaneousRequests = allowSimultaneousRequests || false;
   }
 
   /**
@@ -56,25 +66,13 @@ export class NorthAmericaDumper implements NintendoDumper {
   async searchAll(): Promise<DumperResult> {
     logger.info(`${this.index.indexName}:searchAll`);
 
-    const gamesPerCategory = await this.getGamesPerCategory();
-
-    const categories = Object.entries(gamesPerCategory).map((e) => ({ name: e[0], count: e[1] }));
+    const categories = await this.getCategoriesAndGamesCount();
 
     if (!categories.length) {
       return { games: [] };
     }
 
-    await this.getPriceRanges();
-
-    const games = flatten(
-      await Promise.all(
-        categories.map(async (category) => {
-          const gamesInCategory = await this.searchAllByCategory(category.name, category.count);
-
-          return gamesInCategory;
-        }),
-      ),
-    );
+    const games: NorthAmericaGame[] = await this.searchGamesByCategories(categories);
 
     const uniqe = Object.values(groupBy(games, (game) => game.objectID)).map((group: NorthAmericaGame[]) => {
       if (group.length === 1) {
@@ -129,9 +127,12 @@ export class NorthAmericaDumper implements NintendoDumper {
       });
   }
 
-  protected async getFacetSearch(attribute: keyof NorthAmericaGame) {
-    const facet = attribute;
-    return this.index
+  protected async getFacetSearch(facet: keyof NorthAmericaGame) {
+    if (this.facetSearchCache[facet]) {
+      return this.facetSearchCache[facet];
+    }
+
+    this.facetSearchCache[facet] = this.index
       .search("", {
         facets: [facet],
         facetFilters: [this.getPlatformFacetFilter()],
@@ -140,7 +141,9 @@ export class NorthAmericaDumper implements NintendoDumper {
       .then((result) => {
         if (!result.facets) return {};
         return result.facets[facet] || {};
-      });
+      }) as any;
+
+    return this.facetSearchCache[facet];
   }
 
   /**
@@ -149,36 +152,8 @@ export class NorthAmericaDumper implements NintendoDumper {
    * @param gamesInCategory
    */
   protected async searchAllByCategory(category: string, gamesInCategory: number): Promise<NorthAmericaGame[]> {
-    if (gamesInCategory > this.maxRequestLength) {
-      const priceRanges = await this.getPriceRanges();
-      // search by price range
-      if (!priceRanges || !priceRanges.length) {
-        throw Error("No price range, at this point it is required");
-      }
-
-      const rangesPromises = priceRanges.map(async (priceRange) => {
-        return this.index
-          .search("", {
-            length: this.maxRequestLength,
-            filters: NorthAmericaDumper.getPriceRangeFilter(priceRange),
-            facetFilters: [this.getPlatformFacetFilter(), NorthAmericaDumper.getCategoryFilter(category)],
-            offset: 0,
-          })
-          .then((result) => result.hits as NorthAmericaGame[]);
-      });
-
-      const rangr = await Promise.all(rangesPromises);
-
-      let games: any[] = [];
-
-      // eslint-disable-next-line no-return-assign
-      rangr.forEach((gamesInRange) => (games = games.concat(gamesInRange)));
-
-      const gamesWithoutPriceRange = await this.getGamesWithoutPriceRangeByCategory(category);
-
-      games = games.concat(gamesWithoutPriceRange);
-
-      return games;
+    if (this.isGreaterThanSearchLimit(gamesInCategory)) {
+      return this.searchAllByCategoryPagedByPriceRanges(category);
     }
 
     const requestOptions = {
@@ -199,6 +174,86 @@ export class NorthAmericaDumper implements NintendoDumper {
 
   protected getPlatformFacetFilter() {
     return `platform:${this.platform}`;
+  }
+
+  private isGreaterThanSearchLimit(gamesInCategory: number): boolean {
+    return gamesInCategory > this.maxRequestLength;
+  }
+
+  private async searchGamesByCategories(categories: CategoryInfo[]): Promise<NorthAmericaGame[]> {
+    if (this.allowSimultaneousRequests) {
+      return this.searchGamesByCategoriesInParallel(categories);
+    }
+
+    return this.searchGamesByCategoriesInSequence(categories);
+  }
+
+  private async searchGamesByCategoriesInSequence(categories: CategoryInfo[]): Promise<NorthAmericaGame[]> {
+    let games: NorthAmericaGame[] = [];
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const category of categories) {
+      // eslint-disable-next-line no-await-in-loop
+      const gamesInCategory = await this.searchAllByCategory(category.name, category.gamesCount);
+      games = games.concat(gamesInCategory);
+    }
+
+    return games;
+  }
+
+  private async searchGamesByCategoriesInParallel(categories: CategoryInfo[]): Promise<NorthAmericaGame[]> {
+    const games = flatten(
+      await Promise.all(
+        categories.map(async (category) => {
+          const gamesInCategory = await this.searchAllByCategory(category.name, category.gamesCount);
+
+          return gamesInCategory;
+        }),
+      ),
+    );
+
+    return games;
+  }
+
+  private async getCategoriesAndGamesCount(): Promise<CategoryInfo[]> {
+    const gamesPerCategory = await this.getGamesPerCategory();
+    const categories: CategoryInfo[] = Object.entries(gamesPerCategory).map((e) => ({
+      name: e[0],
+      gamesCount: e[1],
+    }));
+    return categories;
+  }
+
+  private async searchAllByCategoryPagedByPriceRanges(category: string): Promise<NorthAmericaGame[]> {
+    const priceRanges = await this.getPriceRanges();
+    // search by price range
+    if (!priceRanges || !priceRanges.length) {
+      throw Error("No price range, at this point it is required");
+    }
+
+    const rangesPromises = priceRanges.map(async (priceRange) => {
+      return this.index
+        .search("", {
+          length: this.maxRequestLength,
+          filters: NorthAmericaDumper.getPriceRangeFilter(priceRange),
+          facetFilters: [this.getPlatformFacetFilter(), NorthAmericaDumper.getCategoryFilter(category)],
+          offset: 0,
+        })
+        .then((result) => result.hits as NorthAmericaGame[]);
+    });
+
+    const rangr = await Promise.all(rangesPromises);
+
+    let games: any[] = [];
+
+    // eslint-disable-next-line no-return-assign
+    rangr.forEach((gamesInRange) => (games = games.concat(gamesInRange)));
+
+    const gamesWithoutPriceRange = await this.getGamesWithoutPriceRangeByCategory(category);
+
+    games = games.concat(gamesWithoutPriceRange);
+
+    return games;
   }
 
   protected static getPriceRangeFilter(priceRange: string): string {
