@@ -1,6 +1,7 @@
 import { SearchIndex } from "algoliasearch/lite";
 import { groupBy, max, min, flatten } from "lodash";
-import { SearchResponse } from "@algolia/client-search";
+import { SearchResponse, SearchOptions } from "@algolia/client-search";
+import { RequestOptions } from "@algolia/transporter";
 import { logger } from "../logging/logger";
 import { NorthAmericaGame } from "./NorthAmericaGame";
 
@@ -115,16 +116,14 @@ export class NorthAmericaDumper implements NintendoDumper {
       .map((range) => `NOT priceRange:${range}`)
       .join(" AND ");
 
-    return this.index
-      .search("", {
-        length: this.maxRequestLength,
-        filters: rangesFilter,
-        facetFilters: [this.getPlatformFacetFilter(), NorthAmericaDumper.getCategoryFilter(category)],
-        offset: 0,
-      })
-      .then((result) => {
-        return result.hits as NorthAmericaGame[];
-      });
+    return this.indexSearch({
+      length: this.maxRequestLength,
+      filters: rangesFilter,
+      facetFilters: [this.getPlatformFacetFilter(), NorthAmericaDumper.getCategoryFilter(category)],
+      offset: 0,
+    }).then((result) => {
+      return result.hits as NorthAmericaGame[];
+    });
   }
 
   protected async getFacetSearch(facet: keyof NorthAmericaGame) {
@@ -132,16 +131,14 @@ export class NorthAmericaDumper implements NintendoDumper {
       return this.facetSearchCache[facet];
     }
 
-    this.facetSearchCache[facet] = this.index
-      .search("", {
-        facets: [facet],
-        facetFilters: [this.getPlatformFacetFilter()],
-        hitsPerPage: 0,
-      })
-      .then((result) => {
-        if (!result.facets) return {};
-        return result.facets[facet] || {};
-      }) as any;
+    this.facetSearchCache[facet] = this.indexSearch({
+      facets: [facet],
+      facetFilters: [this.getPlatformFacetFilter()],
+      hitsPerPage: 0,
+    }).then((result) => {
+      if (!result.facets) return {};
+      return result.facets[facet] || {};
+    }) as any;
 
     return this.facetSearchCache[facet];
   }
@@ -162,7 +159,7 @@ export class NorthAmericaDumper implements NintendoDumper {
       offset: 0,
     };
 
-    return this.index.search("", requestOptions).then((result) => {
+    return this.indexSearch(requestOptions).then((result) => {
       const games = result.hits as NorthAmericaGame[];
 
       if (games.length !== gamesInCategory)
@@ -174,6 +171,10 @@ export class NorthAmericaDumper implements NintendoDumper {
 
   protected getPlatformFacetFilter() {
     return `platform:${this.platform}`;
+  }
+
+  protected indexSearch(searchOptions: RequestOptions & SearchOptions) {
+    return this.index.search("", searchOptions);
   }
 
   private isGreaterThanSearchLimit(gamesInCategory: number): boolean {
@@ -217,9 +218,9 @@ export class NorthAmericaDumper implements NintendoDumper {
 
   private async getCategoriesAndGamesCount(): Promise<CategoryInfo[]> {
     const gamesPerCategory = await this.getGamesPerCategory();
-    const categories: CategoryInfo[] = Object.entries(gamesPerCategory).map((e) => ({
-      name: e[0],
-      gamesCount: e[1],
+    const categories: CategoryInfo[] = Object.entries(gamesPerCategory).map((categoryAndGamesCount) => ({
+      name: categoryAndGamesCount[0],
+      gamesCount: categoryAndGamesCount[1],
     }));
     return categories;
   }
@@ -232,14 +233,12 @@ export class NorthAmericaDumper implements NintendoDumper {
     }
 
     const rangesPromises = priceRanges.map(async (priceRange) => {
-      return this.index
-        .search("", {
-          length: this.maxRequestLength,
-          filters: NorthAmericaDumper.getPriceRangeFilter(priceRange),
-          facetFilters: [this.getPlatformFacetFilter(), NorthAmericaDumper.getCategoryFilter(category)],
-          offset: 0,
-        })
-        .then((result) => result.hits as NorthAmericaGame[]);
+      return this.indexSearch({
+        length: this.maxRequestLength,
+        filters: NorthAmericaDumper.getPriceRangeFilter(priceRange),
+        facetFilters: [this.getPlatformFacetFilter(), NorthAmericaDumper.getCategoryFilter(category)],
+        offset: 0,
+      }).then((result) => result.hits as NorthAmericaGame[]);
     });
 
     const rangr = await Promise.all(rangesPromises);
