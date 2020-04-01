@@ -102,14 +102,10 @@ export class NorthAmericaDumper implements NintendoDumper {
 
   async getGamesWithoutPriceRangeByCategory(category: string) {
     const ranges = await this.getPriceRanges();
-    const rangesFilter = ranges
-      .map((range) => `"${range}"`) // TODO: is it needed when it does not have spaces?
-      .map((range) => `NOT priceRange:${range}`)
-      .join(" AND ");
 
     return this.indexSearch({
       length: this.maxRequestLength,
-      filters: rangesFilter,
+      filters: NorthAmericaDumper.getNoPriceRangeFilter(ranges),
       facetFilters: [this.getPlatformFacetFilter(), NorthAmericaDumper.getCategoryFilter(category)],
       offset: 0,
     }).then((result) => {
@@ -279,5 +275,12 @@ export class NorthAmericaDumper implements NintendoDumper {
         return b.lastModified - a.lastModified;
       })[0];
     });
+  }
+
+  private static getNoPriceRangeFilter(priceRanges: string[]) {
+    return priceRanges
+      .map((range) => `"${range}"`) // TODO: is it needed when it does not have spaces?
+      .map((range) => `NOT priceRange:${range}`)
+      .join(" AND ");
   }
 }
