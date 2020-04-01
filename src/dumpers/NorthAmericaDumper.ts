@@ -216,18 +216,37 @@ export class NorthAmericaDumper implements NintendoDumper {
       throw Error("No price range, at this point it is required");
     }
 
-    const rangesPromises = priceRanges
-      .map(async (priceRange) => {
-        return this.indexSearch({
-          length: this.maxRequestLength,
-          filters: NorthAmericaDumper.getPriceRangeFilter(priceRange),
-          facetFilters: [this.getPlatformFacetFilter(), NorthAmericaDumper.getCategoryFilter(category)],
-          offset: 0,
-        }).then((result) => result.hits as NorthAmericaGame[]);
-      })
-      .concat([this.getGamesWithoutPriceRangeByCategory(category)]);
+    if (this.allowSimultaneousRequests) {
+      const rangesPromises = priceRanges
+        .map(async (priceRange) => {
+          return this.indexSearch({
+            length: this.maxRequestLength,
+            filters: NorthAmericaDumper.getPriceRangeFilter(priceRange),
+            facetFilters: [this.getPlatformFacetFilter(), NorthAmericaDumper.getCategoryFilter(category)],
+            offset: 0,
+          }).then((result) => result.hits as NorthAmericaGame[]);
+        })
+        .concat([this.getGamesWithoutPriceRangeByCategory(category)]);
 
-    return flatten(await Promise.all(rangesPromises));
+      return flatten(await Promise.all(rangesPromises));
+    }
+
+    let games = await this.getGamesWithoutPriceRangeByCategory(category);
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const priceRange of priceRanges) {
+      // eslint-disable-next-line no-await-in-loop
+      const pGames = await this.indexSearch({
+        length: this.maxRequestLength,
+        filters: NorthAmericaDumper.getPriceRangeFilter(priceRange),
+        facetFilters: [this.getPlatformFacetFilter(), NorthAmericaDumper.getCategoryFilter(category)],
+        offset: 0,
+      }).then((result) => result.hits as NorthAmericaGame[]);
+
+      games = games.concat(pGames);
+    }
+
+    return games;
   }
 
   protected static getPriceRangeFilter(priceRange: string): string {
