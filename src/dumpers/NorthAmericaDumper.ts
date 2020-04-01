@@ -1,8 +1,8 @@
 import { SearchIndex } from "algoliasearch/lite";
 import { groupBy, max, min, flatten } from "lodash";
+import { SearchResponse } from "@algolia/client-search";
 import { logger } from "../logging/logger";
 import { NorthAmericaGame } from "./NorthAmericaGame";
-import { SearchResponse } from "@algolia/client-search";
 
 export const NintendoOfAmericaPlatforms = {
   SWITCH: "Nintendo Switch",

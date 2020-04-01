@@ -18,6 +18,7 @@
   "author": "Revok",
   "license": "private",
   "dependencies": {
+    "@algolia/client-search": "^4.1.0",
     "@algolia/transporter": "^4.1.0",
     "@types/chai-as-promised": "^7.1.2",
     "@types/uuid": "^7.0.2",
