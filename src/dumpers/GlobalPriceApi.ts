@@ -31,9 +31,14 @@ export class GlobalPriceApi {
 
     for (let i = 0; i < ids.length; i += 50) {
       const start = i;
-      const end = i + 25;
+      const end = i + 50;
       // eslint-disable-next-line no-await-in-loop
-      const r = await this.do(countryCode, ids.slice(start, end > ids.length ? ids.length : end));
+      const idsBatch = ids.slice(start, end > ids.length ? ids.length : end);
+
+      // console.log("fetch", start, end, idsBatch);
+      // eslint-disable-next-line no-await-in-loop
+      // eslint-disable-next-line no-await-in-loop
+      const r = await this.do(countryCode, idsBatch);
       allPrices = allPrices.concat(r.data.prices);
     }
 
@@ -46,7 +51,7 @@ export class GlobalPriceApi {
   }
 
   private async do(countryCode: string, ids: number[]) {
-    logger.debug(`GlobalPriceApi.do ${countryCode} ${ids}`);
+    // console.log(`GlobalPriceApi.do ${countryCode} ${ids}`);
     return this.axios.get(url, {
       params: {
         country: countryCode,
