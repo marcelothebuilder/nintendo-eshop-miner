@@ -45,7 +45,7 @@ export class GlobalPriceApi {
       .map(GlobalPriceApi.parse);
   }
 
-  async do(countryCode: string, ids: number[]) {
+  private async do(countryCode: string, ids: number[]) {
     logger.debug(`GlobalPriceApi.do ${countryCode} ${ids}`);
     return this.axios.get(url, {
       params: {
