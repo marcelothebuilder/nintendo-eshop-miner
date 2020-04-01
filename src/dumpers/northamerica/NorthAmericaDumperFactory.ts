@@ -2,9 +2,9 @@
 
 import { Timeouts } from "@algolia/transporter";
 import algolia from "algoliasearch/lite";
-import { adaptWinstonToAlgolia } from "../logging/algoliaAdapter";
-import { algoliaLogger } from "../logging/algoliaLogger";
-import { decorateWithLogger } from "../logging/algoliaLoggingDecorator";
+import { adaptWinstonToAlgolia } from "../../logging/algoliaAdapter";
+import { algoliaLogger } from "../../logging/algoliaLogger";
+import { decorateWithLogger } from "../../logging/algoliaLoggingDecorator";
 import { NintendoOfAmericaPlatforms, NorthAmericaDumper } from "./NorthAmericaDumper";
 import { NorthAmericaRegions } from "./NorthAmericaRegions";
 

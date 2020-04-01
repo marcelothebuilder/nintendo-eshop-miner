@@ -56,9 +56,9 @@
 // ..................... ░▓██████▓▓  ░░░░░░░░░░░░░░░░░░░░░  ░  ░░░░░░░░░
 
 import fs from "fs";
-import { NintendoDumper } from "./dumpers/NorthAmericaDumper";
-import { NorthAmericaDumperFactory } from "./dumpers/NorthAmericaDumperFactory";
-import { NorthAmericaRegions } from "./dumpers/NorthAmericaRegions";
+import { NintendoDumper } from "./dumpers/northamerica/NorthAmericaDumper";
+import { NorthAmericaDumperFactory } from "./dumpers/northamerica/NorthAmericaDumperFactory";
+import { NorthAmericaRegions } from "./dumpers/northamerica/NorthAmericaRegions";
 import { logger } from "./logging/logger";
 
 function getDumper(region: string) {
