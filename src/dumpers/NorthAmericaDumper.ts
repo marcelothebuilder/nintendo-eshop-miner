@@ -210,31 +210,31 @@ export class NorthAmericaDumper implements NintendoDumper {
   }
 
   private async searchAllByCategoryPagedByPriceRanges(category: string): Promise<NorthAmericaGame[]> {
-    const priceRanges = await this.getPriceRanges();
-    // search by price range
-    if (!priceRanges || !priceRanges.length) {
-      throw Error("No price range, at this point it is required");
-    }
+    if (this.allowSimultaneousRequests) return this.searchAllByCategoryPagedByPriceRangesInParallel(category);
 
-    if (this.allowSimultaneousRequests) {
-      const rangesPromises = priceRanges
-        .map(async (priceRange) => {
-          return this.indexSearch({
-            length: this.maxRequestLength,
-            filters: NorthAmericaDumper.getPriceRangeFilter(priceRange),
-            facetFilters: [this.getPlatformFacetFilter(), NorthAmericaDumper.getCategoryFilter(category)],
-            offset: 0,
-          }).then((result) => result.hits as NorthAmericaGame[]);
-        })
-        .concat([this.getGamesWithoutPriceRangeByCategory(category)]);
+    return this.searchAllByCategoryPagedByPriceRangesSequentially(category);
+  }
 
-      return flatten(await Promise.all(rangesPromises));
-    }
+  private async searchAllByCategoryPagedByPriceRangesInParallel(category: string) {
+    const rangesPromises = (await this.getPriceRanges())
+      .map(async (priceRange) => {
+        return this.indexSearch({
+          length: this.maxRequestLength,
+          filters: NorthAmericaDumper.getPriceRangeFilter(priceRange),
+          facetFilters: [this.getPlatformFacetFilter(), NorthAmericaDumper.getCategoryFilter(category)],
+          offset: 0,
+        }).then((result) => result.hits as NorthAmericaGame[]);
+      })
+      .concat([this.getGamesWithoutPriceRangeByCategory(category)]);
 
+    return flatten(await Promise.all(rangesPromises));
+  }
+
+  private async searchAllByCategoryPagedByPriceRangesSequentially(category: string): Promise<NorthAmericaGame[]> {
     let games = await this.getGamesWithoutPriceRangeByCategory(category);
 
     // eslint-disable-next-line no-restricted-syntax
-    for (const priceRange of priceRanges) {
+    for (const priceRange of await this.getPriceRanges()) {
       // eslint-disable-next-line no-await-in-loop
       const pGames = await this.indexSearch({
         length: this.maxRequestLength,
