@@ -1,1 +1,0 @@
-data scrapper from services. useful for tests
