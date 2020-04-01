@@ -32,37 +32,38 @@ export class GlobalPriceApi {
     for (let i = 0; i < ids.length; i += 50) {
       const start = i;
       const end = i + 50;
-      // eslint-disable-next-line no-await-in-loop
       const idsBatch = ids.slice(start, end > ids.length ? ids.length : end);
 
-      // console.log("fetch", start, end, idsBatch);
       // eslint-disable-next-line no-await-in-loop
-      // eslint-disable-next-line no-await-in-loop
-      const r = await this.do(countryCode, idsBatch);
-      allPrices = allPrices.concat(r.data.prices);
+      const prices = await this.do(countryCode, idsBatch);
+      allPrices = allPrices.concat(prices);
     }
 
-    return allPrices
-      .filter(
-        (t) =>
-          t.sales_status !== "not_found" && t.sales_status !== "unreleased" && t.sales_status !== "sales_termination",
-      )
-      .map(GlobalPriceApi.parse);
+    return GlobalPriceApi.filterUnavailable(allPrices).map(GlobalPriceApi.parse);
   }
 
   private async do(countryCode: string, ids: number[]) {
     // console.log(`GlobalPriceApi.do ${countryCode} ${ids}`);
-    return this.axios.get(url, {
-      params: {
-        country: countryCode,
-        lang: "pt",
-        ids: GlobalPriceApi.buildIdsString(ids),
-      },
-    });
+    return this.axios
+      .get(url, {
+        params: {
+          country: countryCode,
+          lang: "pt",
+          ids: GlobalPriceApi.buildIdsString(ids),
+        },
+      })
+      .then((r) => r.data.prices);
   }
 
   private static buildIdsString(ids: number[]): string {
     return ids.map(String).join(",");
+  }
+
+  private static filterUnavailable(prices: any) {
+    return prices.filter(
+      (t: any) =>
+        t.sales_status !== "not_found" && t.sales_status !== "unreleased" && t.sales_status !== "sales_termination",
+    );
   }
 
   private static parse(parse: any) {
