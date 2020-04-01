@@ -2,6 +2,7 @@ import { SearchIndex } from "algoliasearch/lite";
 import { groupBy, max, min, flatten } from "lodash";
 import { SearchResponse, SearchOptions } from "@algolia/client-search";
 import { RequestOptions } from "@algolia/transporter";
+import { promiseSerial } from "../utils/promiseSerial";
 import { logger } from "../logging/logger";
 import { NorthAmericaGame } from "./NorthAmericaGame";
 
@@ -180,16 +181,9 @@ export class NorthAmericaDumper implements NintendoDumper {
   }
 
   private async searchGamesByCategoriesInSequence(categories: CategoryInfo[]): Promise<NorthAmericaGame[]> {
-    let games: NorthAmericaGame[] = [];
-
-    // eslint-disable-next-line no-restricted-syntax
-    for (const category of categories) {
-      // eslint-disable-next-line no-await-in-loop
-      const gamesInCategory = await this.searchAllByCategory(category.name, category.gamesCount);
-      games = games.concat(gamesInCategory);
-    }
-
-    return games;
+    return promiseSerial(
+      categories.map((category) => () => this.searchAllByCategory(category.name, category.gamesCount)),
+    );
   }
 
   private async searchGamesByCategoriesInParallel(categories: CategoryInfo[]): Promise<NorthAmericaGame[]> {
@@ -212,7 +206,7 @@ export class NorthAmericaDumper implements NintendoDumper {
   private async searchAllByCategoryPagedByPriceRanges(category: string): Promise<NorthAmericaGame[]> {
     if (this.allowSimultaneousRequests) return this.searchAllByCategoryPagedByPriceRangesInParallel(category);
 
-    return this.searchAllByCategoryPagedByPriceRangesSequentially(category);
+    return this.searchAllByCategoryPagedByPriceRangesInSequence(category);
   }
 
   private async searchAllByCategoryPagedByPriceRangesInParallel(category: string) {
@@ -230,23 +224,27 @@ export class NorthAmericaDumper implements NintendoDumper {
     return flatten(await Promise.all(rangesPromises));
   }
 
-  private async searchAllByCategoryPagedByPriceRangesSequentially(category: string): Promise<NorthAmericaGame[]> {
-    let games = await this.getGamesWithoutPriceRangeByCategory(category);
+  private async searchAllByCategoryPagedByPriceRangesInSequence(category: string): Promise<NorthAmericaGame[]> {
+    const gamesWithoutPrices = await this.getGamesWithoutPriceRangeByCategory(category);
 
-    // eslint-disable-next-line no-restricted-syntax
-    for (const priceRange of await this.getPriceRanges()) {
-      // eslint-disable-next-line no-await-in-loop
-      const pGames = await this.indexSearch({
-        length: this.maxRequestLength,
-        filters: NorthAmericaDumper.getPriceRangeFilter(priceRange),
-        facetFilters: [this.getPlatformFacetFilter(), NorthAmericaDumper.getCategoryFilter(category)],
-        offset: 0,
-      }).then((result) => result.hits as NorthAmericaGame[]);
+    const priceRanges = await this.getPriceRanges();
 
-      games = games.concat(pGames);
-    }
+    const searchByPriceRange = (priceRange: string) => this.searchAllByCategoryAndPriceRange(category, priceRange);
 
-    return games;
+    const gamesWithPriceRange = await promiseSerial(
+      priceRanges.map((priceRange) => () => searchByPriceRange(priceRange)),
+    );
+
+    return gamesWithPriceRange.concat(gamesWithoutPrices);
+  }
+
+  private async searchAllByCategoryAndPriceRange(category: string, priceRange: string) {
+    return this.indexSearch({
+      length: this.maxRequestLength,
+      filters: NorthAmericaDumper.getPriceRangeFilter(priceRange),
+      facetFilters: [this.getPlatformFacetFilter(), NorthAmericaDumper.getCategoryFilter(category)],
+      offset: 0,
+    }).then((result) => result.hits as NorthAmericaGame[]);
   }
 
   protected static getPriceRangeFilter(priceRange: string): string {
