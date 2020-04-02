@@ -9,6 +9,7 @@
 
 ```sh
 npm install
+npm run setup # installs git pre-commit hooks
 ```
 
 ## Usage

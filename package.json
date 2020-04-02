@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "setup": "git config core.hooksPath .githooks && chmod +x .githooks/hooks/*",
     "check": "tsc && npm run lint && npm run coverage",
     "dev": "tsc -w",
     "transpile": "tsc",
@@ -13,7 +14,8 @@
     "test": "mocha",
     "test:watch": "mocha --watch",
     "coverage": "nyc mocha",
-    "coverage:ci": "nyc mocha || true"
+    "coverage:ci": "nyc mocha || true",
+    "pre-commit": "npm run lint && npm run test"
   },
   "private": true,
   "author": "Revok",

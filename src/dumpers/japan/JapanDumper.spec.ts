@@ -3,11 +3,9 @@ import { expect } from "chai";
 import { describe, it, afterEach, beforeEach, setup, teardown } from "mocha";
 import sinon from "sinon";
 import moxios from "moxios";
-import axios from "axios";
 import { JapanDumper, AxiosInstance } from "./JapanDumper";
 import { readGzipped } from "../../filesystem/readGzipped";
 import { checkAndNotify } from "../../testing/checkAndNotify";
-import { assert } from "../../logging/assert";
 
 const response = (obj: object) => ({
   status: 200,
