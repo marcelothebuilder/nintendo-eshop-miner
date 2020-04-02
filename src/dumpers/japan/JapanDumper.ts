@@ -2,7 +2,6 @@
 import axios from "axios";
 import http from "http";
 import https from "https";
-// import { promiseSerial } from "../../utils/promiseSerial";
 import { flatten } from "lodash";
 import promiseSerial from "promise-serial";
 import { logger } from "../../logging/logger";
