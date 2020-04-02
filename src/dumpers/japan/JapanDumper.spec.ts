@@ -67,6 +67,50 @@ describe("JapanDumper tests", () => {
   });
 
   describe("getFullDump", () => {
+    it("should make only one request when first page has all items", (done) => {
+      const responseSpy = sinon.spy();
+
+      new JapanDumper({ pageSize: 1 }).getFullDump().then(responseSpy);
+
+      moxios.wait(async () => {
+        await moxios.requests.at(0).respondWith(
+          response({
+            query: {},
+            result: {
+              total: 2,
+              items: data.slice(0, 2),
+            },
+            status: 0,
+          }),
+        );
+
+        checkAndNotify(() => {
+          expect(moxios.requests.count()).to.eq(1);
+          expect(responseSpy.called).to.be.true;
+          expect(responseSpy.lastCall.args[0]).to.deep.equal(data.slice(0, 2));
+        }, done);
+      });
+    });
+
+    it("should error when page has more items than item count", (done) => {
+      const responseSpy = sinon.spy();
+
+      expect(new JapanDumper({ pageSize: 300 }).getFullDump().then(responseSpy)).to.eventually.be.rejected.notify(done);
+
+      moxios.wait(async () => {
+        await moxios.requests.at(0).respondWith(
+          response({
+            query: {},
+            result: {
+              total: 1,
+              items: data.slice(0, 2),
+            },
+            status: 0,
+          }),
+        );
+      });
+    });
+
     it("should make more than one request when theres more results than a single page can handle", (done) => {
       const responseSpy = sinon.spy();
 

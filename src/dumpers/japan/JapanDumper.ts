@@ -80,7 +80,11 @@ export class JapanDumper {
 
     logger.debug(`First request done, got total of ${total} hits`);
 
-    if (items.length >= total) return items;
+    if (items.length > total) {
+      throw Error("Got more results from the request than the report item count");
+    } else if (items.length === total) {
+      return items;
+    }
 
     const p = [];
 
