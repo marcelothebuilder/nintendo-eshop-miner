@@ -2,7 +2,6 @@ import { expect } from "chai";
 import { describe, it, afterEach, setup, teardown } from "mocha";
 import sinon from "sinon";
 import moxios from "moxios";
-import fs from "fs";
 import { JapanXmlDumper, AxiosInstance } from "./JapanXmlDumper";
 import { readGzipped } from "../../filesystem/readGzipped";
 import { checkAndNotify } from "../../testing/checkAndNotify";
@@ -37,10 +36,6 @@ describe("JapanXmlDumper", () => {
         });
 
         await p;
-        await fs.promises.writeFile(
-          "dumps/japan-xml-parsed.json",
-          JSON.stringify(responseSpy.firstCall.lastArg, null, 2),
-        );
 
         checkAndNotify(() => {
           expect(responseSpy.callCount).to.be.eq(1);
