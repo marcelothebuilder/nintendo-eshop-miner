@@ -1,6 +1,7 @@
+/* eslint-disable no-unused-expressions */
 /* eslint-disable @typescript-eslint/camelcase */
 import { expect } from "chai";
-import { describe, it, afterEach, beforeEach, setup, teardown } from "mocha";
+import { describe, it, afterEach, setup, teardown } from "mocha";
 import sinon from "sinon";
 import moxios from "moxios";
 import { JapanDumper, AxiosInstance } from "./JapanDumper";
@@ -16,16 +17,16 @@ const response = (obj: object) => ({
 });
 
 describe("JapanDumper tests", () => {
-  setup(() => moxios.install(AxiosInstance));
+  let data: any[] = [];
+
+  setup(async () => {
+    data = JSON.parse(await readGzipped("./dumps/japan-dbdump.json.gz"));
+    moxios.install(AxiosInstance);
+  });
 
   teardown(() => moxios.uninstall());
 
   afterEach(() => sinon.restore());
-
-  let data: any[] = [];
-  beforeEach(async () => {
-    data = JSON.parse(await readGzipped("./dumps/japan-dbdump.json.gz"));
-  });
 
   it("JapanDumper should be created successfully", () => {
     // eslint-disable-next-line no-new
@@ -42,39 +43,9 @@ describe("JapanDumper tests", () => {
       moxios.wait(async () => {
         await moxios.requests.mostRecent().respondWith(
           response({
-            query: {
-              q: null,
-              limit: 1,
-              page: 1,
-              sort: "70050000005627 asc",
-              qf: null,
-              hl: 0,
-              mm: null,
-              fq: null,
-              facet: true,
-              facet_limit: null,
-              stats: false,
-              suggest_item_test: null,
-              el: true,
-              d: 10,
-              sf: null,
-              pt: null,
-              sbd: null,
-              gf: null,
-              glimit: 1,
-              gpage: 1,
-              gsort: null,
-              gt: true,
-              df: null,
-              ff: null,
-              spt: null,
-              opt_hard: ["1_HAC"],
-              opt_ssitu: ["onsale"],
-              opt_pdate: ["~2020-04-03 00:00:28"],
-              opt_edate: ["2020-04-03 00:00:29~"],
-            },
+            query: {},
             result: {
-              total: 4173,
+              total: 1,
               items: data.slice(0, 1),
             },
             status: 0,
@@ -84,6 +55,44 @@ describe("JapanDumper tests", () => {
         checkAndNotify(() => {
           expect(moxios.requests.count()).to.eq(1);
           expect(responseSpy.firstCall.args[0].result.items[0]).to.deep.eq(data[0]);
+        }, done);
+      });
+    });
+  });
+
+  describe("getFullDump", () => {
+    it("should make more than one request when theres more results than a single page can handle", (done) => {
+      const responseSpy = sinon.spy();
+
+      new JapanDumper({ pageSize: 1 }).getFullDump().then(responseSpy);
+
+      moxios.wait(async () => {
+        await moxios.requests.at(0).respondWith(
+          response({
+            query: {},
+            result: {
+              total: 2,
+              items: data.slice(0, 1),
+            },
+            status: 0,
+          }),
+        );
+
+        await moxios.requests.at(1).respondWith(
+          response({
+            query: {},
+            result: {
+              total: 2,
+              items: data.slice(1, 2),
+            },
+            status: 0,
+          }),
+        );
+
+        checkAndNotify(() => {
+          expect(moxios.requests.count()).to.eq(2);
+          expect(responseSpy.called).to.be.true;
+          expect(responseSpy.lastCall.args[0]).to.deep.equal(data.slice(0, 2));
         }, done);
       });
     });

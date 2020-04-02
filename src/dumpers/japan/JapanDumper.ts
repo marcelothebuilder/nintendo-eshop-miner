@@ -29,12 +29,24 @@ export const AxiosInstance = axios.create({
   },
 });
 
-export class JapanDumper {
-  private pageSize = 300;
+export interface JapanDumperOptions {
+  maxRequestsInParallel?: number;
+  pageSize?: number;
+}
 
-  private maxRequestsInParallel = 3;
+export class JapanDumper {
+  private static defaults: Required<JapanDumperOptions> = { maxRequestsInParallel: 3, pageSize: 300 };
+
+  private pageSize: number;
+
+  private maxRequestsInParallel: number;
 
   private client = AxiosInstance;
+
+  constructor(options: JapanDumperOptions = JapanDumper.defaults) {
+    this.maxRequestsInParallel = options.maxRequestsInParallel || JapanDumper.defaults.maxRequestsInParallel;
+    this.pageSize = options.pageSize || JapanDumper.defaults.pageSize;
+  }
 
   async getPage(page: number) {
     return this.client
@@ -84,6 +96,6 @@ export class JapanDumper {
     logger.debug(`${p.length} more requests on the way`);
 
     const r = await promiseSerial(p, { parallelize: this.maxRequestsInParallel });
-    return flatten(r).concat(items);
+    return items.concat(flatten(r));
   }
 }
