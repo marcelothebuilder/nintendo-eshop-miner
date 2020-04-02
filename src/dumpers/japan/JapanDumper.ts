@@ -6,7 +6,7 @@ import https from "https";
 import { flatten } from "lodash";
 import promiseSerial from "promise-serial";
 import { logger } from "../../logging/logger";
-import { JapanGame } from "./JapanTypes";
+import { JapanGame, Hardware } from "./JapanTypes";
 
 const httpAgent = new http.Agent({ keepAlive: true });
 const httpsAgent = new https.Agent({ keepAlive: true });
@@ -41,9 +41,24 @@ export class JapanDumper {
         params: {
           limit: this.pageSize,
           page,
+          sort: "id asc",
+          opt_osale: 1, // only on sale?
+          opt_hard: Hardware.NintendoSwitch,
         },
       })
       .then((r) => r.data);
+  }
+
+  async getCount(): Promise<number> {
+    return this.client
+      .request({
+        params: {
+          limit: 0,
+          opt_osale: 1, // only on sale?
+          opt_hard: Hardware.NintendoSwitch,
+        },
+      })
+      .then((r) => r.data.result.total);
   }
 
   async getFullDump(): Promise<JapanGame[]> {

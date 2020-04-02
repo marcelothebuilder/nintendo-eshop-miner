@@ -20,20 +20,20 @@
 // match the expected interface, even if the JSON is valid.
 
 export interface JapanGame {
-  id: string;
+  id: string; // nsuid
   title: string;
   text: null | string;
   url: null | string;
   titlek: null | string;
   nsuid: null | string;
-  pdate: Date;
+  pdate: Date; // future date, what is this?
   icode: null | string;
   hard: Hardware | null;
   sform: Sform | null;
   pprice: number | null;
   dprice: number | null;
-  sdate: null | string;
-  sodate: null | string;
+  sdate: null | string; // this is the release date (sodate is this in another format?)
+  sodate: null | string; // sdate in another format
   ssitu: SaleStatus | null;
   maker: string;
   iurl: null | string;
@@ -44,8 +44,8 @@ export interface JapanGame {
   sicon: null | string;
   n3ds: string[] | null;
   sprice: number | null;
-  ssdate: Date | null;
-  sedate: Date | null;
+  ssdate: Date | null; // this may be the edit date
+  sedate: Date | null; // this may be the edit date
   cnsuid: string[] | null;
   cont: Controller[] | null;
   pmode: NintendoSwitchMode[] | null;
@@ -61,7 +61,7 @@ export interface JapanGame {
   apps: string[] | null;
   nso: string[] | null;
   drate: string[] | null;
-  dsdate: Date | null;
+  dsdate: Date | null; // is this the release date also?
   memo: null | string;
   sform_n: SformN | null;
   trisdate: Date | null;
@@ -137,12 +137,12 @@ export enum Genre {
 }
 
 export enum Hardware {
-  The1_Hac = "1_HAC",
-  The2_Ctr = "2_CTR",
-  The3_Smartphone = "3_smartphone",
-  The4_Wup = "4_WUP",
-  The9_Amiibo = "9_amiibo",
-  The9_Other = "9_other",
+  NintendoSwitch = "1_HAC",
+  Nintendo3DS = "2_CTR",
+  Smartphone = "3_smartphone",
+  WiiU = "4_WUP",
+  Amiibo = "9_amiibo",
+  Other = "9_other",
 }
 
 export enum Language {
