@@ -7,7 +7,7 @@
       "import sinon from \"sinon\";",
       "import { ${TM_FILENAME_BASE/(.spec)//} } from \"./${TM_FILENAME_BASE/(.spec)//}\";",
       "",
-      "describe(\"${TM_FILENAME_BASE/(.spec)//} tests\", () => {",
+      "describe(\"${TM_FILENAME_BASE/(.spec)//}\", () => {",
       "  afterEach(() => sinon.restore());",
       "",
       "  it(\"${TM_FILENAME_BASE/(.spec)//} should be created successfully\", () => {",
