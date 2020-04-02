@@ -44,7 +44,7 @@ describe("JapanDumper tests", () => {
     it("should fetch only page 1 when called with page 1 argument", (done) => {
       const responseSpy = sinon.spy();
 
-      new JapanDumper().getPage(1).then(responseSpy);
+      const p = new JapanDumper().getPage(1).then(responseSpy);
 
       moxios.wait(async () => {
         await moxios.requests.mostRecent().respondWith(
@@ -57,6 +57,8 @@ describe("JapanDumper tests", () => {
             status: 0,
           }),
         );
+
+        await p;
 
         checkAndNotify(() => {
           expect(moxios.requests.count()).to.eq(1);
