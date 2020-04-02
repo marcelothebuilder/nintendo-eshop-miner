@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "setup": "git config core.hooksPath .githooks && chmod +x .githooks/hooks/*",
+    "setup": "git config core.hooksPath .githooks && chmod +x .githooks/*",
     "check": "tsc && npm run lint && npm run coverage",
     "dev": "tsc -w",
     "transpile": "tsc",
