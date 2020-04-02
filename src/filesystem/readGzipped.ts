@@ -1,10 +1,10 @@
-import { createReadStream } from "fs";
+import { createReadStream, PathLike } from "fs";
 import { pipeline } from "stream";
 import { createGunzip } from "zlib";
 import { promisify } from "util";
 import MemoryStream from "memorystream";
 
-export const readGzipped = async (path: string) => {
+export const readGzipped = async (path: PathLike) => {
   const rs = createReadStream(path);
   const gz = createGunzip();
 

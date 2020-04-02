@@ -2,7 +2,7 @@ import { SearchIndex } from "algoliasearch/lite";
 import { groupBy, max, min, flatten } from "lodash";
 import { SearchResponse, SearchOptions } from "@algolia/client-search";
 import { RequestOptions } from "@algolia/transporter";
-import { promiseSerial } from "../../utils/promiseSerial";
+import { promiseSerial } from "../../promises/promiseSerial";
 import { logger } from "../../logging/logger";
 import { NorthAmericaGame } from "./NorthAmericaGame";
 

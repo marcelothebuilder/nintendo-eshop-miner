@@ -10,33 +10,35 @@ import { JapanGame, Hardware } from "./JapanTypes";
 const httpAgent = new http.Agent({ keepAlive: true });
 const httpsAgent = new https.Agent({ keepAlive: true });
 
+export const AxiosInstance = axios.create({
+  baseURL: "https://search.nintendo.jp/nintendo_soft/search.json",
+  httpAgent,
+  httpsAgent,
+  method: "GET",
+  headers: {
+    Accept: "*/*",
+    "Accept-Encoding": "gzip: deflate: br",
+    "Accept-Language": "pt-BR,pt;q=0.8,en-US;q=0.5,en;q=0.3",
+    Connection: "keep-alive",
+    DNT: "1",
+    Host: "search.nintendo.jp",
+    Origin: "https://www.nintendo.co.jp",
+    Referer: "https://www.nintendo.co.jp/",
+    TE: "Trailers",
+    "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:74.0) Gecko/20100101 Firefox/74.0",
+  },
+});
+
 export class JapanDumper {
   private pageSize = 300;
 
   private maxRequestsInParallel = 3;
 
-  private client = axios.create({
-    baseURL: "https://search.nintendo.jp/nintendo_soft/search.json",
-    httpAgent,
-    httpsAgent,
-    method: "GET",
-    headers: {
-      Accept: "*/*",
-      "Accept-Encoding": "gzip: deflate: br",
-      "Accept-Language": "pt-BR,pt;q=0.8,en-US;q=0.5,en;q=0.3",
-      Connection: "keep-alive",
-      DNT: "1",
-      Host: "search.nintendo.jp",
-      Origin: "https://www.nintendo.co.jp",
-      Referer: "https://www.nintendo.co.jp/",
-      TE: "Trailers",
-      "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:74.0) Gecko/20100101 Firefox/74.0",
-    },
-  });
+  private client = AxiosInstance;
 
   async getPage(page: number) {
     return this.client
-      .request({
+      .get("", {
         params: {
           limit: this.pageSize,
           page,
@@ -50,7 +52,7 @@ export class JapanDumper {
 
   async getCount(): Promise<number> {
     return this.client
-      .request({
+      .get("", {
         params: {
           limit: 0,
           opt_osale: 1, // only on sale?
