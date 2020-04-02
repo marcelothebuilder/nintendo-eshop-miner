@@ -54,8 +54,8 @@
 // .................  ▓██████▓▓  ░░░░░░░░░░░░░░░░░░░░░░ ░▒░ ░░░░░░░░
 // ...................  ▓███████▓  ░░░░░░░░░░░░░░░░░░░░░░ ░▒ ░░░░░░░░░
 // ..................... ░▓██████▓▓  ░░░░░░░░░░░░░░░░░░░░░  ░  ░░░░░░░░░
+import translate from "translation-google";
 
-import fs from "fs";
 import { NintendoDumper } from "./dumpers/northamerica/NorthAmericaDumper";
 import { NorthAmericaDumperFactory } from "./dumpers/northamerica/NorthAmericaDumperFactory";
 import { NorthAmericaRegions } from "./dumpers/northamerica/NorthAmericaRegions";
@@ -96,12 +96,14 @@ async function getCanadaFrGames() {
 }
 
 async function main(): Promise<void> {
-  try {
-    const usDumper: NintendoDumper = getDumper(NorthAmericaRegions.UNITED_STATES);
-    await usDumper.searchAll();
-  } catch (e) {
-    logger.error("error in main", e);
-  }
+  const t = await translate("ゲーム ドラえもん のび太の新恐竜", { to: "en" });
+  console.log(t);
+  // try {
+  //   const usDumper: NintendoDumper = getDumper(NorthAmericaRegions.UNITED_STATES);
+  //   await usDumper.searchAll();
+  // } catch (e) {
+  //   logger.error("error in main", e);
+  // }
 }
 
 main().then(() => logger.info("Done execution"));

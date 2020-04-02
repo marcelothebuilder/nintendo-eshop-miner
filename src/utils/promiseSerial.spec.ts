@@ -6,6 +6,10 @@ import { promiseSerial } from "./promiseSerial";
 describe("promiseSerial", () => {
   afterEach(() => sinon.restore());
 
+  it("should return null when theres no promise to execute", async () => {
+    expect(await promiseSerial([])).to.deep.eq([]);
+  });
+
   it("should concatenate results of two array returning promises", async () => {
     const promises = [() => Promise.resolve([1]), () => Promise.resolve([2, 3])];
 
