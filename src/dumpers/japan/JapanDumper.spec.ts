@@ -34,6 +34,12 @@ describe("JapanDumper tests", () => {
     expect(instance).to.be.instanceOf(JapanDumper);
   });
 
+  it("JapanDumper should be created successfully with empty options", () => {
+    // eslint-disable-next-line no-new
+    const instance = new JapanDumper({});
+    expect(instance).to.be.instanceOf(JapanDumper);
+  });
+
   describe("getPage", () => {
     it("should fetch only page 1 when called with page 1 argument", (done) => {
       const responseSpy = sinon.spy();
@@ -93,6 +99,33 @@ describe("JapanDumper tests", () => {
           expect(moxios.requests.count()).to.eq(2);
           expect(responseSpy.called).to.be.true;
           expect(responseSpy.lastCall.args[0]).to.deep.equal(data.slice(0, 2));
+        }, done);
+      });
+    });
+  });
+
+  describe("getCount", () => {
+    it("should return items count", (done) => {
+      const responseSpy = sinon.spy();
+
+      new JapanDumper({ pageSize: 1 }).getCount().then(responseSpy);
+
+      moxios.wait(async () => {
+        await moxios.requests.at(0).respondWith(
+          response({
+            query: {},
+            result: {
+              total: Number.MAX_SAFE_INTEGER,
+              items: data.slice(0, 2),
+            },
+            status: 0,
+          }),
+        );
+
+        checkAndNotify(() => {
+          expect(moxios.requests.count()).to.eq(1);
+          expect(responseSpy.called).to.be.true;
+          expect(responseSpy.lastCall.args[0]).to.deep.equal(Number.MAX_SAFE_INTEGER);
         }, done);
       });
     });
