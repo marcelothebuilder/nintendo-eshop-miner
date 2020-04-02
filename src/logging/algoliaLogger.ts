@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import * as winston from "winston";
 
 const algoliaLogger = winston.createLogger({
