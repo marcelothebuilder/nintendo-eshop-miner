@@ -40,6 +40,3 @@ export class LatinAmericaDumper {
     );
   }
 }
-
-const stringifyJSON = (data: any) => JSON.stringify(data, null, 2);
-new LatinAmericaDumper().getFullDump().then((d) => console.log(stringifyJSON(d)));
