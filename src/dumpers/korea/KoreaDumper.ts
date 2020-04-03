@@ -72,5 +72,3 @@ export class KoreaDumper {
     );
   }
 }
-
-new KoreaDumper().getFullDump().then((d) => console.log(d.length));
