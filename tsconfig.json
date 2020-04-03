@@ -65,7 +65,8 @@
     "paths": {
       "human-readable-random-string": ["types/human-readable-random-string"],
       "promise-serial": ["types/promise-serial"],
-      "translation-google": ["types/translation-google"]
+      "translation-google": ["types/translation-google"],
+      "iso-3166-standard": ["types/iso-3166-standard"]
     },
     "baseUrl": "./src"
   }

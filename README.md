@@ -79,9 +79,9 @@ Current status:
 | Peru               |        | HTML Crawling | https://store.nintendo.com.pe/                                                                                                      |
 | Colombia           |        | HTML Crawling | https://store.nintendo.co/                                                                                                          |
 | New Zealand        |        |               |                                                                                                                                     |
-| South Africa       |        |               |                                                                                                                                     |
+| South Africa       | Done   | Solr API      |                                                                                                                                     |
 | Norway             |        |               |                                                                                                                                     |
-| Russian Federation |        |               |                                                                                                                                     |
+| Russian Federation | Done   | Solr API      |                                                                                                                                     |
 | Sweden             |        |               |                                                                                                                                     |
 | Czech Republic     |        |               |                                                                                                                                     |
 | Poland             |        |               |                                                                                                                                     |
@@ -90,13 +90,13 @@ Current status:
 | United Kingdom     |        |               |                                                                                                                                     |
 | Denmark            |        |               |                                                                                                                                     |
 | Cyprus             |        |               |                                                                                                                                     |
-| Austria            |        |               |                                                                                                                                     |
-| France             |        |               |                                                                                                                                     |
+| Austria            | Done   | Solr API      |                                                                                                                                     |
+| France             | Done   | Solr API      |                                                                                                                                     |
 | Estonia            |        |               |                                                                                                                                     |
-| Germany            |        |               |                                                                                                                                     |
+| Germany            | Done   | Solr API      |                                                                                                                                     |
 | Bulgaria           |        |               |                                                                                                                                     |
 | Finland            |        |               |                                                                                                                                     |
-| Spain              |        |               |                                                                                                                                     |
+| Spain              | Done   | Solr API      |                                                                                                                                     |
 | Belgium            |        |               |                                                                                                                                     |
 | Romania            |        |               |                                                                                                                                     |
 | Lithuania          |        |               |                                                                                                                                     |
@@ -104,12 +104,12 @@ Current status:
 | Ireland            |        |               |                                                                                                                                     |
 | Israel             |        |               |                                                                                                                                     |
 | Luxembourg         |        |               |                                                                                                                                     |
-| Portugal           |        |               |                                                                                                                                     |
+| Portugal           | Done   | Solr API      |                                                                                                                                     |
 | Latvia             |        |               |                                                                                                                                     |
 | Slovakia           |        |               |                                                                                                                                     |
 | Croatia            |        |               |                                                                                                                                     |
-| Italy              |        |               |                                                                                                                                     |
-| Netherlands        |        |               |                                                                                                                                     |
+| Italy              | Done   | Solr API      |                                                                                                                                     |
+| Netherlands        | Done   | Solr API      |                                                                                                                                     |
 | Greece             |        |               |                                                                                                                                     |
 | Malta              |        |               |                                                                                                                                     |
 | Slovenia           |        |               |                                                                                                                                     |

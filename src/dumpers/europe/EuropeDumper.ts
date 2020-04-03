@@ -2,13 +2,13 @@ import axios, { AxiosInstance } from "axios";
 import http from "http";
 import https from "https";
 import { EuropeSearchResponse, EuropeDocument, DocumentType, SystemID, SwitchGameDocument } from "./EuropeTypes";
+import { CountryAlpha2Code } from "../../iso/iso3166";
 
 const httpAgent = new http.Agent({ keepAlive: true });
 const httpsAgent = new https.Agent({ keepAlive: true });
 
 const addJsonpInterceptor = (axiosClient: AxiosInstance) => {
   axiosClient.interceptors.response.use((response) => {
-    // console.log(response.data.responseHeader);
     return response;
   });
   return axiosClient;
@@ -35,7 +35,7 @@ interface EuropeSearchOptions {
 export class EuropeDumper {
   private client = addJsonpInterceptor(
     axios.create({
-      baseURL: "https://searching.nintendo-europe.com/en/select",
+      baseURL: "https://searching.nintendo-europe.com",
       httpAgent,
       httpsAgent,
       withCredentials: true,
@@ -47,6 +47,12 @@ export class EuropeDumper {
       },
     }),
   );
+
+  private countryCode: CountryAlpha2Code;
+
+  constructor(countryCode: CountryAlpha2Code) {
+    this.countryCode = countryCode;
+  }
 
   async getSwitchGames(options: EuropeSearchOptions): Promise<SwitchGameDocument[]> {
     return this.searchSolr<SwitchGameDocument>({
@@ -70,9 +76,19 @@ export class EuropeDumper {
     });
   }
 
+  async getSwitchGamesCount(options: EuropeSearchOptions): Promise<number> {
+    return this.searchSolr<SwitchGameDocument>({
+      q: "*",
+      fq: [`type:${DocumentType.Game}`, `playable_on_txt:${SystemID.Switch}`].join(" AND "),
+      start: 0,
+      rows: 0,
+      ...EuropeDumper.toSolrParams(options),
+    }).then((r) => r.response.numFound);
+  }
+
   private async searchSolr<TDocumentType>(paramsObject: object): Promise<EuropeSearchResponse<TDocumentType>> {
     return this.client
-      .request({
+      .get(`/${this.countryCode.toLowerCase()}/select`, {
         params: {
           ...paramsObject,
           wt: "json",

@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from "axios";
 import http from "http";
 import https from "https";
-import { logger } from "../logging/logger";
+import { logger } from "../../logging/logger";
 
 const url = "https://api.ec.nintendo.com/v1/price";
 

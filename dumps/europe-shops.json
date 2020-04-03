@@ -1,0 +1,74 @@
+[
+  {
+    "alpha2Code": "AT",
+    "alpha3Code": "AUT",
+    "numericCode": 40,
+    "countryName": "Austria",
+    "gamesCount": 3450,
+    "exists": true
+  },
+  {
+    "alpha2Code": "FR",
+    "alpha3Code": "FRA",
+    "numericCode": 250,
+    "countryName": "France",
+    "gamesCount": 3423,
+    "exists": true
+  },
+  {
+    "alpha2Code": "DE",
+    "alpha3Code": "DEU",
+    "numericCode": 276,
+    "countryName": "Germany",
+    "gamesCount": 3446,
+    "exists": true
+  },
+  {
+    "alpha2Code": "IT",
+    "alpha3Code": "ITA",
+    "numericCode": 380,
+    "countryName": "Italy",
+    "gamesCount": 3446,
+    "exists": true
+  },
+  {
+    "alpha2Code": "NL",
+    "alpha3Code": "NLD",
+    "numericCode": 528,
+    "countryName": "Netherlands",
+    "gamesCount": 3445,
+    "exists": true
+  },
+  {
+    "alpha2Code": "PT",
+    "alpha3Code": "PRT",
+    "numericCode": 620,
+    "countryName": "Portugal",
+    "gamesCount": 3443,
+    "exists": true
+  },
+  {
+    "alpha2Code": "RU",
+    "alpha3Code": "RUS",
+    "numericCode": 643,
+    "countryName": "Russia",
+    "gamesCount": 3379,
+    "exists": true
+  },
+  {
+    "alpha2Code": "ZA",
+    "alpha3Code": "ZAF",
+    "numericCode": 710,
+    "countryName": "South Africa",
+    "gamesCount": 3439,
+    "exists": true
+  },
+  {
+    "alpha2Code": "ES",
+    "alpha3Code": "ESP",
+    "numericCode": 724,
+    "countryName": "Spain",
+    "gamesCount": 3448,
+    "exists": true
+  }
+]
