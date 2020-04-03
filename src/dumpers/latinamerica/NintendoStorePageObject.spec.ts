@@ -5,15 +5,20 @@ import sinon from "sinon";
 import { NintendoStorePageObject } from "./NintendoStorePageObject";
 
 describe("NintendoStorePageObject", () => {
-  let page = "";
+  let brazilianPage = "";
+  let argentineanPage = "";
 
   afterEach(() => sinon.restore());
 
-  beforeEach(async () =>
-    fs.promises.readFile("dumps/latin-america-brazil-store.html", "utf8").then((pageContent) => {
-      page = pageContent;
-    }),
-  );
+  beforeEach(async () => {
+    await fs.promises.readFile("dumps/latin-america-brazil-store.html", "utf8").then((pageContent) => {
+      brazilianPage = pageContent;
+    });
+
+    await fs.promises.readFile("dumps/latin-america-argentina-store.html", "utf8").then((pageContent) => {
+      argentineanPage = pageContent;
+    });
+  });
 
   it("NintendoStorePageObject should be created successfully", () => {
     // eslint-disable-next-line no-new
@@ -23,13 +28,13 @@ describe("NintendoStorePageObject", () => {
 
   describe("getItemCount", () => {
     it("should return games count", () => {
-      expect(new NintendoStorePageObject(page).getGamesCount()).to.be.eq(103);
+      expect(new NintendoStorePageObject(brazilianPage).getGamesCount()).to.be.eq(103);
     });
   });
 
   describe("getGames", () => {
-    it("should return every game", () => {
-      const games = new NintendoStorePageObject(page).getGames();
+    it("should return every game for brazil", () => {
+      const games = new NintendoStorePageObject(brazilianPage).getGames();
       const clubhouse = games[1 - 1];
       const pokemonMystery = games[8 - 1];
       const runeFactory = games[10 - 1];
@@ -87,6 +92,25 @@ describe("NintendoStorePageObject", () => {
         isPreOrder: false,
         isDemoAvailable: true,
         isDlcAvailable: true,
+      });
+    });
+
+    it("should return every game for argentina", () => {
+      const games = new NintendoStorePageObject(argentineanPage).getGames();
+      const clubhouse = games[1 - 1];
+
+      expect(clubhouse).to.be.deep.eq({
+        title: "Clubhouse Games™: 51 Worldwide Classics",
+        detailsUrl: "https://store.nintendo.com.ar/clubhouse-gamestm-51-worldwide-classics",
+        imageUrl:
+          "https://store.nintendo.com.ar/media/catalog/product/cache/ee0bfdff899e549bedae78026e71571d/1/9/1920x1080_magento_eshop_banner_games_sp.jpg",
+        price: 2420,
+        priceType: "finalPrice",
+        releaseDate: new Date(Date.UTC(2020, 6 - 1, 5)),
+        storeId: 323,
+        isPreOrder: true,
+        isDemoAvailable: false,
+        isDlcAvailable: false,
       });
     });
   });

@@ -25,7 +25,7 @@ export class NintendoStorePageObject {
         const priceTag = game(".price-container").children()[0];
         const price = parseFloat(priceTag.attribs["data-price-amount"]);
         const priceType = priceTag.attribs["data-price-type"];
-        const releaseDateString = game(".category-product-item-released").text().substr(-10);
+        const releaseDateString = game(".category-product-item-released").text().trim().substr(-10);
         const releaseDate = parseDate(`${releaseDateString}Z`, "dd/LL/yyyyX", new Date());
         const storeId = parseInt((game('[data-role="priceBox"]').attr("data-product-id") || "").trim(), 10);
         const isPreOrder = releaseDate.valueOf() > Date.now();

@@ -1,3 +1,5 @@
+import { Shop } from "./LatinAmericaShops";
+
 export interface LatinAmericaGame {
   title: string;
   detailsUrl: string;
@@ -21,4 +23,10 @@ export interface LatinAmericaGameDetail {
 export interface PlayerCount {
   type: string;
   count: number;
+}
+
+export interface LatinAmericaShopDump {
+  games: LatinAmericaGame[];
+  gamesCount: number;
+  shop: Shop;
 }
