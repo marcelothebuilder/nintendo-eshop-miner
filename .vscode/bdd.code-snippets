@@ -10,7 +10,7 @@
       "describe(\"${TM_FILENAME_BASE/(.spec)//}\", () => {",
       "  afterEach(() => sinon.restore());",
       "",
-      "  it(\"${TM_FILENAME_BASE/(.spec)//} should be created successfully\", () => {",
+      "  it(\"should be created successfully\", () => {",
       "    // eslint-disable-next-line no-new",
       "    const instance = new ${TM_FILENAME_BASE/(.spec)//}();",
       "    expect(instance).to.be.instanceOf(${TM_FILENAME_BASE/(.spec)//});",
@@ -19,5 +19,43 @@
       ""
     ],
     "description": "BDD Test"
+  },
+  "BDD Test Moxios": {
+    "prefix": "bddmoxios",
+    "body": [
+      "import { expect } from \"chai\";",
+      "import { describe, it, afterEach } from \"mocha\";",
+      "import sinon from \"sinon\";",
+      "import moxios from \"moxios\";  ",
+      "import { ${TM_FILENAME_BASE/(.spec)//} } from \"./${TM_FILENAME_BASE/(.spec)//}\";",
+      "",
+      "describe(\"${TM_FILENAME_BASE/(.spec)//}\", () => {",
+      "  afterEach(() => sinon.restore());",
+      "",
+      "  it(\"should be created successfully\", () => {",
+      "    // eslint-disable-next-line no-new",
+      "    const instance = new ${TM_FILENAME_BASE/(.spec)//}();",
+      "    expect(instance).to.be.instanceOf(${TM_FILENAME_BASE/(.spec)//});",
+      "  });",
+      "",
+      "  it(\"request test!\", (done) => {",
+      "      const dumpSpy = sinon.spy();",
+      "      const instance = new ${TM_FILENAME_BASE/(.spec)//}();",
+      "      // perform request",
+      "      // const promise = instance.promiseReturningMethod().then(dumpSpy);",
+      "       moxios.wait(async () => {",
+      "",
+      "       const requestResponse = moxios.requests.mostRecent();",
+      "       requestResponse.respondWith({})",
+      "       // await promise",
+      "",
+      "       // assertions",
+      "         // check dumpSpy.lastCall.lastArg.pop(); for promise result",
+      "});  ",
+      "});",
+      "});",
+      ""
+    ],
+    "description": "BDD Test Moxios"
   }
 }

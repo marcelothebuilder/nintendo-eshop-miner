@@ -16,7 +16,7 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Launch Test",
+      "name": "Test everything",
       "skipFiles": ["<node_internals>/**"],
       "program": "${workspaceFolder}/node_modules/.bin/mocha",
       "console": "integratedTerminal",
@@ -35,6 +35,19 @@
       "internalConsoleOptions": "neverOpen",
       "disableOptimisticBPs": true,
       "args": ["--config", ".mocharc.single.json", "--spec", "${relativeFile}"],
+      "cwd": "${workspaceFolder}",
+      "outputCapture": "std"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Test selected test",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/node_modules/.bin/mocha",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "disableOptimisticBPs": true,
+      "args": ["--config", ".mocharc.json", "--spec", "${relativeFile}", "--fgrep", "${selectedText}"],
       "cwd": "${workspaceFolder}",
       "outputCapture": "std"
     }
