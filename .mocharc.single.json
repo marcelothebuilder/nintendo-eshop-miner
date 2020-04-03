@@ -1,6 +1,5 @@
 {
   "extension": ["ts"],
-  "spec": "src/**/*.spec.ts",
   "require": "ts-node/register",
   "growl": true,
   "file": ["src/logging/setupTestLogger.ts", "src/testing/setupTests.ts"]
