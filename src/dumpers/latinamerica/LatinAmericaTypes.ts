@@ -13,18 +13,9 @@ export interface LatinAmericaGame {
 
 export interface LatinAmericaGameDetail {
   title: string;
-  publisher: string;
   price: number;
   priceType: string;
-  description: string[];
-  platform: string;
-  genres: string[];
-  releaseDate: Date;
-  playerCount: PlayerCount;
-  languages: string[];
-  requiredSpaceInGB: number;
-  cloudSave: boolean;
-  gameModes: string[];
+  priceCurrency: string;
 }
 
 export interface PlayerCount {
