@@ -1,74 +1,77 @@
 [
   {
-    "alpha2Code": "AT",
-    "alpha3Code": "AUT",
-    "numericCode": 40,
-    "countryName": "Austria",
-    "gamesCount": 3450,
-    "exists": true
+    "name": "Austria",
+    "code": "at",
+    "gamesCount": 3450
   },
   {
-    "alpha2Code": "FR",
-    "alpha3Code": "FRA",
-    "numericCode": 250,
-    "countryName": "France",
-    "gamesCount": 3423,
-    "exists": true
+    "name": "France",
+    "code": "fr",
+    "gamesCount": 3423
   },
   {
-    "alpha2Code": "DE",
-    "alpha3Code": "DEU",
-    "numericCode": 276,
-    "countryName": "Germany",
-    "gamesCount": 3446,
-    "exists": true
+    "name": "Germany",
+    "code": "de",
+    "gamesCount": 3446
   },
   {
-    "alpha2Code": "IT",
-    "alpha3Code": "ITA",
-    "numericCode": 380,
-    "countryName": "Italy",
-    "gamesCount": 3446,
-    "exists": true
+    "name": "Italy",
+    "code": "it",
+    "gamesCount": 3446
   },
   {
-    "alpha2Code": "NL",
-    "alpha3Code": "NLD",
-    "numericCode": 528,
-    "countryName": "Netherlands",
-    "gamesCount": 3445,
-    "exists": true
+    "name": "Netherlands",
+    "code": "nl",
+    "gamesCount": 3445
   },
   {
-    "alpha2Code": "PT",
-    "alpha3Code": "PRT",
-    "numericCode": 620,
-    "countryName": "Portugal",
-    "gamesCount": 3443,
-    "exists": true
+    "name": "Portugal",
+    "code": "pt",
+    "gamesCount": 3443
   },
   {
-    "alpha2Code": "RU",
-    "alpha3Code": "RUS",
-    "numericCode": 643,
-    "countryName": "Russia",
-    "gamesCount": 3379,
-    "exists": true
+    "name": "Russia",
+    "code": "ru",
+    "gamesCount": 3379
   },
   {
-    "alpha2Code": "ZA",
-    "alpha3Code": "ZAF",
-    "numericCode": 710,
-    "countryName": "South Africa",
-    "gamesCount": 3439,
-    "exists": true
+    "name": "South Africa",
+    "code": "za",
+    "gamesCount": 3439
   },
   {
-    "alpha2Code": "ES",
-    "alpha3Code": "ESP",
-    "numericCode": 724,
-    "countryName": "Spain",
-    "gamesCount": 3448,
-    "exists": true
+    "name": "Spain",
+    "code": "es",
+    "gamesCount": 3448
+  },
+  {
+    "name": "België (Dutch)",
+    "code": "benl",
+    "gamesCount": 3446
+  },
+  {
+    "name": "België (Dutch)",
+    "code": "benl",
+    "gamesCount": 3446
+  },
+  {
+    "name": "Ireland and UK",
+    "code": "en",
+    "gamesCount": 3452
+  },
+  {
+    "name": "Schweiz (German)",
+    "code": "chde",
+    "gamesCount": 3451
+  },
+  {
+    "name": "Suisse (French)",
+    "code": "chfr",
+    "gamesCount": 3450
+  },
+  {
+    "name": "Svizzera (Italian)",
+    "code": "chit",
+    "gamesCount": 3451
   }
 ]

@@ -2,7 +2,6 @@ import axios, { AxiosInstance } from "axios";
 import http from "http";
 import https from "https";
 import { EuropeSearchResponse, EuropeDocument, DocumentType, SystemID, SwitchGameDocument } from "./EuropeTypes";
-import { CountryAlpha2Code } from "../../iso/iso3166";
 
 const httpAgent = new http.Agent({ keepAlive: true });
 const httpsAgent = new https.Agent({ keepAlive: true });
@@ -48,9 +47,9 @@ export class EuropeDumper {
     }),
   );
 
-  private countryCode: CountryAlpha2Code;
+  private countryCode: string;
 
-  constructor(countryCode: CountryAlpha2Code) {
+  constructor(countryCode: string) {
     this.countryCode = countryCode;
   }
 
