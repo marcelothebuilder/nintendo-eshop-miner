@@ -13,9 +13,56 @@ export interface EuropeShop {
   exists: boolean;
 }
 
+const extraCountries: Country[] = [
+  {
+    name: "België (Dutch)",
+    alpha2Code: "benl" as any,
+    alpha3Code: "virtual" as any,
+    numericCode: -1,
+    subdivisions: [],
+  },
+  {
+    name: "België (Dutch)" as any,
+    alpha2Code: "benl" as any,
+    alpha3Code: "virtual" as any,
+    numericCode: -1,
+    subdivisions: [],
+  },
+  {
+    name: "Ireland and UK" as any,
+    alpha2Code: "en" as any,
+    alpha3Code: "virtual" as any,
+    numericCode: -1,
+    subdivisions: [],
+  },
+  {
+    name: "Schweiz (German)" as any,
+    alpha2Code: "chde" as any,
+    alpha3Code: "virtual" as any,
+    numericCode: -1,
+    subdivisions: [],
+  },
+  {
+    name: "Suisse (French)" as any,
+    alpha2Code: "chfr" as any,
+    alpha3Code: "virtual" as any,
+    numericCode: -1,
+    subdivisions: [],
+  },
+  {
+    name: "Svizzera (Italian)" as any,
+    alpha2Code: "chit" as any,
+    alpha3Code: "virtual" as any,
+    numericCode: -1,
+    subdivisions: [],
+  },
+];
+
 export class EuropeShopsDumper {
   async getShops() {
-    const fns = getAllCountries().map((country) => () => this.getCountryShop(country));
+    const fns = getAllCountries()
+      .concat(extraCountries)
+      .map((country) => () => this.getCountryShop(country));
 
     return promiseSerial(fns, { parallelize: 4 });
   }

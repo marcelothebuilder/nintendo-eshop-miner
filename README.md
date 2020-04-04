@@ -68,52 +68,59 @@ Asia:
 
 Current status:
 
-| Country            | Status | Source Type   | Source details                                                                                                                      |
-| ------------------ | ------ | ------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| United States      | Done   | Algolia       | https://u3b6gr4ua3-dsn.algolia.net/1/indexes/noa_aem_game_en_us                                                                     |
-| Canada             | Done   | Algolia       | https://u3b6gr4ua3-dsn.algolia.net/1/indexes/noa_aem_game_en_ca or https://u3b6gr4ua3-dsn.algolia.net/1/indexes/noa_aem_game_fr_ca  |
-| Mexico             |        | HTML Crawling | Fetch game list from USA, price from https://api.ec.nintendo.com/v1/price?country=MX&lang=pt&ids=<game id> (70010000023394 example) |
-| Brazil             |        | HTML Crawling | https://store.nintendo.com.br/games/all-released-games                                                                              |
-| Chile              |        | HTML Crawling | https://store.nintendo.cl/                                                                                                          |
-| Argentina          |        | HTML Crawling | https://store.nintendo.com.ar                                                                                                       |
-| Peru               |        | HTML Crawling | https://store.nintendo.com.pe/                                                                                                      |
-| Colombia           |        | HTML Crawling | https://store.nintendo.co/                                                                                                          |
-| New Zealand        |        |               |                                                                                                                                     |
-| South Africa       | Done   | Solr API      |                                                                                                                                     |
-| Norway             |        |               |                                                                                                                                     |
-| Russian Federation | Done   | Solr API      |                                                                                                                                     |
-| Sweden             |        |               |                                                                                                                                     |
-| Czech Republic     |        |               |                                                                                                                                     |
-| Poland             |        |               |                                                                                                                                     |
-| Japan              |        |               |                                                                                                                                     |
-| Australia          |        |               |                                                                                                                                     |
-| United Kingdom     |        |               |                                                                                                                                     |
-| Denmark            |        |               |                                                                                                                                     |
-| Cyprus             |        |               |                                                                                                                                     |
-| Austria            | Done   | Solr API      |                                                                                                                                     |
-| France             | Done   | Solr API      |                                                                                                                                     |
-| Estonia            |        |               |                                                                                                                                     |
-| Germany            | Done   | Solr API      |                                                                                                                                     |
-| Bulgaria           |        |               |                                                                                                                                     |
-| Finland            |        |               |                                                                                                                                     |
-| Spain              | Done   | Solr API      |                                                                                                                                     |
-| Belgium            |        |               |                                                                                                                                     |
-| Romania            |        |               |                                                                                                                                     |
-| Lithuania          |        |               |                                                                                                                                     |
-| Hungary            |        |               |                                                                                                                                     |
-| Ireland            |        |               |                                                                                                                                     |
-| Israel             |        |               |                                                                                                                                     |
-| Luxembourg         |        |               |                                                                                                                                     |
-| Portugal           | Done   | Solr API      |                                                                                                                                     |
-| Latvia             |        |               |                                                                                                                                     |
-| Slovakia           |        |               |                                                                                                                                     |
-| Croatia            |        |               |                                                                                                                                     |
-| Italy              | Done   | Solr API      |                                                                                                                                     |
-| Netherlands        | Done   | Solr API      |                                                                                                                                     |
-| Greece             |        |               |                                                                                                                                     |
-| Malta              |        |               |                                                                                                                                     |
-| Slovenia           |        |               |                                                                                                                                     |
-| Switzerland        |        |               |                                                                                                                                     |
+| Country            | Status  | Source Type   | Source details                                                                                                                        |
+| ------------------ | ------- | ------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| United States      | Done    | Algolia       | https://u3b6gr4ua3-dsn.algolia.net/1/indexes/noa_aem_game_en_us                                                                       |
+| Canada             | Done    | Algolia       | https://u3b6gr4ua3-dsn.algolia.net/1/indexes/noa_aem_game_en_ca or https://u3b6gr4ua3-dsn.algolia.net/1/indexes/noa_aem_game_fr_ca    |
+| South Africa       | Done    | Solr API      | https://searching.nintendo-europe.com                                                                                                 |
+| Russian Federation | Done    | Solr API      | https://searching.nintendo-europe.com                                                                                                 |
+| United Kingdom     | Done    | Solr API      | https://searching.nintendo-europe.com (en, same as Ireland)                                                                           |
+| Austria            | Done    | Solr API      | https://searching.nintendo-europe.com                                                                                                 |
+| France             | Done    | Solr API      | https://searching.nintendo-europe.com                                                                                                 |
+| Germany            | Done    | Solr API      | https://searching.nintendo-europe.com                                                                                                 |
+| Schweiz (German)   | Done    | Solr API      | https://searching.nintendo-europe.com (chde)                                                                                          |
+| Suisse (French)    | Done    | Solr API      | https://searching.nintendo-europe.com (chfr)                                                                                          |
+| Svizzera (Italian) | Done    | Solr API      | https://searching.nintendo-europe.com (chit)                                                                                          |
+| Switzerland        | Done    | Solr API      | CHF Through multilang above                                                                                                           |
+| Spain              | Done    | Solr API      | https://searching.nintendo-europe.com                                                                                                 |
+| Ireland            | Done    | Solr API      | https://searching.nintendo-europe.com (en, same as UK)                                                                                |
+| Portugal           | Done    | Solr API      | https://searching.nintendo-europe.com                                                                                                 |
+| Italy              | Done    | Solr API      | https://searching.nintendo-europe.com                                                                                                 |
+| Netherlands        | Done    | Solr API      | https://searching.nintendo-europe.com                                                                                                 |
+| Brazil             | Done    | HTML Crawling | https://store.nintendo.com.br/games/all-released-games                                                                                |
+| Chile              | Done    | HTML Crawling | https://store.nintendo.cl/                                                                                                            |
+| Argentina          | Done    | HTML Crawling | https://store.nintendo.com.ar                                                                                                         |
+| Peru               | Done    | HTML Crawling | https://store.nintendo.com.pe/                                                                                                        |
+| Colombia           | Done    | HTML Crawling | https://store.nintendo.co/                                                                                                            |
+| Japan              | Done    | JSON API      | https://search.nintendo.jp/nintendo_soft/search.json                                                                                  |
+| Taiwan             | Done    | JSON API      | https://www.nintendo.tw/data/json/topics.json (Taiwan and HK data seems to be the same)                                               |
+| Hong Kong          | Done    | JSON API      | https://www.nintendo.hk/data/json/topics.json (Taiwan and HK data seems to be the same)                                               |
+| Korea              | Done    | PHP Api       | https://www.nintendo.co.kr/lib/ajax/all_soft_list.php                                                                                 |
+| Norway             |         | HTML Crawling | https://www.nintendo.no/spill/nintendo-switch                                                                                         |
+| Sweden             |         | HTML Crawling | https://www.nintendo.se/spel/nintendo-switch                                                                                          |
+| Poland             |         | HTML Crawling | http://www.nintendo.pl/category/switch-gry/                                                                                           |
+| Australia          |         | HTML Crawling | https://www.nintendo.com.au/index.php?action=prodcatalogue&form_name=adv_search&s_field=date_added&s_order=desc&category=240&start=12 |
+| Denmark            |         | HTML Crawling | https://www.nintendo.dk/spil/nintendo-switch                                                                                          |
+| Finland            |         | HTML Crawling | https://nintendo.fi/pelit/nintendo-switch                                                                                             |
+| Hungary            |         | HTML Crawling | http://www.nintendo.hu/category/switch-szoftver/                                                                                      |
+| Israel             |         | HTML Crawling | https://www.nintendo.co.il/pages/31432-%D7%9E%D7%A9%D7%97%D7%A7%D7%99%D7%9D (what is this?)                                           |
+| Mexico             |         | HTML Crawling | Fetch game list from USA, price from https://api.ec.nintendo.com/v1/price?country=MX&lang=pt&ids=<game id> (70010000023394 example)   |
+| New Zealand        |         |               | Website redirects to Australia....?                                                                                                   |
+| Czech Republic     |         |               | (price available)                                                                                                                     |
+| Malta              |         |               | EUR                                                                                                                                   |
+| Slovenia           |         |               | EUR                                                                                                                                   |
+| Latvia             |         |               | EUR                                                                                                                                   |
+| Slovakia           |         |               | EUR                                                                                                                                   |
+| Croatia            |         |               | EUR                                                                                                                                   |
+| Luxembourg         |         |               | EUR                                                                                                                                   |
+| Belgium            |         |               | EUR                                                                                                                                   |
+| Romania            |         |               | EUR                                                                                                                                   |
+| Lithuania          |         |               | EUR                                                                                                                                   |
+| Bulgaria           |         |               | EUR                                                                                                                                   |
+| Cyprus             |         |               | EUR                                                                                                                                   |
+| Estonia            |         |               | EUR                                                                                                                                   |
+| Greece             | Wont do |               | https://www.cdmedia.gr/playroom.html dafuq is this?                                                                                   |
+| China Mainland     | Wont Do | ????????      | China is a mystery                                                                                                                    |
 
 ## Project snippets
 

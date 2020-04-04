@@ -43,7 +43,6 @@ export class GlobalPriceApi {
   }
 
   private async do(countryCode: string, ids: number[]) {
-    // console.log(`GlobalPriceApi.do ${countryCode} ${ids}`);
     return this.axios
       .get(url, {
         params: {
