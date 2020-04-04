@@ -8,6 +8,8 @@ const url = "https://api.ec.nintendo.com/v1/price";
 const httpAgent = new http.Agent({ keepAlive: true });
 const httpsAgent = new https.Agent({ keepAlive: true });
 
+export const ZeldaBreathOfTheWildNSUID = 70010000000025;
+
 export class GlobalPriceApi {
   axios: AxiosInstance;
 
@@ -39,7 +41,7 @@ export class GlobalPriceApi {
       allPrices = allPrices.concat(prices);
     }
 
-    return GlobalPriceApi.filterUnavailable(allPrices).map(GlobalPriceApi.parse);
+    return allPrices.map(GlobalPriceApi.parse);
   }
 
   private async do(countryCode: string, ids: number[]) {
@@ -72,7 +74,7 @@ export class GlobalPriceApi {
       regular_price: {
         ...parse.regular_price,
         // eslint-disable-next-line @typescript-eslint/camelcase
-        raw_value: parseFloat(parse.regular_price.raw_value),
+        raw_value: parse.regular_price && parseFloat(parse.regular_price.raw_value),
       },
     };
   }

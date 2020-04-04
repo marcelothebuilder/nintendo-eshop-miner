@@ -66,6 +66,57 @@ Asia:
 
 - AE AZ HK IN JP KR MY SA SG TR TW
 
+Confirmed shops (Through eShop price query)
+
+| Code | Country        |
+| ---- | -------------- |
+| AR   | Argentina      |
+| AU   | Australia      |
+| AT   | Austria        |
+| BE   | Belgium        |
+| BR   | Brazil         |
+| BG   | Bulgaria       |
+| CA   | Canada         |
+| CL   | Chile          |
+| CN   | China          |
+| CO   | Colombia       |
+| HR   | Croatia        |
+| CY   | Cyprus         |
+| CZ   | Czechia        |
+| DK   | Denmark        |
+| EE   | Estonia        |
+| FI   | Finland        |
+| FR   | France         |
+| DE   | Germany        |
+| GR   | Greece         |
+| HK   | Hong Kong      |
+| HU   | Hungary        |
+| IE   | Ireland        |
+| IL   | Israel         |
+| IT   | Italy          |
+| JP   | Japan          |
+| KR   | South Korea    |
+| LV   | Latvia         |
+| LT   | Lithuania      |
+| LU   | Luxembourg     |
+| MT   | Malta          |
+| MX   | Mexico         |
+| NL   | Netherlands    |
+| NZ   | New Zealand    |
+| NO   | Norway         |
+| PE   | Peru           |
+| PT   | Portugal       |
+| RO   | Romania        |
+| RU   | Russia         |
+| SK   | Slovakia       |
+| SI   | Slovenia       |
+| ZA   | South Africa   |
+| ES   | Spain          |
+| SE   | Sweden         |
+| CH   | Switzerland    |
+| GB   | United Kingdom |
+| US   | United States  |
+
 Current status:
 
 | Country            | Status  | Source Type   | Source details                                                                                                                        |
