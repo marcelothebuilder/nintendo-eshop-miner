@@ -57,34 +57,64 @@
 // ..................... ░▓██████▓▓  ░░░░░░░░░░░░░░░░░░░░░  ░  ░░░░░░░░░
 import translate from "translation-google";
 
-import { NintendoDumper } from "./dumpers/northamerica/NorthAmericaDumper";
 import { NorthAmericaDumperFactory } from "./dumpers/northamerica/NorthAmericaDumperFactory";
 import { NorthAmericaRegions } from "./dumpers/northamerica/NorthAmericaRegions";
 import { logger } from "./logging/logger";
-import { initializeSequelize } from "./data/sequelize";
+import { initializeSequelize, namespace } from "./data/sequelize";
 import { Game } from "./data/Game";
 import { NorthAmericaGame } from "./dumpers/northamerica/NorthAmericaGame";
+import { GameTitle } from "./data/GameTitle";
 
-const dumperGameToModel = (game: NorthAmericaGame): Partial<Game> => ({
-  nsuid: parseInt(game.nsuid),
-  title: game.title,
-});
+const NAGames = {
+  toGame: (game: any) => ({
+    nsuid: parseInt(game.nsuid),
+    title: game.title,
+  }),
+  toGameTitle: (location: string) => (game: any) => ({
+    nsuid: parseInt(game.nsuid),
+    title: game.title,
+    location,
+  }),
+  onlyValidNsuid: (games: NorthAmericaGame[]): NorthAmericaGame[] =>
+    games.filter((game) => game.nsuid).filter((game) => parseInt(game.nsuid) !== NaN),
+};
+
+const getUsGames = async () =>
+  NAGames.onlyValidNsuid(
+    (await new NorthAmericaDumperFactory({ region: NorthAmericaRegions.UNITED_STATES }).getInstance().searchAll())
+      .games,
+  );
+const getCaFrGames = async () =>
+  NAGames.onlyValidNsuid(
+    (await new NorthAmericaDumperFactory({ region: NorthAmericaRegions.CANADA_FRENCH }).getInstance().searchAll())
+      .games,
+  );
+
+const getCaEnGames = async () =>
+  NAGames.onlyValidNsuid(
+    (await new NorthAmericaDumperFactory({ region: NorthAmericaRegions.CANADA }).getInstance().searchAll()).games,
+  );
 
 async function main(): Promise<void> {
   const sequelize = await initializeSequelize();
-  const dumper = new NorthAmericaDumperFactory({ region: NorthAmericaRegions.UNITED_STATES }).getInstance();
-  const { games } = await dumper.searchAll();
-  sequelize.transaction(() => {
-    return Promise.all(
-      games
-        .filter((game) => game.nsuid)
-        .map(dumperGameToModel)
-        .filter((game) => game.nsuid !== NaN)
-        .map((g) => {
-          return g;
-        })
-        .map((g) => Game.upsert(g)),
-    );
+
+  const usGames = await getUsGames();
+
+  const caFrGames = await getCaFrGames();
+  const caEnGames = await getCaEnGames();
+
+  await sequelize.transaction(async (transaction) => {
+    const games = usGames.concat(caFrGames).concat(caEnGames);
+    await Game.bulkCreate(games.map(NAGames.toGame), { ignoreDuplicates: true, transaction });
+    const langs = usGames
+      .map(NAGames.toGameTitle("US"))
+      .concat(caFrGames.map(NAGames.toGameTitle("ca_FR")))
+      .concat(caEnGames.map(NAGames.toGameTitle("ca_EN")));
+
+    await GameTitle.bulkCreate(langs, {
+      ignoreDuplicates: true,
+      transaction,
+    });
   });
 }
 

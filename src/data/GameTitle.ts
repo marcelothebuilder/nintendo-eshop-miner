@@ -1,8 +1,11 @@
 import { Model, DataTypes } from "sequelize";
 import { sequelize } from "./sequelize";
+import { Game } from "./Game";
 
-class Game extends Model {
+class GameTitle extends Model {
   nsuid!: number;
+
+  location!: string;
 
   title!: string;
 
@@ -11,18 +14,27 @@ class Game extends Model {
   readonly updatedAt!: Date;
 }
 
-Game.init(
+GameTitle.init(
   {
     nsuid: {
       allowNull: false,
       primaryKey: true,
       type: DataTypes.BIGINT.UNSIGNED,
     },
+    location: {
+      type: DataTypes.STRING(5),
+      allowNull: false,
+      primaryKey: true,
+    },
     title: {
       type: DataTypes.STRING,
+      allowNull: false,
     },
   },
   { sequelize },
 );
 
-export { Game };
+Game.hasMany(GameTitle, { foreignKey: "nsuid" });
+GameTitle.belongsTo(Game, { targetKey: "nsuid", foreignKey: "nsuid" });
+
+export { GameTitle };

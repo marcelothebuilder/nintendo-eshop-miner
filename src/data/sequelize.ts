@@ -2,10 +2,13 @@ import { Sequelize } from "sequelize";
 import cls from "continuation-local-storage";
 import { Environment } from "../env/Enviroment";
 
-Sequelize.useCLS(cls.createNamespace("napp"));
+export const namespace = cls.createNamespace("napp");
+
+Sequelize.useCLS(namespace);
 
 export const sequelize = new Sequelize({
   dialect: "sqlite",
+  logging: true,
   storage: Environment.get("SQLITE_PATH").else(":memory:"),
   define: {
     timestamps: true,
@@ -18,4 +21,4 @@ export const sequelize = new Sequelize({
   }).elseUndefined(),
 });
 
-export const initializeSequelize = async () => sequelize.sync();
+export const initializeSequelize = async () => sequelize.sync({ force: true });
