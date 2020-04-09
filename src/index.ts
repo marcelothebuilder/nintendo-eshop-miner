@@ -67,7 +67,7 @@ import { NorthAmericaGame } from "./dumpers/northamerica/NorthAmericaGame";
 
 const dumperGameToModel = (game: NorthAmericaGame): Partial<Game> => ({
   nsuid: parseInt(game.nsuid),
-  name: game.title,
+  title: game.title,
 });
 
 async function main(): Promise<void> {

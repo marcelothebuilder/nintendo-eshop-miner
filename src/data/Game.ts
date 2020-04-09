@@ -4,7 +4,7 @@ import { sequelize } from "./sequelize";
 class Game extends Model {
   nsuid!: number;
 
-  name!: string;
+  title!: string;
 
   readonly createdAt!: Date;
 
@@ -18,7 +18,7 @@ Game.init(
       primaryKey: true,
       type: DataTypes.INTEGER.UNSIGNED,
     },
-    name: {
+    title: {
       type: DataTypes.STRING,
     },
   },
