@@ -6,7 +6,7 @@ Sequelize.useCLS(cls.createNamespace("napp"));
 
 export const sequelize = new Sequelize({
   dialect: "sqlite",
-  storage: ":memory:",
+  storage: Environment.get("SQLITE_PATH").else(":memory:"),
   define: {
     timestamps: true,
   },

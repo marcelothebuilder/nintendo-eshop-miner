@@ -7,4 +7,9 @@ export const Environment = {
       elseUndefined: () => (Environment.isProduction() ? value : undefined),
     };
   },
+  get: (envVariable: string) => {
+    return {
+      else: (defaultValue: string) => process.env[envVariable] || defaultValue,
+    };
+  },
 };
