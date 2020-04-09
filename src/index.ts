@@ -61,50 +61,31 @@ import { NintendoDumper } from "./dumpers/northamerica/NorthAmericaDumper";
 import { NorthAmericaDumperFactory } from "./dumpers/northamerica/NorthAmericaDumperFactory";
 import { NorthAmericaRegions } from "./dumpers/northamerica/NorthAmericaRegions";
 import { logger } from "./logging/logger";
+import { initializeSequelize } from "./data/sequelize";
+import { Game } from "./data/Game";
+import { NorthAmericaGame } from "./dumpers/northamerica/NorthAmericaGame";
 
-function getDumper(region: string) {
-  return new NorthAmericaDumperFactory({ region }).getInstance();
-}
-
-async function getUsGames() {
-  const usDumper: NintendoDumper = getDumper(NorthAmericaRegions.UNITED_STATES);
-  const usGames = await usDumper.searchAll();
-
-  logger.info(`Got ${usGames.games.length} from us server.`, {
-    first: usGames.firstModified,
-    last: usGames.lastModified,
-  });
-}
-
-async function getCanadaGames() {
-  const canadaDumper: NintendoDumper = getDumper(NorthAmericaRegions.CANADA);
-  const canadaGames = await canadaDumper.searchAll();
-
-  logger.info(`Got ${canadaGames.games.length} from canada server.`, {
-    first: canadaGames.firstModified,
-    last: canadaGames.lastModified,
-  });
-}
-
-async function getCanadaFrGames() {
-  const canadaDumper: NintendoDumper = getDumper(NorthAmericaRegions.CANADA_FRENCH);
-  const canadaGames = await canadaDumper.searchAll();
-
-  logger.info(`Got ${canadaGames.games.length} from canada (fr) server.`, {
-    first: canadaGames.firstModified,
-    last: canadaGames.lastModified,
-  });
-}
+const dumperGameToModel = (game: NorthAmericaGame): Partial<Game> => ({
+  nsuid: parseInt(game.nsuid),
+  name: game.title,
+});
 
 async function main(): Promise<void> {
-  const t = await translate("ゲーム ドラえもん のび太の新恐竜", { to: "en" });
-  console.log(t);
-  // try {
-  //   const usDumper: NintendoDumper = getDumper(NorthAmericaRegions.UNITED_STATES);
-  //   await usDumper.searchAll();
-  // } catch (e) {
-  //   logger.error("error in main", e);
-  // }
+  const sequelize = await initializeSequelize();
+  const dumper = new NorthAmericaDumperFactory({ region: NorthAmericaRegions.UNITED_STATES }).getInstance();
+  const { games } = await dumper.searchAll();
+  sequelize.transaction(() => {
+    return Promise.all(
+      games
+        .filter((game) => game.nsuid)
+        .map(dumperGameToModel)
+        .filter((game) => game.nsuid !== NaN)
+        .map((g) => {
+          return g;
+        })
+        .map((g) => Game.upsert(g)),
+    );
+  });
 }
 
 main().then(() => logger.info("Done execution"));
