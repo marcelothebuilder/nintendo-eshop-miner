@@ -60,10 +60,11 @@ import translate from "translation-google";
 import { NorthAmericaDumperFactory } from "./dumpers/northamerica/NorthAmericaDumperFactory";
 import { NorthAmericaRegions } from "./dumpers/northamerica/NorthAmericaRegions";
 import { logger } from "./logging/logger";
-import { initializeSequelize, namespace } from "./data/sequelize";
 import { Game } from "./data/Game";
 import { NorthAmericaGame } from "./dumpers/northamerica/NorthAmericaGame";
 import { GameTitle } from "./data/GameTitle";
+import "./data/internal/relations";
+import { initializeSequelize } from "./data/database";
 
 const NAGames = {
   toGame: (game: any) => ({
@@ -103,7 +104,7 @@ async function main(): Promise<void> {
   const caFrGames = await getCaFrGames();
   const caEnGames = await getCaEnGames();
 
-  await sequelize.transaction(async (transaction) => {
+  await sequelize.transaction(async (transaction: any) => {
     const games = usGames.concat(caFrGames).concat(caEnGames);
     await Game.bulkCreate(games.map(NAGames.toGame), { ignoreDuplicates: true, transaction });
     const langs = usGames
@@ -115,6 +116,9 @@ async function main(): Promise<void> {
       ignoreDuplicates: true,
       transaction,
     });
+
+    const g = await Game.findOne({ transaction });
+    console.log(" game", await g!.getTitles());
   });
 }
 

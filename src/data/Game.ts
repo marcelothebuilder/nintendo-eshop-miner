@@ -1,5 +1,6 @@
-import { Model, DataTypes } from "sequelize";
-import { sequelize } from "./sequelize";
+import { Model, DataTypes, HasManyGetAssociationsMixin } from "sequelize";
+import { sequelize } from "./internal/sequelize";
+import { GameTitle } from "./GameTitle";
 
 class Game extends Model {
   nsuid!: number;
@@ -9,6 +10,8 @@ class Game extends Model {
   readonly createdAt!: Date;
 
   readonly updatedAt!: Date;
+
+  getTitles!: HasManyGetAssociationsMixin<GameTitle>; // Note the null assertions!
 }
 
 Game.init(

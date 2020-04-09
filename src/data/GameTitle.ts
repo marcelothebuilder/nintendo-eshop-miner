@@ -1,6 +1,5 @@
 import { Model, DataTypes } from "sequelize";
-import { sequelize } from "./sequelize";
-import { Game } from "./Game";
+import { sequelize } from "./internal/sequelize";
 
 class GameTitle extends Model {
   nsuid!: number;
@@ -33,8 +32,5 @@ GameTitle.init(
   },
   { sequelize },
 );
-
-Game.hasMany(GameTitle, { foreignKey: "nsuid" });
-GameTitle.belongsTo(Game, { targetKey: "nsuid", foreignKey: "nsuid" });
 
 export { GameTitle };
