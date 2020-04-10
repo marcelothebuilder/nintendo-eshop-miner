@@ -1,6 +1,6 @@
 import { Model, DataTypes, HasManyGetAssociationsMixin } from "sequelize";
-import { sequelize } from "./internal/sequelize";
 import { GameTitle } from "./GameTitle";
+import { sequelize } from "./database";
 
 class Game extends Model {
   nsuid!: number;

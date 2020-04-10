@@ -1,5 +1,5 @@
 import { Model, DataTypes } from "sequelize";
-import { sequelize } from "./internal/sequelize";
+import { sequelize } from "./database";
 
 class GameTitle extends Model {
   nsuid!: number;

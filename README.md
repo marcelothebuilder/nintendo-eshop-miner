@@ -20,6 +20,8 @@ npm start
 
 ## Developing
 
+### Start app
+
 Open in one terminal:
 
 ```sh
@@ -29,7 +31,13 @@ npm dev
 And on the other:
 
 ```sh
-node dist/index.js
+npm run start
+```
+
+### Using development aliases
+
+```sh
+source .aliases.rc
 ```
 
 ## Run tests

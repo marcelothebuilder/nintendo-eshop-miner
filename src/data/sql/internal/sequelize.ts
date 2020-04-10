@@ -1,6 +1,6 @@
 import { Sequelize } from "sequelize";
 import cls from "continuation-local-storage";
-import { Environment } from "../../env/Enviroment";
+import { Environment } from "../../../env/Enviroment";
 
 export const namespace = cls.createNamespace("napp");
 

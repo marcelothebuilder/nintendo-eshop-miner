@@ -60,11 +60,11 @@ import translate from "translation-google";
 import { NorthAmericaDumperFactory } from "./dumpers/northamerica/NorthAmericaDumperFactory";
 import { NorthAmericaRegions } from "./dumpers/northamerica/NorthAmericaRegions";
 import { logger } from "./logging/logger";
-import { Game } from "./data/Game";
 import { NorthAmericaGame } from "./dumpers/northamerica/NorthAmericaGame";
-import { GameTitle } from "./data/GameTitle";
-import "./data/internal/relations";
-import { initializeSequelize } from "./data/database";
+import "./data/sql/internal/relations";
+import { initializeSequelize } from "./data/sql/database";
+import { Game } from "./data/sql/Game";
+import { GameTitle } from "./data/sql/GameTitle";
 
 const NAGames = {
   toGame: (game: any) => ({
