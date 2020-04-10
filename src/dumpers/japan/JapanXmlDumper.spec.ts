@@ -12,7 +12,7 @@ describe("JapanXmlDumper", () => {
   let xmlContent: string;
 
   setup(async () => {
-    xmlContent = await readString("resources/tests/japan-xml-raw.xml");
+    xmlContent = await readString("./resources/tests/dumpers/japan/JapanXmlDumper/japan-xml-raw.xml");
     moxios.install(AxiosInstance);
   });
 
@@ -39,7 +39,7 @@ describe("JapanXmlDumper", () => {
 
         checkAndNotify(() => {
           expect(responseSpy.callCount).to.be.eq(1);
-          expect(responseSpy.firstCall.lastArg.length).to.be.eq(1958);
+          expect(responseSpy.firstCall.lastArg.length).to.be.eq(15);
         }, done);
       });
     });
