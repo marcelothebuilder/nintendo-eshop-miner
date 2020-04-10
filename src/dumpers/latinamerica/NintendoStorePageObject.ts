@@ -5,8 +5,8 @@ import { LatinAmericaGame } from "./LatinAmericaTypes";
 export class NintendoStorePageObject {
   private page: CheerioStatic;
 
-  constructor(rawHtml: string) {
-    this.page = cheerio.load(rawHtml);
+  constructor(cheerioHtml: CheerioStatic) {
+    this.page = cheerioHtml;
   }
 
   getGames(): LatinAmericaGame[] {
@@ -47,6 +47,10 @@ export class NintendoStorePageObject {
 
   getGamesCount(): number {
     return this.getGamesElements().length;
+  }
+
+  static fromHtmlString(html: string) {
+    return new NintendoStorePageObject(cheerio.load(html));
   }
 
   private getGamesElements() {

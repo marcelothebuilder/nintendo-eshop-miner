@@ -1,29 +1,26 @@
 import { expect } from "chai";
-import { describe, it, afterEach, beforeEach } from "mocha";
+import { describe, it, afterEach, setup } from "mocha";
 import sinon from "sinon";
+import cheerio from "cheerio";
 import { NintendoStorePageObject } from "./NintendoStorePageObject";
 import { readString } from "../../filesystem/readString";
 
 describe("NintendoStorePageObject", () => {
-  let brazilianPage = "";
-  let argentineanPage = "";
+  let brazilianPage!: CheerioStatic;
+  let argentineanPage!: CheerioStatic;
 
   afterEach(() => sinon.restore());
 
-  beforeEach(async () => {
-    await readString("resources/tests/latin-america-brazil-store.html").then((pageContent) => {
-      brazilianPage = pageContent;
+  setup(async () => {
+    const p1 = readString("resources/tests/latin-america-brazil-store.html").then((pageContent) => {
+      brazilianPage = cheerio.load(pageContent);
     });
 
-    await readString("resources/tests/latin-america-argentina-store.html").then((pageContent) => {
-      argentineanPage = pageContent;
+    const p2 = readString("resources/tests/latin-america-argentina-store.html").then((pageContent) => {
+      argentineanPage = cheerio.load(pageContent);
     });
-  });
 
-  it("NintendoStorePageObject should be created successfully", () => {
-    // eslint-disable-next-line no-new
-    const instance = new NintendoStorePageObject("");
-    expect(instance).to.be.instanceOf(NintendoStorePageObject);
+    return Promise.all([p1, p2]);
   });
 
   describe("getItemCount", () => {
