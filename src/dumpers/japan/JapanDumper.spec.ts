@@ -20,7 +20,7 @@ describe("JapanDumper tests", () => {
   let data: any[] = [];
 
   setup(async () => {
-    data = await readJSON("./resources/tests/japan-dbdump.json");
+    data = await readJSON("./resources/tests/dumpers/japan/JapanDumper/japan-dbdump.json");
     moxios.install(AxiosInstance);
   });
 
