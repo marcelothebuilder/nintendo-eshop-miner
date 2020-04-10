@@ -28,12 +28,11 @@ describe("GlobalPriceApi", () => {
   teardown(() => moxios.uninstall());
 
   it("should be created successfully", () => {
-    // eslint-disable-next-line no-new
     const g = new GlobalPriceApi();
     expect(g).to.be.instanceOf(GlobalPriceApi);
   });
 
-  it.skip("should fetch game price by id", (done) => {
+  it("should fetch game price by id", (done) => {
     moxios.stubOnce(
       "GET",
       /.*/,
