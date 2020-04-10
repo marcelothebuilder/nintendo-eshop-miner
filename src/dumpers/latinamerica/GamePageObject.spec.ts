@@ -1,8 +1,8 @@
 import { expect } from "chai";
 import { describe, it, afterEach, beforeEach } from "mocha";
 import sinon from "sinon";
-import fs from "fs";
 import { GamePageObject } from "./GamePageObject";
+import { readString } from "../../filesystem/readString";
 
 describe("GamePageObject", () => {
   let page = "";
@@ -11,14 +11,12 @@ describe("GamePageObject", () => {
   afterEach(() => sinon.restore());
 
   beforeEach(async () => {
-    await fs.promises.readFile("dumps/latin-america-brazil-1-2-switch.html", "utf8").then((pageContent) => {
+    await readString("resources/tests/latin-america-brazil-1-2-switch.html").then((pageContent) => {
       page = pageContent;
     });
-    await fs.promises
-      .readFile("dumps/latin-america-brazil-animal-crossing-new-horizons.html", "utf8")
-      .then((pageContent) => {
-        page2 = pageContent;
-      });
+    await readString("resources/tests/latin-america-brazil-animal-crossing-new-horizons.html").then((pageContent) => {
+      page2 = pageContent;
+    });
   });
 
   it("GamePageObject should be created successfully", () => {

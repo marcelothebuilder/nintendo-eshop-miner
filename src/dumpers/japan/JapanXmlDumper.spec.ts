@@ -3,8 +3,8 @@ import { describe, it, afterEach, setup, teardown } from "mocha";
 import sinon from "sinon";
 import moxios from "moxios";
 import { JapanXmlDumper, AxiosInstance } from "./JapanXmlDumper";
-import { readGzipped } from "../../filesystem/readGzipped";
 import { checkAndNotify } from "../../testing/checkAndNotify";
+import { readString } from "../../filesystem/readString";
 
 describe("JapanXmlDumper", () => {
   afterEach(() => sinon.restore());
@@ -12,7 +12,7 @@ describe("JapanXmlDumper", () => {
   let xmlContent: string;
 
   setup(async () => {
-    xmlContent = await readGzipped("dumps/japan-xml-raw.xml.gz");
+    xmlContent = await readString("resources/tests/japan-xml-raw.xml");
     moxios.install(AxiosInstance);
   });
 

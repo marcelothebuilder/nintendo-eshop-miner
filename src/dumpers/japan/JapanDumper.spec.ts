@@ -5,8 +5,8 @@ import { describe, it, afterEach, setup, teardown } from "mocha";
 import sinon from "sinon";
 import moxios from "moxios";
 import { JapanDumper, AxiosInstance } from "./JapanDumper";
-import { readGzipped } from "../../filesystem/readGzipped";
 import { checkAndNotify } from "../../testing/checkAndNotify";
+import { readJSON } from "../../filesystem/readJSON";
 
 const response = (obj: object) => ({
   status: 200,
@@ -20,7 +20,7 @@ describe("JapanDumper tests", () => {
   let data: any[] = [];
 
   setup(async () => {
-    data = JSON.parse(await readGzipped("./dumps/japan-dbdump.json.gz"));
+    data = await readJSON("./resources/tests/japan-dbdump.json");
     moxios.install(AxiosInstance);
   });
 

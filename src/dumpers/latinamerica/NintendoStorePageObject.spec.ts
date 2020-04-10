@@ -1,8 +1,8 @@
 import { expect } from "chai";
 import { describe, it, afterEach, beforeEach } from "mocha";
-import fs from "fs";
 import sinon from "sinon";
 import { NintendoStorePageObject } from "./NintendoStorePageObject";
+import { readString } from "../../filesystem/readString";
 
 describe("NintendoStorePageObject", () => {
   let brazilianPage = "";
@@ -11,11 +11,11 @@ describe("NintendoStorePageObject", () => {
   afterEach(() => sinon.restore());
 
   beforeEach(async () => {
-    await fs.promises.readFile("dumps/latin-america-brazil-store.html", "utf8").then((pageContent) => {
+    await readString("resources/tests/latin-america-brazil-store.html").then((pageContent) => {
       brazilianPage = pageContent;
     });
 
-    await fs.promises.readFile("dumps/latin-america-argentina-store.html", "utf8").then((pageContent) => {
+    await readString("resources/tests/latin-america-argentina-store.html").then((pageContent) => {
       argentineanPage = pageContent;
     });
   });
