@@ -9,6 +9,10 @@ import { Game } from "./Game";
 chai.should();
 chai.use(chaiAsPromised);
 
+const getGameDocument = () => {
+  return { nsuid: 13131, name: "Zeldinha" };
+};
+
 describe("Game", () => {
   afterEach(() => {
     sinon.restore();
@@ -20,15 +24,17 @@ describe("Game", () => {
     expect(instance).to.be.instanceOf(Game);
   });
 
-  it("should error if _id is not defined", (done) => {
-    const instance = new Game({ name: "Horizon" });
+  it("should error if title is not defined", (done) => {
+    const doc = getGameDocument();
+    delete doc.name;
+    const instance = new Game(doc);
 
     instance.validate().should.be.rejected.notify(done);
   });
 
-  it("should error if title is not defined", (done) => {
-    const instance = new Game({ _id: 1 });
+  it("should not error if all required fields are provided", (done) => {
+    const instance = new Game(getGameDocument());
 
-    instance.validate().should.be.rejected.notify(done);
+    instance.validate().should.be.fulfilled.notify(done);
   });
 });

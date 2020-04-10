@@ -2,7 +2,7 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
 
 export interface GameDocument extends Document {
-  _id: number;
+  nsuid: number;
 
   name: string;
 
@@ -10,7 +10,7 @@ export interface GameDocument extends Document {
 }
 
 export class GameClass {
-  _id!: number;
+  nsuid!: number;
 
   name!: string;
 
@@ -18,7 +18,7 @@ export class GameClass {
 }
 
 export const GameSchema = new Schema<GameDocument>({
-  _id: {
+  nsuid: {
     type: Number,
     required: true,
   },
@@ -29,11 +29,9 @@ export const GameSchema = new Schema<GameDocument>({
   },
 
   titles: [{ location: String, title: String }],
-});
-// }).loadClass(GameClass);
+}).loadClass(GameClass);
 
 const defineMongooseModel = <TDocument extends Document>(schema: Schema<TDocument>, name: string): Model<TDocument> =>
-  //   mongoose.models[name] ||
   mongoose.model<TDocument>(name, schema);
 
 export const Game = defineMongooseModel(GameSchema, "Game");
