@@ -8,6 +8,10 @@ import { Environment } from "./Environment";
 describe("Environment", () => {
   let restoreEnv: RestoreFn = () => null;
 
+  beforeEach(() => {
+    restoreEnv = () => null;
+  });
+
   afterEach(() => sinon.restore());
 
   afterEach(() => restoreEnv());
@@ -59,5 +63,15 @@ describe("Environment", () => {
   it("isProduction should return false when env is null", () => {
     restoreEnv = mockedEnv({});
     expect(Environment.isProduction()).to.be.false;
+  });
+
+  it("should get the variable when it exists for get calls", () => {
+    restoreEnv = mockedEnv({ TEST: "1" });
+    expect(Environment.get("TEST").else("default")).to.be.eq("1");
+  });
+
+  it("should return the default when the variable doesnt exist for get calls", () => {
+    restoreEnv = mockedEnv({ TESTX: "1" });
+    expect(Environment.get("TEST").else("default")).to.be.eq("default");
   });
 });
