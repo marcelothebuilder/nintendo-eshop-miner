@@ -9,7 +9,7 @@ chai.should();
 chai.use(chaiAsPromised);
 
 const getGameDocument = () => {
-  return { nsuid: 13131, name: "Zeldinha" };
+  return { nsuid: 13131, name: "Zeldinha", sortingName: "Zeldinha" };
 };
 
 describe("Game", () => {

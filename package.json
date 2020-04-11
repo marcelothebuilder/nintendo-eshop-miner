@@ -15,6 +15,7 @@
     "test": "mocha",
     "test:watch": "mocha --watch",
     "test:integration": "mocha --config .mocharc.integration.json",
+    "test:integration:watch": "mocha --watch --config .mocharc.integration.json",
     "coverage": "nyc mocha",
     "coverage:ci": "nyc mocha || true",
     "pre-commit": "npm run lint && npm run coverage"

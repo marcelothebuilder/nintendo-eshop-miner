@@ -8,13 +8,30 @@ export interface GameDocument extends Document {
 
   name: string;
 
-  titles: { location: string; title: string }[];
+  sortingName: string;
+
+  titles: { location: string; content: string }[];
+
+  description: { location: string; content: string }[];
+
+  releaseDate: Date;
+
+  remoteLastModified: Date;
+
+  createdAt: Date;
+
+  updatedAt: Date;
+
+  categories: string[];
+
+  publishers: string[];
 
   prices: {
     location: string;
     currency: string;
     originalPrice: number;
     price: number;
+    goldPoints?: number;
     discount: number;
     status: string;
     hasDiscount: boolean;
@@ -37,11 +54,33 @@ export const GameSchema = new Schema<GameDocument>({
     type: String,
     required: true,
     trim: true,
+    index: false,
+    unique: false,
+  },
+
+  sortingName: {
+    type: String,
+    required: true,
+    trim: true,
     index: true,
     unique: false,
   },
 
-  titles: [{ location: { type: String, required: true }, title: { type: String, required: true } }],
+  titles: [{ location: { type: String, required: true }, content: { type: String, required: true } }],
+
+  description: [{ location: { type: String, required: true }, content: { type: String, required: true } }],
+
+  releaseDate: Date,
+
+  remoteLastModified: Date,
+
+  createdAt: Date,
+
+  updatedAt: Date,
+
+  categories: [String],
+
+  publishers: [String],
 
   prices: [
     {

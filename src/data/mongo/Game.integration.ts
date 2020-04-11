@@ -54,12 +54,14 @@ describe("Game", () => {
     await new Game({
       nsuid: 21311,
       name: "Zeldinha",
+      sortingName: "Zeldinha",
       prices: [],
     }).save();
 
     await new Game({
       nsuid: 13131,
       name: "Zeldinha2",
+      sortingName: "Zeldinha2",
       prices: [],
     }).save();
 
@@ -73,7 +75,8 @@ describe("Game", () => {
     await new Game({
       nsuid: 21311,
       name: "Zeldinha",
-      titles: [{ location: "IT", title: "Zeldie" }],
+      sortingName: "Zeldinha",
+      titles: [{ location: "IT", content: "Zeldie" }],
     }).save();
 
     const games = await Game.find().lean().exec();
@@ -85,7 +88,8 @@ describe("Game", () => {
     const g = new Game({
       nsuid: 21311,
       name: "Zeldinha",
-      titles: [{ title: "Zeldie" }],
+      sortingName: "Zeldinha",
+      titles: [{ content: "Zeldie" }],
     }).save();
 
     await expect(g).to.eventually.be.rejected;
@@ -95,6 +99,7 @@ describe("Game", () => {
     const g = await new Game({
       nsuid: 21311,
       name: "Zeldinha",
+      sortingName: "Zeldinha",
       prices: [],
     }).saveAndFind();
 
@@ -105,11 +110,13 @@ describe("Game", () => {
     await new Game({
       nsuid: 21311,
       name: "Zeldinha",
+      sortingName: "Zeldinha",
     }).save();
 
     await new Game({
       nsuid: 13131,
       name: "Zeldinha",
+      sortingName: "Zeldinha",
     }).save();
 
     const games = await Game.find().lean().exec();
@@ -122,11 +129,13 @@ describe("Game", () => {
     await new Game({
       nsuid: 21311,
       name: "Zeldinha",
+      sortingName: "Zeldinha",
     }).save();
 
     const saveGameWithSameId = new Game({
       nsuid: 21311,
       name: "Zeldinha2",
+      sortingName: "Zeldinha2",
     }).save();
 
     await expect(saveGameWithSameId).to.be.eventually.rejected;
@@ -136,6 +145,7 @@ describe("Game", () => {
     const g = await new Game({
       nsuid: 21311,
       name: "Zeldinha",
+      sortingName: "Zeldinha",
       prices: [
         {
           location: "BR",
@@ -168,6 +178,7 @@ describe("Game", () => {
     const g = new Game({
       nsuid: 21311,
       name: "Zeldinha",
+      sortingName: "Zeldinha",
       prices: [{}],
     }).save();
 
@@ -178,6 +189,7 @@ describe("Game", () => {
     const g = await new Game({
       nsuid: 21311,
       name: "Zeldinha",
+      sortingName: "Zeldinha",
       prices: [
         {
           location: "BR",
@@ -199,6 +211,7 @@ describe("Game", () => {
     const g = new Game({
       nsuid: 21311,
       name: "Zeldinha",
+      sortingName: "Zeldinha",
       prices: [
         {
           location: "BR",
@@ -228,6 +241,7 @@ describe("Game", () => {
     const g = await new Game({
       nsuid: 21311,
       name: "Zeldinha",
+      sortingName: "Zeldinha",
       prices: [
         {
           location: "BR",
@@ -260,6 +274,7 @@ describe("Game", () => {
     await new Game({
       nsuid: 999,
       name: "Zeldinha",
+      sortingName: "Zeldinha",
       prices: [
         {
           location: "BR",
@@ -285,6 +300,7 @@ describe("Game", () => {
     await new Game({
       nsuid: 2,
       name: "Zeldinha2",
+      sortingName: "Zeldinha2",
       prices: [
         {
           location: "BR",
@@ -301,6 +317,7 @@ describe("Game", () => {
     await new Game({
       nsuid: 3,
       name: "Zeldinha",
+      sortingName: "Zeldinha",
       prices: [
         {
           location: "AU",
