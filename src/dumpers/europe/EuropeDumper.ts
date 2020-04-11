@@ -1,17 +1,10 @@
-import axios, { AxiosInstance } from "axios";
+import axios from "axios";
 import http from "http";
 import https from "https";
 import { EuropeSearchResponse, EuropeDocument, DocumentType, SystemID, SwitchGameDocument } from "./EuropeTypes";
 
 const httpAgent = new http.Agent({ keepAlive: true });
 const httpsAgent = new https.Agent({ keepAlive: true });
-
-const addJsonpInterceptor = (axiosClient: AxiosInstance) => {
-  axiosClient.interceptors.response.use((response) => {
-    return response;
-  });
-  return axiosClient;
-};
 
 const getAscDesc = (key: string) => {
   return {
@@ -31,21 +24,21 @@ interface EuropeSearchOptions {
   afterChangeDate?: Date;
 }
 
+export const AxiosInstance = axios.create({
+  baseURL: "https://searching.nintendo-europe.com",
+  httpAgent,
+  httpsAgent,
+  withCredentials: true,
+  method: "GET",
+  headers: {
+    "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:74.0) Gecko/20100101 Firefox/74.0",
+    Accept: "*/*",
+    "Accept-Language": "pt-BR,pt;q=0.8,en-US;q=0.5,en;q=0.3",
+  },
+});
+
 export class EuropeDumper {
-  private client = addJsonpInterceptor(
-    axios.create({
-      baseURL: "https://searching.nintendo-europe.com",
-      httpAgent,
-      httpsAgent,
-      withCredentials: true,
-      method: "GET",
-      headers: {
-        "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:74.0) Gecko/20100101 Firefox/74.0",
-        Accept: "*/*",
-        "Accept-Language": "pt-BR,pt;q=0.8,en-US;q=0.5,en;q=0.3",
-      },
-    }),
-  );
+  private client = AxiosInstance;
 
   private countryCode: string;
 
