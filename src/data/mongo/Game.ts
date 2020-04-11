@@ -140,7 +140,7 @@ GameSchema.pre("validate", function validate(next) {
 
 export interface GameModel extends Model<GameDocument> {
   findByNsuid(nsuid: number): DocumentQuery<GameDocument | null, GameDocument, {}>;
-  of(doc?: any): Model<GameDocument>;
+  of(doc?: any): GameDocument;
 }
 
 export const Game = mongoose.model<GameDocument, GameModel>(ModelName, GameSchema);
