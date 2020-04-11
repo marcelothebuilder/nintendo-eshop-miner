@@ -41,7 +41,7 @@ export const GameSchema = new Schema<GameDocument>({
     unique: false,
   },
 
-  titles: [{ location: String, title: String }],
+  titles: [{ location: { type: String, required: true }, title: { type: String, required: true } }],
 
   prices: [
     {

@@ -69,6 +69,28 @@ describe("Game", () => {
     expect(games.shift()?.nsuid).to.eq(13131);
   });
 
+  it("should save game at db with alternative title", async () => {
+    await new Game({
+      nsuid: 21311,
+      name: "Zeldinha",
+      titles: [{ location: "IT", title: "Zeldie" }],
+    }).save();
+
+    const games = await Game.find().lean().exec();
+
+    expect(games.shift()?.nsuid).to.eq(21311);
+  });
+
+  it("should not save game at db with alternative title without location", async () => {
+    const g = new Game({
+      nsuid: 21311,
+      name: "Zeldinha",
+      titles: [{ title: "Zeldie" }],
+    }).save();
+
+    await expect(g).to.eventually.be.rejected;
+  });
+
   it("should saveAndFind", async () => {
     const g = await new Game({
       nsuid: 21311,
