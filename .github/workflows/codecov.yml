@@ -42,7 +42,7 @@ jobs:
           # User defined upload name. Visible in Codecov UI
           name: github-action
           # Repository upload token - get it from codecov.io
-          token: 65e23a64-946e-4ee2-86dc-f2332a1c27b0
+          token: ${{ secrets.CODECOV_TOKEN }}
           # Path to coverage file to upload
           # Flag upload to group coverage metrics (e.g. unittests | integration | ui,chrome)
           flags: unittests
