@@ -2,6 +2,7 @@ import axios, { AxiosInstance } from "axios";
 import http from "http";
 import https from "https";
 import { logger } from "../../logging/logger";
+import { GlobalPrice } from "./GlobalPrice";
 
 const url = "https://api.ec.nintendo.com/v1/price";
 
@@ -26,7 +27,7 @@ export class GlobalPriceApi {
     });
   }
 
-  async getByIds(countryCode: string, ids: number[]) {
+  async getByIds(countryCode: string, ids: number[]): Promise<GlobalPrice[]> {
     logger.info(`GlobalPriceApi.getByIds ${countryCode} ${ids}`);
 
     let allPrices: any[] = [];
@@ -60,14 +61,7 @@ export class GlobalPriceApi {
     return ids.map(String).join(",");
   }
 
-  private static filterUnavailable(prices: any) {
-    return prices.filter(
-      (t: any) =>
-        t.sales_status !== "not_found" && t.sales_status !== "unreleased" && t.sales_status !== "sales_termination",
-    );
-  }
-
-  private static parse(parse: any) {
+  private static parse(parse: any): GlobalPrice {
     return {
       ...parse,
       // eslint-disable-next-line @typescript-eslint/camelcase
