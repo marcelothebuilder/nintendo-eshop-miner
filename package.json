@@ -16,7 +16,7 @@
     "test:watch": "mocha --watch",
     "coverage": "nyc mocha",
     "coverage:ci": "nyc mocha || true",
-    "pre-commit": "npm run lint && npm run test"
+    "pre-commit": "npm run lint && npm run coverage"
   },
   "private": true,
   "author": "Revok",
