@@ -10,6 +10,7 @@ const httpAgent = new http.Agent({ keepAlive: true });
 const httpsAgent = new https.Agent({ keepAlive: true });
 
 export const ZeldaBreathOfTheWildNSUID = 70010000000025;
+export const EuropeanZeldaBreathOfTheWildNSUID = 70010000000023;
 
 export class GlobalPriceApi {
   axios: AxiosInstance;

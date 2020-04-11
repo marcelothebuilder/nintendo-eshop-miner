@@ -40,10 +40,14 @@ export const AxiosInstance = axios.create({
 export class EuropeDumper {
   private client = AxiosInstance;
 
-  private countryCode: string;
+  private internalCountryCode: string;
 
   constructor(countryCode: string) {
-    this.countryCode = countryCode;
+    this.internalCountryCode = countryCode;
+  }
+
+  get countryCode() {
+    return this.internalCountryCode;
   }
 
   async getSwitchGames(options: EuropeSearchOptions): Promise<SwitchGameDocument[]> {
@@ -80,7 +84,7 @@ export class EuropeDumper {
 
   private async searchSolr<TDocumentType>(paramsObject: object): Promise<EuropeSearchResponse<TDocumentType>> {
     return this.client
-      .get(`/${this.countryCode.toLowerCase()}/select`, {
+      .get(`/${this.internalCountryCode.toLowerCase()}/select`, {
         params: {
           ...paramsObject,
           wt: "json",

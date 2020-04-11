@@ -10,6 +10,7 @@ import { Game, GameDocument } from "../data/mongo/Game";
 
 function getGame(): IntegrationGame {
   return {
+    imageUrl: humanReadableRandomString(10),
     categories: [humanReadableRandomString(10), humanReadableRandomString(8)],
     location: humanReadableRandomString(2).toUpperCase(),
     nsuid: Math.floor(Number.MAX_SAFE_INTEGER * Math.random()),

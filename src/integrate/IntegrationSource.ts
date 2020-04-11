@@ -1,9 +1,11 @@
-export type IntegrationSource = AsyncGenerator<IntegrationGame[]>;
+export type IntegrationSource = AsyncGenerator<IntegrationGame[], void, unknown>;
 
 export interface IntegrationGame {
   nsuid: number;
 
   title: string;
+
+  imageUrl: string;
 
   sortingName: string;
 
