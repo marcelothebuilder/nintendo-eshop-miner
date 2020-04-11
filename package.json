@@ -14,6 +14,7 @@
     "lint:fix": "eslint --fix ./src/**/* --ext .ts",
     "test": "mocha",
     "test:watch": "mocha --watch",
+    "test:integration": "DEBUG=testcontainers mocha --config .mocharc.integration.json",
     "coverage": "nyc mocha",
     "coverage:ci": "nyc mocha || true",
     "pre-commit": "npm run lint && npm run coverage"
@@ -26,6 +27,7 @@
     "@algolia/transporter": "^4.1.0",
     "@types/bluebird": "^3.5.30",
     "@types/chai-as-promised": "^7.1.2",
+    "@types/dockerode": "^2.5.27",
     "@types/uuid": "^7.0.2",
     "@types/validator": "^13.0.0",
     "@types/xml2js": "^0.4.5",
@@ -85,6 +87,7 @@
     "prettier": "^2.0.4",
     "sinon": "^9.0.2",
     "source-map-support": "^0.5.16",
+    "testcontainers": "^2.7.0",
     "ts-node": "^8.8.2"
   }
 }

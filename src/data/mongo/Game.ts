@@ -22,18 +22,27 @@ export const GameSchema = new Schema<GameDocument>({
     type: Number,
     required: true,
     min: 1,
+    index: true,
   },
 
   name: {
     type: String,
     required: true,
     trim: true,
+    index: true,
   },
 
   titles: [{ location: String, title: String }],
 
   prices: [
-    { location: String, originalPrice: Number, price: Number, discount: Number, status: String, hasDiscount: Boolean },
+    {
+      location: String,
+      originalPrice: Number,
+      price: Number,
+      discount: Number,
+      status: String,
+      hasDiscount: Boolean,
+    },
   ],
 });
 

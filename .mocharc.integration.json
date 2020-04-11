@@ -1,0 +1,8 @@
+{
+  "extension": ["ts"],
+  "spec": "src/**/*.integration.ts",
+  "require": "ts-node/register",
+  "growl": true,
+  "timeout": 20000,
+  "file": ["src/logging/setupTestLogger.ts", "src/testing/setupTests.ts"]
+}

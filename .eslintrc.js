@@ -28,7 +28,7 @@ module.exports = {
     "@typescript-eslint/no-explicit-any": "off", // temporary
     "@typescript-eslint/no-unused-vars": "error",
     "no-console": "error",
-    "import/no-extraneous-dependencies": ["error", { devDependencies: ["**/*.spec.ts"] }],
+    "import/no-extraneous-dependencies": ["error", { devDependencies: ["**/*.spec.ts", "**/*.integration.ts"] }],
     "@typescript-eslint/explicit-member-accessibility": ["error", { accessibility: "no-public" }],
     "@typescript-eslint/member-ordering": [
       "error",

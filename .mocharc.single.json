@@ -2,5 +2,5 @@
   "extension": ["ts"],
   "require": "ts-node/register",
   "growl": true,
-  "file": ["src/logging/setupTestLogger.ts", "src/testing/setupTests.ts"]
+  "file": ["src/logging/setupTestLogger.ts", "src/testing/setupTests.ts", "src/testing/clearMongooseModels.ts"]
 }
