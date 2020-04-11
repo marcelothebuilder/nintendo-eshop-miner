@@ -1,5 +1,5 @@
 /* eslint-disable no-var */
-import mongoose, { Schema, Document, Model } from "mongoose";
+import mongoose, { Schema, Document, Model, DocumentQuery } from "mongoose";
 
 const ModelName = "Game";
 
@@ -112,6 +112,14 @@ GameSchema.methods.saveAndFind = async function () {
   return self.model(ModelName).findById(doc._id);
 };
 
+GameSchema.statics.of = function of(doc?: any) {
+  return new this(doc);
+};
+
+GameSchema.statics.findByNsuid = function findByNsuid(nsuid: number) {
+  return (this as GameModel).findOne({ nsuid });
+};
+
 GameSchema.pre("validate", function validate(next) {
   const unique = [];
 
@@ -130,7 +138,9 @@ GameSchema.pre("validate", function validate(next) {
   return next();
 });
 
-const defineMongooseModel = <TDocument extends Document>(schema: Schema<TDocument>, name: string): Model<TDocument> =>
-  mongoose.model<TDocument>(name, schema);
+export interface GameModel extends Model<GameDocument> {
+  findByNsuid(nsuid: number): DocumentQuery<GameDocument | null, GameDocument, {}>;
+  of(doc?: any): Model<GameDocument>;
+}
 
-export const Game = defineMongooseModel(GameSchema, ModelName);
+export const Game = mongoose.model<GameDocument, GameModel>(ModelName, GameSchema);

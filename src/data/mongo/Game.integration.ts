@@ -71,6 +71,19 @@ describe("Game", () => {
     expect(games.shift()?.nsuid).to.eq(13131);
   });
 
+  it("should retrieve game by nsuid", async () => {
+    await new Game({
+      nsuid: 21311,
+      name: "Zeldinha",
+      sortingName: "Zeldinha",
+      prices: [],
+    }).save();
+
+    const game = await Game.findByNsuid(21311).lean().exec();
+
+    expect(game?.nsuid).to.eq(21311);
+  });
+
   it("should save game at db with alternative title", async () => {
     await new Game({
       nsuid: 21311,
