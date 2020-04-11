@@ -6,29 +6,36 @@ export interface GameDocument extends Document {
   name: string;
 
   titles: { location: string; title: string }[];
-}
 
-export class GameClass {
-  nsuid!: number;
-
-  name!: string;
-
-  titles!: { location: string; title: string }[];
+  prices: {
+    location: string;
+    originalPrice: number;
+    price: number;
+    discount: number;
+    status: string;
+    hasDiscount: boolean;
+  }[];
 }
 
 export const GameSchema = new Schema<GameDocument>({
   nsuid: {
     type: Number,
     required: true,
+    min: 1,
   },
 
   name: {
     type: String,
     required: true,
+    trim: true,
   },
 
   titles: [{ location: String, title: String }],
-}).loadClass(GameClass);
+
+  prices: [
+    { location: String, originalPrice: Number, price: Number, discount: Number, status: String, hasDiscount: Boolean },
+  ],
+});
 
 const defineMongooseModel = <TDocument extends Document>(schema: Schema<TDocument>, name: string): Model<TDocument> =>
   mongoose.model<TDocument>(name, schema);
