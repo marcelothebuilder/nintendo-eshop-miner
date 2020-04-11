@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import mongoose, { Schema, Document, Model } from "mongoose";
 
 export interface GameDocument extends Document {
