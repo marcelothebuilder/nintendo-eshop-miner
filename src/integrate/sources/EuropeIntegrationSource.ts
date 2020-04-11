@@ -1,17 +1,19 @@
 import { IntegrationSource, IntegrationGame } from "../IntegrationSource";
 import { EuropeDumper } from "../../dumpers/europe/EuropeDumper";
 import { EuropeDocument } from "../../dumpers/europe/EuropeTypes";
+import { logger } from "../../logging/logger";
 
 const convertGame = (dumper: EuropeDumper) => (game: EuropeDocument): IntegrationGame => {
-  if (!game.title) throw Error(`Null property title`);
-  if (!game.nsuid_txt) throw Error(`Null property nsuid_txt`);
-  if (!game.image_url) throw Error(`Null property image_url`);
-  if (!game.excerpt) throw Error(`Null property excerpt`);
-  if (!game.sorting_title) throw Error(`Null property sorting_title`);
-  if (!game.pretty_game_categories_txt) throw Error(`Null property pretty_game_categories_txt`);
-  if (!game.publisher) throw Error(`Null property publisher`);
-  if (!game.dates_released_dts) throw Error(`Null property dates_released_dts`);
-  if (!game.change_date) throw Error(`Null property change_date`);
+  if (!game.title) throw Error(`Null property title ${JSON.stringify(game, null, 2)}`);
+  if (!game.nsuid_txt) throw Error(`Null property nsuid_txt ${JSON.stringify(game, null, 2)}`);
+  if (!game.image_url) throw Error(`Null property image_url ${JSON.stringify(game, null, 2)}`);
+  if (!game.excerpt) throw Error(`Null property excerpt ${JSON.stringify(game, null, 2)}`);
+  if (!game.sorting_title) throw Error(`Null property sorting_title ${JSON.stringify(game, null, 2)}`);
+  if (!game.pretty_game_categories_txt)
+    throw Error(`Null property pretty_game_categories_txt ${JSON.stringify(game, null, 2)}`);
+  if (!game.publisher) throw Error(`Null property publisher ${JSON.stringify(game, null, 2)}`);
+  if (!game.dates_released_dts) throw Error(`Null property dates_released_dts ${JSON.stringify(game, null, 2)}`);
+  if (!game.change_date) throw Error(`Null property change_date ${JSON.stringify(game, null, 2)}`);
 
   const nsuidText = game.nsuid_txt.pop();
 
@@ -37,7 +39,17 @@ const convertGame = (dumper: EuropeDumper) => (game: EuropeDocument): Integratio
   };
 };
 
-const convertGames = (dumper: EuropeDumper) => (games: EuropeDocument[]) => games.map(convertGame(dumper));
+const convertGames = (dumper: EuropeDumper) => (games: EuropeDocument[]) =>
+  games
+    .map((game) => {
+      try {
+        return convertGame(dumper)(game);
+      } catch (e) {
+        logger.error(`Skipping game because of `, e);
+        return null;
+      }
+    })
+    .filter((g) => g !== null) as IntegrationGame[];
 
 // eslint-disable-next-line func-names
 export const EuropeIntegrationSource = async function* (dumper: EuropeDumper): IntegrationSource {

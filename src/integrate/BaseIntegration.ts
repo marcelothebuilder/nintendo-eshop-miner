@@ -1,6 +1,7 @@
 /* eslint-disable no-restricted-syntax */
 import { IntegrationSource } from "./IntegrationSource";
 import { Game } from "../data/mongo/Game";
+import { logger } from "../logging/logger";
 
 export class BaseIntegration {
   private source: IntegrationSource;
@@ -11,6 +12,8 @@ export class BaseIntegration {
 
   async integrate() {
     for await (const batch of this.source) {
+      logger.debug(`Integrating batch of games ${batch.length}`);
+
       const games = batch
         .map((game) => ({
           nsuid: game.nsuid,

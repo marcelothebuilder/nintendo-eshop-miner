@@ -2,6 +2,7 @@ import axios from "axios";
 import http from "http";
 import https from "https";
 import { EuropeSearchResponse, EuropeDocument, DocumentType, SystemID, SwitchGameDocument } from "./EuropeTypes";
+import { logger } from "../../logging/logger";
 
 const httpAgent = new http.Agent({ keepAlive: true });
 const httpsAgent = new https.Agent({ keepAlive: true });
@@ -51,9 +52,11 @@ export class EuropeDumper {
   }
 
   async getSwitchGames(options: EuropeSearchOptions): Promise<SwitchGameDocument[]> {
+    logger.debug("Fetching switch games", options);
+
     return this.searchSolr<SwitchGameDocument>({
       q: "*",
-      fq: [`type:${DocumentType.Game}`, `playable_on_txt:${SystemID.Switch}`].join(" AND "),
+      fq: ["digital_version_b:true", `type:${DocumentType.Game}`, `playable_on_txt:${SystemID.Switch}`].join(" AND "),
       sort: EuropeSorting.CHANGE_DATE.asc(), // maybe we can do incremental search by searching from date_from (or change_date to get updates) desc? - default to sorting-itlte
       start: 0,
       rows: 10000,

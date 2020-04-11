@@ -55,71 +55,17 @@
 // .................  ▓██████▓▓  ░░░░░░░░░░░░░░░░░░░░░░ ░▒░ ░░░░░░░░
 // ...................  ▓███████▓  ░░░░░░░░░░░░░░░░░░░░░░ ░▒ ░░░░░░░░░
 // ..................... ░▓██████▓▓  ░░░░░░░░░░░░░░░░░░░░░  ░  ░░░░░░░░░
-import translate from "translation-google";
 
-import { NorthAmericaDumperFactory } from "./dumpers/northamerica/NorthAmericaDumperFactory";
-import { NorthAmericaRegions } from "./dumpers/northamerica/NorthAmericaRegions";
-import { logger } from "./logging/logger";
-import { NorthAmericaGame } from "./dumpers/northamerica/NorthAmericaGame";
 import "./data/sql/internal/relations";
-import { initializeSequelize } from "./data/sql/database";
-import { Game } from "./data/sql/Game";
-import { GameTitle } from "./data/sql/GameTitle";
+import { BaseIntegration } from "./integrate/BaseIntegration";
+import { EuropeIntegrationSource } from "./integrate/sources/EuropeIntegrationSource";
+import { EuropeDumper } from "./dumpers/europe/EuropeDumper";
+import { logger } from "./logging/logger";
 
-const NAGames = {
-  toGame: (game: any) => ({
-    nsuid: parseInt(game.nsuid),
-    title: game.title,
-  }),
-  toGameTitle: (location: string) => (game: any) => ({
-    nsuid: parseInt(game.nsuid),
-    title: game.title,
-    location,
-  }),
-  onlyValidNsuid: (games: NorthAmericaGame[]): NorthAmericaGame[] =>
-    games.filter((game) => game.nsuid).filter((game) => parseInt(game.nsuid) !== NaN),
-};
-
-const getUsGames = async () =>
-  NAGames.onlyValidNsuid(
-    (await new NorthAmericaDumperFactory({ region: NorthAmericaRegions.UNITED_STATES }).getInstance().searchAll())
-      .games,
-  );
-const getCaFrGames = async () =>
-  NAGames.onlyValidNsuid(
-    (await new NorthAmericaDumperFactory({ region: NorthAmericaRegions.CANADA_FRENCH }).getInstance().searchAll())
-      .games,
-  );
-
-const getCaEnGames = async () =>
-  NAGames.onlyValidNsuid(
-    (await new NorthAmericaDumperFactory({ region: NorthAmericaRegions.CANADA }).getInstance().searchAll()).games,
-  );
-
-async function main(): Promise<void> {
-  const sequelize = await initializeSequelize();
-
-  const usGames = await getUsGames();
-
-  const caFrGames = await getCaFrGames();
-  const caEnGames = await getCaEnGames();
-
-  await sequelize.transaction(async (transaction: any) => {
-    const games = usGames.concat(caFrGames).concat(caEnGames);
-    await Game.bulkCreate(games.map(NAGames.toGame), { ignoreDuplicates: true, transaction });
-    const langs = usGames
-      .map(NAGames.toGameTitle("US"))
-      .concat(caFrGames.map(NAGames.toGameTitle("ca_FR")))
-      .concat(caEnGames.map(NAGames.toGameTitle("ca_EN")));
-
-    await GameTitle.bulkCreate(langs, {
-      ignoreDuplicates: true,
-      transaction,
-    });
-
-    const g = await Game.findOne({ transaction });
-    console.log(" game", await g!.getTitles());
-  });
-}
-
-main().then(() => logger.info("Done execution"));
+(async () => {
+  const integration = new BaseIntegration(EuropeIntegrationSource(new EuropeDumper("en")));
+  await integration.integrate();
+})().catch((err) => {
+  logger.error("Error while running app", err);
+  process.exit(1);
+});
