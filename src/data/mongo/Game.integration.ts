@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { describe, it, afterEach, setup, teardown } from "mocha";
+import { describe, it, afterEach, before, after, beforeEach } from "mocha";
 import sinon from "sinon";
 
 import { GenericContainer, StartedTestContainer } from "testcontainers";
@@ -19,7 +19,7 @@ describe("Game", () => {
   let container: StartedTestContainer;
   let db: Mongoose;
 
-  setup(async () => {
+  before(async () => {
     container = await getMongoContainer();
     db = await connect({
       user: "root",
@@ -29,14 +29,25 @@ describe("Game", () => {
       ipAddress: container.getContainerIpAddress(),
       port: container.getMappedPort(27017),
     });
+    // db.set("debug", true);
   });
 
-  teardown(async () => {
+  after(async () => {
     await db?.disconnect();
     await container?.stop();
   });
 
-  afterEach(() => sinon.restore());
+  beforeEach(async () => {
+    await Game.createIndexes();
+  });
+
+  afterEach(async () => {
+    sinon.restore();
+    try {
+      await Game.collection.drop();
+      // eslint-disable-next-line no-empty
+    } catch (e) {}
+  });
 
   it("should save game at db", async () => {
     await new Game({
@@ -53,5 +64,36 @@ describe("Game", () => {
 
     expect(games.shift()?.nsuid).to.eq(21311);
     expect(games.shift()?.nsuid).to.eq(13131);
+  });
+
+  it("should allow two games with same name", async () => {
+    await new Game({
+      nsuid: 21311,
+      name: "Zeldinha",
+    }).save();
+
+    await new Game({
+      nsuid: 13131,
+      name: "Zeldinha",
+    }).save();
+
+    const games = await Game.find().lean().exec();
+
+    expect(games.shift()?.nsuid).to.eq(21311);
+    expect(games.shift()?.nsuid).to.eq(13131);
+  });
+
+  it("should not allow two games with same nsuid", async () => {
+    await new Game({
+      nsuid: 21311,
+      name: "Zeldinha",
+    }).save();
+
+    const saveGameWithSameId = new Game({
+      nsuid: 21311,
+      name: "Zeldinha2",
+    }).save();
+
+    await expect(saveGameWithSameId).to.be.eventually.rejected;
   });
 });

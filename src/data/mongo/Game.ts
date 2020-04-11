@@ -22,7 +22,9 @@ export const GameSchema = new Schema<GameDocument>({
     type: Number,
     required: true,
     min: 1,
+    trim: true,
     index: true,
+    unique: true,
   },
 
   name: {
@@ -30,6 +32,7 @@ export const GameSchema = new Schema<GameDocument>({
     required: true,
     trim: true,
     index: true,
+    unique: false,
   },
 
   titles: [{ location: String, title: String }],
