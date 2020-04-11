@@ -45,13 +45,14 @@ export const GameSchema = new Schema<GameDocument>({
 
   prices: [
     {
-      location: String,
-      currency: String,
-      originalPrice: Number,
-      price: Number,
-      discount: Number,
-      status: String,
-      hasDiscount: Boolean,
+      location: { type: String, required: true },
+      currency: { type: String, required: true },
+      originalPrice: { type: Number, required: true },
+      price: { type: Number, required: true },
+      goldPoints: { type: Number, required: false },
+      discount: { type: Number, required: true },
+      status: { type: String, required: true },
+      hasDiscount: { type: Boolean, required: true },
     },
   ],
 });

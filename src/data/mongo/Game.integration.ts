@@ -120,6 +120,7 @@ describe("Game", () => {
           currency: "BRL",
           originalPrice: 14,
           price: 7,
+          goldPoints: 123,
           discount: 0.5,
           status: "available",
           hasDiscount: true,
@@ -139,6 +140,37 @@ describe("Game", () => {
     expect(g.prices.filter((p) => p.currency === "BRL")).to.exist;
     expect(g.prices.filter((p) => p.currency === "AUD")).to.exist;
     expect(g.prices.length).to.eq(2);
+  });
+
+  it("should not save incomplete price information", async () => {
+    const g = new Game({
+      nsuid: 21311,
+      name: "Zeldinha",
+      prices: [{}],
+    }).save();
+
+    await expect(g).to.eventually.be.rejected;
+  });
+
+  it("should save price information without optional fields", async () => {
+    const g = await new Game({
+      nsuid: 21311,
+      name: "Zeldinha",
+      prices: [
+        {
+          location: "BR",
+          currency: "BRL",
+          originalPrice: 14,
+          price: 7,
+          discount: 0.5,
+          status: "available",
+          hasDiscount: true,
+        },
+      ],
+    }).save();
+
+    expect(g.prices.filter((p) => p.currency === "BRL")).to.exist;
+    expect(g.prices.length).to.eq(1);
   });
 
   it("should not save price with non-unique location-currency", async () => {
