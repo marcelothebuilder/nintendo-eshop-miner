@@ -2,18 +2,18 @@ import { IntegrationSource, IntegrationGame } from "../IntegrationSource";
 import { EuropeDumper } from "../../dumpers/europe/EuropeDumper";
 import { EuropeDocument } from "../../dumpers/europe/EuropeTypes";
 import { logger } from "../../logging/logger";
+import { buildSlug } from "../SlugBuilder";
 
 const convertGame = (dumper: EuropeDumper) => (game: EuropeDocument): IntegrationGame => {
-  if (!game.title) throw Error(`Null property title ${JSON.stringify(game, null, 2)}`);
-  if (!game.nsuid_txt) throw Error(`Null property nsuid_txt ${JSON.stringify(game, null, 2)}`);
-  if (!game.image_url) throw Error(`Null property image_url ${JSON.stringify(game, null, 2)}`);
-  if (!game.excerpt) throw Error(`Null property excerpt ${JSON.stringify(game, null, 2)}`);
-  if (!game.sorting_title) throw Error(`Null property sorting_title ${JSON.stringify(game, null, 2)}`);
-  if (!game.pretty_game_categories_txt)
-    throw Error(`Null property pretty_game_categories_txt ${JSON.stringify(game, null, 2)}`);
-  if (!game.publisher) throw Error(`Null property publisher ${JSON.stringify(game, null, 2)}`);
-  if (!game.dates_released_dts) throw Error(`Null property dates_released_dts ${JSON.stringify(game, null, 2)}`);
-  if (!game.change_date) throw Error(`Null property change_date ${JSON.stringify(game, null, 2)}`);
+  if (!game.title) throw Error(`Null property title`);
+  if (!game.nsuid_txt) throw Error(`Null property nsuid_txt`);
+  if (!game.image_url) throw Error(`Null property image_url`);
+  if (!game.excerpt) throw Error(`Null property excerpt`);
+  if (!game.sorting_title) throw Error(`Null property sorting_title`);
+  if (!game.pretty_game_categories_txt) throw Error(`Null property pretty_game_categories_txt`);
+  if (!game.publisher) throw Error(`Null property publisher`);
+  if (!game.dates_released_dts) throw Error(`Null property dates_released_dts`);
+  if (!game.change_date) throw Error(`Null property change_date`);
 
   const nsuidText = game.nsuid_txt.pop();
 
@@ -28,6 +28,7 @@ const convertGame = (dumper: EuropeDumper) => (game: EuropeDocument): Integratio
   return {
     title: game.title,
     nsuid,
+    slug: buildSlug("switch")(game.title),
     imageUrl: game.image_url,
     description: game.excerpt,
     sortingName: game.sorting_title,
@@ -45,7 +46,7 @@ const convertGames = (dumper: EuropeDumper) => (games: EuropeDocument[]) =>
       try {
         return convertGame(dumper)(game);
       } catch (e) {
-        logger.error(`Skipping game because of `, e);
+        logger.error(`Skipping game ${game.title} because of ${e.message}`);
         return null;
       }
     })

@@ -21,6 +21,7 @@ export class BaseIntegration {
   private async saveBatch(batch: IntegrationGame[]) {
     const games = batch.map((game) => ({
       nsuid: game.nsuid,
+      slug: game.slug,
       name: game.title,
       sortingName: game.sortingName,
       titles: [{ location: game.location, content: game.title }],

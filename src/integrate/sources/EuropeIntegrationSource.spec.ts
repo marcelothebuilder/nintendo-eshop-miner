@@ -21,5 +21,6 @@ describe("EuropeIntegrationSource", () => {
     expect(games.length).to.be.deep.eq(1);
     const game = games.pop();
     expect(game?.nsuid).to.be.eq(EuropeanZeldaBreathOfTheWildNSUID);
+    expect(game?.slug).to.be.eq("the-legend-of-zelda-breath-of-the-wild-switch");
   });
 });

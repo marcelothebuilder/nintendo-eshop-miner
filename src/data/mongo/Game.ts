@@ -51,6 +51,14 @@ export const GameSchema = new Schema<GameDocument>(
       unique: true,
     },
 
+    slug: {
+      type: String,
+      required: true,
+      trim: true,
+      index: true,
+      unique: true,
+    },
+
     name: {
       type: String,
       required: true,
@@ -123,6 +131,10 @@ GameSchema.statics.findByNsuid = function findByNsuid(nsuid: number) {
   return (this as GameModel).findOne({ nsuid });
 };
 
+GameSchema.statics.findBySlug = function findByNsuid(slug: string) {
+  return (this as GameModel).findOne({ slug });
+};
+
 GameSchema.pre("validate", function validate(next) {
   const unique = [];
 
@@ -143,6 +155,7 @@ GameSchema.pre("validate", function validate(next) {
 
 export interface GameModel extends Model<GameDocument> {
   findByNsuid(nsuid: number): DocumentQuery<GameDocument | null, GameDocument, {}>;
+  findBySlug(slug: string): DocumentQuery<GameDocument | null, GameDocument, {}>;
   of(doc?: any): GameDocument;
 }
 

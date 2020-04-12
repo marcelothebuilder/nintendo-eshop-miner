@@ -3,13 +3,14 @@ import { describe, it, afterEach } from "mocha";
 import sinon from "sinon";
 import chai, { expect } from "chai";
 import chaiAsPromised from "chai-as-promised";
+import humanReadableRandomString from "human-readable-random-string";
 import { Game } from "./Game";
 
 chai.should();
 chai.use(chaiAsPromised);
 
 const getGameDocument = () => {
-  return { nsuid: 13131, name: "Zeldinha", sortingName: "Zeldinha" };
+  return { nsuid: 13131, name: "Zeldinha", slug: humanReadableRandomString(10), sortingName: "Zeldinha" };
 };
 
 describe("Game", () => {
