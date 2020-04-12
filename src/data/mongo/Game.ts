@@ -40,61 +40,64 @@ export interface GameDocument extends Document {
   saveAndFind: () => Promise<any>;
 }
 
-export const GameSchema = new Schema<GameDocument>({
-  nsuid: {
-    type: Number,
-    required: true,
-    min: 1,
-    trim: true,
-    index: true,
-    unique: true,
-  },
-
-  name: {
-    type: String,
-    required: true,
-    trim: true,
-    index: false,
-    unique: false,
-  },
-
-  sortingName: {
-    type: String,
-    required: true,
-    trim: true,
-    index: true,
-    unique: false,
-  },
-
-  titles: [{ location: { type: String, required: true }, content: { type: String, required: true } }],
-
-  description: [{ location: { type: String, required: true }, content: { type: String, required: true } }],
-
-  releaseDate: Date,
-
-  remoteLastModified: Date,
-
-  createdAt: Date,
-
-  updatedAt: Date,
-
-  categories: [String],
-
-  publishers: [String],
-
-  prices: [
-    {
-      location: { type: String, required: true },
-      currency: { type: String, required: true },
-      originalPrice: { type: Number, required: true },
-      price: { type: Number, required: true },
-      goldPoints: { type: Number, required: false },
-      discount: { type: Number, required: true },
-      status: { type: String, required: true },
-      hasDiscount: { type: Boolean, required: true },
+export const GameSchema = new Schema<GameDocument>(
+  {
+    nsuid: {
+      type: Number,
+      required: true,
+      min: 1,
+      trim: true,
+      index: true,
+      unique: true,
     },
-  ],
-});
+
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+      index: false,
+      unique: false,
+    },
+
+    sortingName: {
+      type: String,
+      required: true,
+      trim: true,
+      index: true,
+      unique: false,
+    },
+
+    titles: [{ location: { type: String, required: true }, content: { type: String, required: true } }],
+
+    description: [{ location: { type: String, required: true }, content: { type: String, required: true } }],
+
+    releaseDate: Date,
+
+    remoteLastModified: Date,
+
+    createdAt: Date,
+
+    updatedAt: Date,
+
+    categories: [String],
+
+    publishers: [String],
+
+    prices: [
+      {
+        location: { type: String, required: true },
+        currency: { type: String, required: true },
+        originalPrice: { type: Number, required: true },
+        price: { type: Number, required: true },
+        goldPoints: { type: Number, required: false },
+        discount: { type: Number, required: true },
+        status: { type: String, required: true },
+        hasDiscount: { type: Boolean, required: true },
+      },
+    ],
+  },
+  { timestamps: true },
+);
 
 GameSchema.index({
   "prices.location": 1,

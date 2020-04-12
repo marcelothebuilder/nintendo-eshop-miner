@@ -6,6 +6,7 @@ import sinon from "sinon";
 import { GenericContainer, StartedTestContainer } from "testcontainers";
 
 import { Mongoose } from "mongoose";
+import humanReadableRandomString from "human-readable-random-string";
 import { connect } from "./connect";
 import { Game } from "./Game";
 
@@ -82,6 +83,73 @@ describe("Game", () => {
     const game = await Game.findByNsuid(21311).lean().exec();
 
     expect(game?.nsuid).to.eq(21311);
+  });
+
+  it("should save the creation date", async () => {
+    const g = await new Game({
+      nsuid: 21311,
+      name: "Zeldinha",
+      sortingName: "Zeldinha",
+      prices: [],
+    }).save();
+
+    expect(g.nsuid).to.eq(21311);
+    expect(g.createdAt).to.not.be.null;
+  });
+
+  it("should update the update date when anything is changed", async () => {
+    const g = await new Game({
+      nsuid: 21311,
+      name: "Zeldinha",
+      sortingName: "Zeldinha",
+      prices: [],
+    }).save();
+
+    const updateDateBefore = g.updatedAt;
+
+    g.name = humanReadableRandomString(30);
+
+    await g.save();
+
+    const updateDateAfter = g.updatedAt;
+
+    expect(updateDateAfter).to.not.be.eq(updateDateBefore);
+  });
+
+  it("should not update the creation date when anything is changed", async () => {
+    const g = await new Game({
+      nsuid: 21311,
+      name: "Zeldinha",
+      sortingName: "Zeldinha",
+      prices: [],
+    }).save();
+
+    const createDateBefore = g.createdAt;
+
+    g.name = humanReadableRandomString(30);
+
+    await g.save();
+
+    const createDateAfter = g.createdAt;
+
+    expect(createDateAfter).to.be.eq(createDateBefore);
+  });
+
+  it("should not update the update date when nothing is changed", async () => {
+    const g = await new Game({
+      nsuid: 21311,
+      name: "Zeldinha",
+      sortingName: "Zeldinha",
+      prices: [],
+    }).save();
+
+    const updateDateBefore = g.updatedAt;
+
+    await g.save();
+
+    const updateDateAfter = g.updatedAt;
+
+    expect(updateDateAfter).to.be.eq(updateDateBefore);
   });
 
   it("should save game at db with alternative title", async () => {
