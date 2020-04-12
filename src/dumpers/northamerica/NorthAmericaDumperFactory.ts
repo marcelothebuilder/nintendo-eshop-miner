@@ -1,6 +1,6 @@
 // maybe this isnt the best way to inject algolia into northamericadumper
 
-import { Timeouts } from "@algolia/transporter";
+import { Timeouts, createUserAgent } from "@algolia/transporter";
 import algolia from "algoliasearch/lite";
 import { adaptWinstonToAlgolia } from "../../logging/algoliaAdapter";
 import { algoliaLogger } from "../../logging/algoliaLogger";
@@ -28,6 +28,7 @@ export class NorthAmericaDumperFactory {
 
     const algoliaClient = algolia("U3B6GR4UA3", "9a20c93440cf63cf1a7008d75f7438bf", {
       logger: adaptWinstonToAlgolia(algoliaLogger),
+      userAgent: createUserAgent("3.33.0").add({ segment: "Browser" }),
       timeouts,
     });
 
