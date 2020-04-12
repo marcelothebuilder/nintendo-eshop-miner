@@ -56,7 +56,7 @@ export class EuropeDumper {
 
     return this.searchSolr<SwitchGameDocument>({
       q: "*",
-      fq: ["digital_version_b:true", `type:${DocumentType.Game}`, `playable_on_txt:${SystemID.Switch}`].join(" AND "),
+      fq: [`type:${DocumentType.Game}`, `playable_on_txt:${SystemID.Switch}`].join(" AND "),
       sort: EuropeSorting.CHANGE_DATE.asc(), // maybe we can do incremental search by searching from date_from (or change_date to get updates) desc? - default to sorting-itlte
       start: 0,
       rows: 10000,
