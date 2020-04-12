@@ -56,21 +56,22 @@
 // ...................  ▓███████▓  ░░░░░░░░░░░░░░░░░░░░░░ ░▒ ░░░░░░░░░
 // ..................... ░▓██████▓▓  ░░░░░░░░░░░░░░░░░░░░░  ░  ░░░░░░░░░
 
-import "./data/sql/internal/relations";
 import { BaseIntegration } from "./integrate/BaseIntegration";
 import { EuropeIntegrationSource } from "./integrate/sources/EuropeIntegrationSource";
 import { EuropeDumper } from "./dumpers/europe/EuropeDumper";
 import { logger } from "./logging/logger";
 import { connectDefault } from "./data/mongo/connect";
 import { Mongoose } from "mongoose";
+import "source-map-support/register";
 
 let db: Mongoose;
 (async () => {
   db = await connectDefault();
   const integration = new BaseIntegration(EuropeIntegrationSource(new EuropeDumper("en")));
   await integration.integrate();
-})().catch((err) => {
-  logger.error("Error while running app", err);
-  db?.disconnect();
-  throw err;
-});
+})()
+  .catch((err) => {
+    logger.error("Error while running app", err);
+    throw err;
+  })
+  .finally(() => db?.disconnect());

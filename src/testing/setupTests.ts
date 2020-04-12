@@ -3,6 +3,7 @@
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import moxios from "moxios";
+import "source-map-support/register";
 
 chai.use(chaiAsPromised);
 chai.should();
