@@ -6,7 +6,7 @@ import sinon from "sinon";
 import humanReadableRandomString from "human-readable-random-string";
 import { BaseIntegration } from "./BaseIntegration";
 import { IntegrationGame, IntegrationSource } from "./IntegrationSource";
-import { Game, GameDocument } from "../data/mongo/Game";
+import { Game } from "../data/mongo/Game";
 
 function getGame(): IntegrationGame {
   return {
@@ -37,15 +37,13 @@ describe("BaseIntegration", () => {
     const game1 = getGame();
     const source = getGameStreamFromArray([[game1]]);
     const i = new BaseIntegration(source);
-    const saveSpy = sinon.spy();
-    const ofStub = sinon.stub(Game, "of").callsFake(() => ({ save: saveSpy } as any));
+    const ofStub = sinon.stub(Game, "findOneAndUpdate").resolves({} as any);
     await i.integrate();
-    const game: GameDocument = ofStub.firstCall.args.pop();
+    const game = ofStub.firstCall.args[1];
     expect(game.nsuid).to.be.eq(game1.nsuid);
     expect(game.name).to.be.eq(game1.title);
     expect(game.sortingName).to.be.eq(game1.sortingName);
     expect(game.releaseDate).to.be.eq(game1.releaseDate);
     expect(game.remoteLastModified).to.be.eq(game1.remoteLastModified);
-    expect(saveSpy.callCount).to.be.eq(1);
   });
 });
