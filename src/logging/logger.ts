@@ -1,7 +1,8 @@
 import * as winston from "winston";
+import { Environment } from "../env/Environment";
 
 const logger = winston.createLogger({
-  level: "info",
+  level: Environment.get("LOG_LEVEL").else("info"),
   //   format: winston.format.json(),
   format: winston.format.simple(),
   transports: [

@@ -12,7 +12,7 @@ export class BaseIntegration {
 
   async integrate() {
     for await (const batch of this.source) {
-      logger.debug(`Integrating batch of games ${batch.length}`);
+      logger.info(`Integrating batch of games ${batch.length}`);
 
       const games = batch
         .map((game) => ({
@@ -30,7 +30,12 @@ export class BaseIntegration {
 
       for (const game of games) {
         // eslint-disable-next-line no-await-in-loop
-        await game.save();
+        try {
+          // eslint-disable-next-line no-await-in-loop
+          await game.save();
+        } catch (e) {
+          logger.error(`Error while saving game ${game.nsuid} - ${game.name}`, e);
+        }
       }
     }
   }

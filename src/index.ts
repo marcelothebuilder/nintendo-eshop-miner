@@ -61,11 +61,16 @@ import { BaseIntegration } from "./integrate/BaseIntegration";
 import { EuropeIntegrationSource } from "./integrate/sources/EuropeIntegrationSource";
 import { EuropeDumper } from "./dumpers/europe/EuropeDumper";
 import { logger } from "./logging/logger";
+import { connectDefault } from "./data/mongo/connect";
+import { Mongoose } from "mongoose";
 
+let db: Mongoose;
 (async () => {
+  db = await connectDefault();
   const integration = new BaseIntegration(EuropeIntegrationSource(new EuropeDumper("en")));
   await integration.integrate();
 })().catch((err) => {
   logger.error("Error while running app", err);
-  process.exit(1);
+  db?.disconnect();
+  throw err;
 });
