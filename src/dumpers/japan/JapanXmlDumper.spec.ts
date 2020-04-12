@@ -39,7 +39,7 @@ describe("JapanXmlDumper", () => {
 
         checkAndNotify(() => {
           expect(responseSpy.callCount).to.be.eq(1);
-          expect(responseSpy.firstCall.lastArg.length).to.be.eq(15);
+          expect(responseSpy.firstCall.lastArg.length).to.be.eq(10);
         }, done);
       });
     });
