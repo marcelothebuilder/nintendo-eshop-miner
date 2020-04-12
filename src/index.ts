@@ -63,12 +63,12 @@ import { logger } from "./logging/logger";
 import { connectDefault } from "./data/mongo/connect";
 import { Mongoose } from "mongoose";
 import "source-map-support/register";
+import { BaseIntegrationTask } from "./tasks/BaseIntegrationTask";
 
 let db: Mongoose;
 (async () => {
   db = await connectDefault();
-  const integration = new BaseIntegration(EuropeIntegrationSource(new EuropeDumper("en")));
-  await integration.integrate();
+  await BaseIntegrationTask();
 })()
   .catch((err) => {
     logger.error("Error while running app", err);

@@ -11,7 +11,10 @@ export const connect = (properties: MongoConnectProperties): Promise<Mongoose> =
   mongoose.connect(`mongodb://${properties.ipAddress}:${properties.port}/${properties.database}`, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useCreateIndex: true,
     useFindAndModify: true,
+    keepAlive: true,
+    keepAliveInitialDelay: 300000,
     user: properties.user,
     pass: properties.pass,
     authSource: properties.authSource,
