@@ -25,6 +25,12 @@ describe("GamePageObject", () => {
     expect(instance).to.be.instanceOf(GamePageObject);
   });
 
+  it("GamePageObject should not error with invalid html", () => {
+    // eslint-disable-next-line no-new
+    const instance = new GamePageObject("htm");
+    expect(instance).to.be.instanceOf(GamePageObject);
+  });
+
   describe("getGame", () => {
     it("should return 1-2-Switch information", () => {
       const game = new GamePageObject(page).getGame();
