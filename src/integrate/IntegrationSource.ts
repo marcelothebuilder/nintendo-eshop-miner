@@ -1,4 +1,4 @@
-import { Region } from "../data/mongo/Game";
+import { Region } from "../data/mongo/Region";
 
 export type IntegrationSource = AsyncGenerator<IntegrationGame[], void, unknown>;
 

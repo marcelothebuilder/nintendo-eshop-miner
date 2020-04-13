@@ -5,8 +5,9 @@ import { describe, it, afterEach } from "mocha";
 import sinon from "sinon";
 import humanReadableRandomString from "human-readable-random-string";
 import { IntegrationGame, IntegrationSource } from "./IntegrationSource";
-import { Game, Region } from "../data/mongo/Game";
+import { Game } from "../data/mongo/Game";
 import { Integration } from "./Integration";
+import { Region } from "../data/mongo/Region";
 
 function getGame(): IntegrationGame {
   return {

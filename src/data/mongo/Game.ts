@@ -1,14 +1,9 @@
 /* eslint-disable no-var */
-import mongoose, { Schema, Document, Model, DocumentQuery, Error } from "mongoose";
-import _ from "lodash";
+import mongoose, { Document, DocumentQuery, Model, Schema } from "mongoose";
+import { validateNsuid, validatePrice } from "./GameValidators";
+import { Region } from "./Region";
 
 const ModelName = "Game";
-
-export enum Region {
-  America = "America",
-  Japan = "Japan",
-  Europe = "Europe",
-}
 
 export interface GameDocument extends Document {
   nsuids: { region: Region; nsuid: number }[];
@@ -170,51 +165,9 @@ GameSchema.statics.saveDocument = function saveDocument(doc: any) {
   return newGame.save();
 };
 
-GameSchema.pre("validate", function validatePrice(next) {
-  const unique = [];
+GameSchema.pre("validate", validatePrice);
 
-  const self = this as any;
-
-  for (let i = 0, l = self.prices.length; i < l; i += 1) {
-    const { location, currency } = self.prices[i];
-    const key = `${location}_${currency}`;
-
-    if (unique.indexOf(key) > -1) {
-      return next(new Error("Duplicated price information"));
-    }
-    unique.push(key);
-  }
-
-  return next();
-});
-
-GameSchema.pre("validate", function validateNsuid(next) {
-  const self = this as any;
-
-  const { nsuids } = self;
-
-  if (_.isEmpty(nsuids)) {
-    return next();
-  }
-
-  if (_.uniqBy(nsuids, "nsuid").length !== nsuids.length) {
-    return next(new Error("Duplicated nsuids.nsuid information"));
-  }
-
-  if (_.uniqBy(nsuids, "region").length !== nsuids.length) {
-    return next(new Error("Duplicated nsuids.region information"));
-  }
-
-  const regions = nsuids.map((n: { region: string }) => n.region);
-
-  const unknownRegions = _.difference(regions, Object.keys(Region));
-
-  if (unknownRegions.length) {
-    return next(new Error(`Unknown region in nsuids.region entry ${unknownRegions.toString()}`));
-  }
-
-  return next();
-});
+GameSchema.pre("validate", validateNsuid);
 
 export interface GameModel extends Model<GameDocument> {
   findByNsuid(nsuid: number): DocumentQuery<GameDocument | null, GameDocument, {}>;

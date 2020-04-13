@@ -3,8 +3,8 @@ import { EuropeDumper } from "../../dumpers/europe/EuropeDumper";
 import { EuropeDocument } from "../../dumpers/europe/EuropeTypes";
 import { logger } from "../../logging/logger";
 import { buildSlug } from "../SlugBuilder";
-import { Region } from "../../data/mongo/Game";
 import { buildUniqueId } from "../buildUniqueId";
+import { Region } from "../../data/mongo/Region";
 
 const convertGame = (dumper: EuropeDumper) => (game: EuropeDocument): IntegrationGame => {
   if (!game.title) throw Error(`Null property title`);

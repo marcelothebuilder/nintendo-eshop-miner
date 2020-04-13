@@ -1,10 +1,10 @@
 import { NorthAmericaDumper } from "../../dumpers/northamerica/NorthAmericaDumper";
 import { IntegrationSource, IntegrationGame } from "../IntegrationSource";
 import { NorthAmericaGame } from "../../dumpers/northamerica/NorthAmericaGame";
-import { Region } from "../../data/mongo/Game";
 import { logger } from "../../logging/logger";
 import { buildSlug } from "../SlugBuilder";
 import { buildUniqueId } from "../buildUniqueId";
+import { Region } from "../../data/mongo/Region";
 
 const convertGame = (game: NorthAmericaGame): IntegrationGame => {
   const nsuid = parseInt(game.nsuid, 10);
