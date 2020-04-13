@@ -77,6 +77,17 @@ describe("SlugBuilder", () => {
     expect(buildSlug("switch")("3 Little Pigs & Bad Wolf")).to.be.eq("3-little-pigs-and-bad-wolf-switch");
   });
 
+  it("should create #Breakforcist Battle slug", () => {
+    expect(buildSlug("switch")("#Breakforcist Battle")).to.be.eq("breakforcist-battle-switch");
+  });
+
+  it("should create ŌKAMI™ HD slug", () => {
+    expect(buildSlug("switch")("ŌKAMI™ HD")).to.be.eq("okami-hd-switch");
+  });
+
+  // ŌKAMI™ HD
+  // okami-hd-switch
+
   it("should build slugs correctly", () => {
     slugs.forEach((slug) => {
       expect(buildSlug("switch")(slug.title)).to.be.eq(slug.slug);
