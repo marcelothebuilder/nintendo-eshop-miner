@@ -4,6 +4,7 @@ import { NorthAmericaGame } from "../../dumpers/northamerica/NorthAmericaGame";
 import { Region } from "../../data/mongo/Game";
 import { logger } from "../../logging/logger";
 import { buildSlug } from "../SlugBuilder";
+import { buildUniqueId } from "../buildUniqueId";
 
 const convertGame = (game: NorthAmericaGame): IntegrationGame => {
   const nsuid = parseInt(game.nsuid, 10);
@@ -21,6 +22,11 @@ const convertGame = (game: NorthAmericaGame): IntegrationGame => {
 
   const releaseDate = new Date(game.releaseDateMask);
 
+  const uniqueIds = [];
+
+  uniqueIds.push(buildUniqueId(game.title));
+  uniqueIds.push(nsuid);
+
   return {
     title: game.title,
     nsuid,
@@ -34,6 +40,7 @@ const convertGame = (game: NorthAmericaGame): IntegrationGame => {
     releaseDate,
     remoteLastModified: new Date(game.lastModified),
     region: Region.America,
+    uniqueIds,
   };
 };
 

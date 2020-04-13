@@ -31,7 +31,7 @@ export class AdditionalIntegration {
 
   private async saveGame(game: IntegrationGame) {
     try {
-      const existing = await Game.findBySlug(game.slug);
+      const existing = await Game.findByUniqueIds(game.uniqueIds);
       if (existing) {
         existing.categories = _.uniq(game.categories.concat(existing.categories)).sort();
         const regionNsuid = existing.nsuids.find((n) => n.region === game.region);
@@ -64,6 +64,9 @@ export class AdditionalIntegration {
         } else {
           locationDate.date = game.releaseDate;
         }
+
+        existing.uniqueIds = (existing.uniqueIds || []).concat(game.uniqueIds);
+        existing.uniqueIds = _.uniq(existing.uniqueIds.sort());
 
         await existing.save();
       } else {

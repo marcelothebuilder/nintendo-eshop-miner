@@ -4,6 +4,7 @@ import { EuropeDocument } from "../../dumpers/europe/EuropeTypes";
 import { logger } from "../../logging/logger";
 import { buildSlug } from "../SlugBuilder";
 import { Region } from "../../data/mongo/Game";
+import { buildUniqueId } from "../buildUniqueId";
 
 const convertGame = (dumper: EuropeDumper) => (game: EuropeDocument): IntegrationGame => {
   if (!game.title) throw Error(`Null property title`);
@@ -26,6 +27,13 @@ const convertGame = (dumper: EuropeDumper) => (game: EuropeDocument): Integratio
 
   if (!releaseDate) throw Error("Empty release date");
 
+  const productCode = game.product_code_txt?.pop() || game.product_code_ss?.pop();
+
+  const uniqueIds = [];
+  uniqueIds.push(buildUniqueId(game.title));
+  uniqueIds.push(productCode);
+  uniqueIds.push(nsuid);
+
   return {
     title: game.title,
     nsuid,
@@ -39,7 +47,8 @@ const convertGame = (dumper: EuropeDumper) => (game: EuropeDocument): Integratio
     releaseDate,
     remoteLastModified: new Date(game.change_date),
     region: Region.Europe,
-    productCode: game.product_code_txt?.pop() || game.product_code_ss?.pop(),
+    productCode,
+    uniqueIds,
   };
 };
 

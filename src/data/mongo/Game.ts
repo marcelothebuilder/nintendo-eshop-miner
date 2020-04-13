@@ -13,6 +13,8 @@ export enum Region {
 export interface GameDocument extends Document {
   nsuids: { region: Region; nsuid: number }[];
 
+  uniqueIds: any[];
+
   name: string;
 
   sortingName: string;
@@ -52,6 +54,8 @@ export interface GameDocument extends Document {
 export const GameSchema = new Schema<GameDocument>(
   {
     nsuids: [{ region: String, nsuid: { type: Number, index: true, unique: true } }],
+
+    uniqueIds: [{ type: Schema.Types.Mixed, index: true, unique: false }],
 
     slug: {
       type: String,
@@ -135,6 +139,10 @@ GameSchema.statics.findByNsuid = function findByNsuid(nsuid: number) {
   return (this as GameModel).findOne({ "nsuids.nsuid": nsuid });
 };
 
+GameSchema.statics.findByUniqueIds = function findByNsuid(possible: any[]) {
+  return (this as GameModel).findOne({ uniqueIds: { $in: possible } });
+};
+
 GameSchema.statics.findBySlug = function findByNsuid(slug: string) {
   return (this as GameModel).findOne({ slug });
 };
@@ -211,6 +219,7 @@ GameSchema.pre("validate", function validateNsuid(next) {
 export interface GameModel extends Model<GameDocument> {
   findByNsuid(nsuid: number): DocumentQuery<GameDocument | null, GameDocument, {}>;
   findBySlug(slug: string): DocumentQuery<GameDocument | null, GameDocument, {}>;
+  findByUniqueIds(possibleIds: any[]): DocumentQuery<GameDocument | null, GameDocument, {}>;
   saveDocument(doc?: any): Promise<GameDocument>;
   findByProductCodeOrNsuidOrTitleOrSlug({
     productCode,

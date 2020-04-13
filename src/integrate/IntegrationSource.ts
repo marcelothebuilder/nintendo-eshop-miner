@@ -28,4 +28,6 @@ export interface IntegrationGame {
   publishers: string[];
 
   productCode?: string;
+
+  uniqueIds: any[];
 }

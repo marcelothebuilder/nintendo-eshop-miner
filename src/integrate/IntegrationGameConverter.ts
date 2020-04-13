@@ -12,5 +12,6 @@ export const toGameDocument = (game: IntegrationGame) => {
     remoteLastModified: game.remoteLastModified,
     categories: game.categories,
     publishers: game.publishers,
+    uniqueIds: game.uniqueIds,
   };
 };
