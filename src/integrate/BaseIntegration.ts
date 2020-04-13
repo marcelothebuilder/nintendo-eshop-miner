@@ -30,12 +30,12 @@ export class BaseIntegration {
 
   private async saveGame(game: any) {
     try {
-      await Game.findOneAndUpdate({ nsuid: game.nsuid }, game, {
+      await Game.findOneAndUpdate({ slug: game.slug }, game, {
         new: true,
         upsert: true,
       });
     } catch (e) {
-      logger.error(`Error while saving game ${game.nsuid} - ${game.name}`, e);
+      logger.error(`Error while saving game ${game.slug} - ${game.name}`, e);
     }
   }
 }
