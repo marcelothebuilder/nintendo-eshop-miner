@@ -73,6 +73,10 @@ describe("SlugBuilder", () => {
     );
   });
 
+  it("should create 3 Little Pigs & Bad Wolf  slug", () => {
+    expect(buildSlug("switch")("3 Little Pigs & Bad Wolf")).to.be.eq("3-little-pigs-and-bad-wolf-switch");
+  });
+
   it("should build slugs correctly", () => {
     slugs.forEach((slug) => {
       expect(buildSlug("switch")(slug.title)).to.be.eq(slug.slug);
