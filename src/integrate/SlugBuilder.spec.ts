@@ -85,6 +85,10 @@ describe("SlugBuilder", () => {
     expect(buildSlug("switch")("ŌKAMI™ HD")).to.be.eq("okami-hd-switch");
   });
 
+  it("should create 64.0 slug", () => {
+    expect(buildSlug("switch")("64.0")).to.be.eq("640-switch");
+  });
+
   it.skip("should create Xenon Valkyrie+ slug", () => {
     expect(buildSlug("switch")("Xenon Valkyrie+")).to.be.eq("xenon-valkyrie-plus-switch");
   });
