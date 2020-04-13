@@ -21,7 +21,7 @@ export interface GameDocument extends Document {
 
   description: { location: string; content: string }[];
 
-  releaseDate: Date;
+  releaseDates: { location: string; date: Date }[];
 
   remoteLastModified: Date;
 
@@ -79,7 +79,7 @@ export const GameSchema = new Schema<GameDocument>(
 
     description: [{ location: { type: String, required: true }, content: { type: String, required: true } }],
 
-    releaseDate: Date,
+    releaseDates: [{ location: { type: String, required: true }, date: { type: Date, required: true } }],
 
     remoteLastModified: Date,
 

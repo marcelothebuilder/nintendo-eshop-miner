@@ -334,8 +334,8 @@ describe("Game", () => {
       ],
     }).save();
 
-    expect(g.prices.filter((p) => p.currency === "BRL")).to.exist;
-    expect(g.prices.filter((p) => p.currency === "AUD")).to.exist;
+    expect(g.prices.find((p) => p.currency === "BRL")).to.exist;
+    expect(g.prices.find((p) => p.currency === "AUD")).to.exist;
     expect(g.prices.length).to.eq(2);
   });
 
@@ -370,7 +370,7 @@ describe("Game", () => {
       ],
     }).save();
 
-    expect(g.prices.filter((p) => p.currency === "BRL")).to.exist;
+    expect(g.prices.find((p) => p.currency === "BRL")).to.exist;
     expect(g.prices.length).to.eq(1);
   });
 
@@ -514,5 +514,23 @@ describe("Game", () => {
 
     expect(games.length).to.eq(1);
     expect(games.pop()?.nsuids.pop()?.nsuid).to.eq(999);
+  });
+
+  it("should save releaseDates", async () => {
+    const g = await new Game({
+      nsuids: [{ nsuid: 21311, region: "America" }],
+      releaseDates: [
+        { location: "br", date: new Date() },
+        { location: "uk", date: new Date() },
+      ],
+      name: "Zeldinha",
+      slug: "zelda-switch",
+      sortingName: "Zeldinha",
+      prices: [],
+    }).save();
+
+    expect(g.releaseDates.find((p) => p.location === "br")).to.exist;
+    expect(g.releaseDates.find((p) => p.location === "uk")).to.exist;
+    expect(g.releaseDates.length).to.eq(2);
   });
 });
