@@ -14,6 +14,12 @@ const convertGame = (game: NorthAmericaGame): IntegrationGame => {
     throw Error(`Invalid property slug`);
   }
 
+  if (Number.isNaN(Date.parse(game.releaseDateMask))) {
+    throw Error(`Invalid property releaseDateMask`);
+  }
+
+  const releaseDate = new Date(game.releaseDateMask);
+
   return {
     title: game.title,
     nsuid,
@@ -24,7 +30,7 @@ const convertGame = (game: NorthAmericaGame): IntegrationGame => {
     location: "us",
     categories: game.categories,
     publishers: game.publishers,
-    releaseDate: new Date(game.releaseDateMask),
+    releaseDate,
     remoteLastModified: new Date(game.lastModified),
     region: Region.America,
   };
