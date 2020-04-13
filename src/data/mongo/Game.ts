@@ -5,12 +5,24 @@ import { Region } from "./Region";
 
 const ModelName = "Game";
 
-export interface GameDocument extends Document {
+export interface CreationAttributes {
+  createdAt: Date;
+
+  updatedAt: Date;
+}
+
+export interface GameMethods {
+  saveAndFind: () => Promise<any>;
+}
+
+export interface GameAttributes {
   nsuids: { region: Region; nsuid: number }[];
 
   uniqueIds: any[];
 
   name: string;
+
+  slug: string;
 
   sortingName: string;
 
@@ -21,10 +33,6 @@ export interface GameDocument extends Document {
   releaseDates: { location: string; date: Date }[];
 
   remoteLastModified: Date;
-
-  createdAt: Date;
-
-  updatedAt: Date;
 
   categories: string[];
 
@@ -42,9 +50,9 @@ export interface GameDocument extends Document {
     status: string;
     hasDiscount: boolean;
   }[];
-
-  saveAndFind: () => Promise<any>;
 }
+
+export interface GameDocument extends GameAttributes, Document, GameMethods, CreationAttributes {}
 
 export const GameSchema = new Schema<GameDocument>(
   {

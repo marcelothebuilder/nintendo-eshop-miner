@@ -27,7 +27,7 @@ export function validateNsuid(this: any, next: HookNextFunction) {
   const { nsuids } = self;
 
   if (_.isEmpty(nsuids)) {
-    return next();
+    return next(new Error("at least 1 nsuid is required"));
   }
 
   if (_.uniqBy(nsuids, "nsuid").length !== nsuids.length) {
