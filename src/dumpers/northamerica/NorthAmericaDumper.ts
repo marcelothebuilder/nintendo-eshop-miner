@@ -1,5 +1,5 @@
 import { SearchIndex } from "algoliasearch/lite";
-import { groupBy, max, min, flatten } from "lodash";
+import _, { groupBy, max, min, flatten } from "lodash";
 import { SearchResponse, SearchOptions } from "@algolia/client-search";
 import { RequestOptions } from "@algolia/transporter";
 import { promiseSerial } from "../../promises/promiseSerial";
@@ -70,11 +70,13 @@ export class NorthAmericaDumper implements NintendoDumper {
 
     const categories = await this.getCategoriesAndGamesCount();
 
-    if (!categories.length) {
-      return { games: [] };
+    if (_.isEmpty(categories)) {
+      return NorthAmericaDumper.getEmptyResponse();
     }
 
-    const games: NorthAmericaGame[] = NorthAmericaDumper.unique(await this.searchGamesByCategories(categories));
+    const uniqueGames = NorthAmericaDumper.unique(await this.searchGamesByCategories(categories));
+
+    const games: NorthAmericaGame[] = NorthAmericaDumper.addBaseUrlToRelativeUrls(uniqueGames);
 
     return {
       ...NorthAmericaDumper.getModificationTimes(games),
@@ -282,5 +284,16 @@ export class NorthAmericaDumper implements NintendoDumper {
       .map((range) => `"${range}"`) // TODO: is it needed when it does not have spaces?
       .map((range) => `NOT priceRange:${range}`)
       .join(" AND ");
+  }
+
+  private static getEmptyResponse() {
+    return { games: [] };
+  }
+
+  private static addBaseUrlToRelativeUrls(arg0: NorthAmericaGame[]): NorthAmericaGame[] {
+    return arg0.map((g) => ({
+      ...g,
+      boxArt: `https://www.nintendo.com/${g.boxArt}`,
+    }));
   }
 }

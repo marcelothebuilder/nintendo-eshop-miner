@@ -44,6 +44,7 @@ export interface NorthAmericaGame {
   filterShops: any[];
   filterPlayers: any[];
   publishers: string[];
+  developers?: string[]; // added recently.
   players: string;
   featured: boolean;
   freeToStart: boolean;
@@ -54,6 +55,6 @@ export interface NorthAmericaGame {
   salePrice?: any;
   availability: string[];
   objectID: string;
-  _distinctSeqID: number;
-  _highlightResult: HighlightResult;
+  _distinctSeqID?: number;
+  _highlightResult?: HighlightResult;
 }
