@@ -26,4 +26,6 @@ export interface IntegrationGame {
   categories: string[];
 
   publishers: string[];
+
+  productCode?: string;
 }

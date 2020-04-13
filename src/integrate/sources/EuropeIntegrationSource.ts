@@ -39,6 +39,7 @@ const convertGame = (dumper: EuropeDumper) => (game: EuropeDocument): Integratio
     releaseDate,
     remoteLastModified: new Date(game.change_date),
     region: Region.Europe,
+    productCode: game.product_code_txt?.pop() || game.product_code_ss?.pop(),
   };
 };
 

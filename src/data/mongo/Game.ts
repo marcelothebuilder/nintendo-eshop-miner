@@ -33,6 +33,8 @@ export interface GameDocument extends Document {
 
   publishers: string[];
 
+  productCode?: string;
+
   prices: {
     location: string;
     currency: string;
@@ -75,7 +77,7 @@ export const GameSchema = new Schema<GameDocument>(
       unique: false,
     },
 
-    titles: [{ location: { type: String, required: true }, content: { type: String, required: true } }],
+    titles: [{ location: { type: String, required: true }, content: { type: String, required: true, index: true } }],
 
     description: [{ location: { type: String, required: true }, content: { type: String, required: true } }],
 
@@ -90,6 +92,8 @@ export const GameSchema = new Schema<GameDocument>(
     categories: [String],
 
     publishers: [String],
+
+    productCode: { type: String, index: true },
 
     prices: [
       {
@@ -132,6 +136,24 @@ GameSchema.statics.findByNsuid = function findByNsuid(nsuid: number) {
 };
 
 GameSchema.statics.findBySlug = function findByNsuid(slug: string) {
+  return (this as GameModel).findOne({ slug });
+};
+
+GameSchema.statics.findByProductCodeOrNsuidOrTitleOrSlug = function findByProductCodeOrNsuidOrTitleOrSlug({
+  productCode,
+  nsuid,
+  title,
+  slug,
+}: any) {
+  const query = { $or: [] } as any;
+  if (productCode) query.$or.push({ productCode });
+  if (nsuid) query.$or.push({ "nsuids.nsuid": nsuid });
+  if (slug) query.$or.push({ slug });
+  if (title) {
+    query.$or.push({ name: title });
+    query.$or.push({ "titles.content": title });
+  }
+
   return (this as GameModel).findOne({ slug });
 };
 
@@ -190,6 +212,13 @@ export interface GameModel extends Model<GameDocument> {
   findByNsuid(nsuid: number): DocumentQuery<GameDocument | null, GameDocument, {}>;
   findBySlug(slug: string): DocumentQuery<GameDocument | null, GameDocument, {}>;
   saveDocument(doc?: any): Promise<GameDocument>;
+  findByProductCodeOrNsuidOrTitleOrSlug({
+    productCode,
+    nsuid,
+    title,
+    slug,
+  }: any): DocumentQuery<GameDocument | null, GameDocument, {}>;
+
   of(doc?: any): GameDocument;
 }
 

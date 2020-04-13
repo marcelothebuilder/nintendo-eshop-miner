@@ -3,6 +3,7 @@ import { IntegrationSource, IntegrationGame } from "../IntegrationSource";
 import { NorthAmericaGame } from "../../dumpers/northamerica/NorthAmericaGame";
 import { Region } from "../../data/mongo/Game";
 import { logger } from "../../logging/logger";
+import { buildSlug } from "../SlugBuilder";
 
 const convertGame = (game: NorthAmericaGame): IntegrationGame => {
   const nsuid = parseInt(game.nsuid, 10);
@@ -23,7 +24,7 @@ const convertGame = (game: NorthAmericaGame): IntegrationGame => {
   return {
     title: game.title,
     nsuid,
-    slug: game.slug,
+    slug: buildSlug("switch")(game.title),
     imageUrl: game.boxArt,
     description: game.description,
     sortingName: game.title,
