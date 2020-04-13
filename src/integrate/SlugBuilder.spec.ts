@@ -34,8 +34,8 @@ describe("SlugBuilder", () => {
     expect(buildSlug("switch")("64.0")).to.be.eq("640-switch");
   });
 
-  it.skip("should create Xenon Valkyrie+ slug", () => {
-    expect(buildSlug("switch")("Xenon Valkyrie+")).to.be.eq("xenon-valkyrie-plus-switch");
+  it("should create Xenon Valkyrie+ slug", () => {
+    expect(buildSlug("switch")("Xenon Valkyrie+")).to.be.eq("xenon-valkyrie-switch");
   });
 
   // ŌKAMI™ HD
