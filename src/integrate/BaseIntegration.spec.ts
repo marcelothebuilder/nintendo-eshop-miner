@@ -45,7 +45,7 @@ describe("BaseIntegration", () => {
     expect(game.nsuids.pop()).to.be.deep.eq({ nsuid: game1.nsuid, region: game1.region });
     expect(game.name).to.be.eq(game1.title);
     expect(game.sortingName).to.be.eq(game1.sortingName);
-    expect(game.releaseDate).to.be.eq(game1.releaseDate);
+    expect(game.releaseDates.pop()).to.be.deep.eq({ location: game1.location, date: game1.releaseDate });
     expect(game.remoteLastModified).to.be.eq(game1.remoteLastModified);
   });
 });

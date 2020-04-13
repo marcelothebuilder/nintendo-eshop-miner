@@ -57,6 +57,14 @@ export class AdditionalIntegration {
           locationDescription.content = game.description;
         }
 
+        existing.releaseDates = existing.releaseDates || [];
+        const locationDate = existing.releaseDates.find((desc) => desc.location === game.location);
+        if (!locationDate) {
+          existing.releaseDates.push({ location: game.location, date: game.releaseDate });
+        } else {
+          locationDate.date = game.releaseDate;
+        }
+
         await existing.save();
       } else {
         await this.saveNew(game);

@@ -116,7 +116,7 @@ describe("AdditionalIntegration", () => {
     ]);
   });
 
-  it("should request and update descriptions", async () => {
+  it("should update descriptions", async () => {
     const game1 = getGame();
 
     const saveSpy = sinon.spy();
@@ -137,5 +137,48 @@ describe("AdditionalIntegration", () => {
       { location: "fr", content: "The Legendi of zeldi" },
       { location: game1.location, content: game1.description },
     ]);
+  });
+
+  it("should add releaseDates", async () => {
+    const game1 = getGame();
+
+    const saveSpy = sinon.spy();
+
+    const existingGame = {
+      nsuids: [{ region: Region.Europe, nsuid: 131313 }],
+      releaseDates: [{ location: "fr", date: new Date(Date.UTC(2020, 1, 1)) }],
+      save: saveSpy,
+    };
+
+    const source = getGameStreamFromArray([[game1]]);
+    const i = new AdditionalIntegration(source);
+    sinon.stub(Game, "findBySlug").resolves(existingGame as any);
+    await i.integrate();
+
+    expect(saveSpy.callCount).to.eq(1);
+    assert.sameDeepMembers(existingGame.releaseDates, [
+      { location: "fr", date: new Date(Date.UTC(2020, 1, 1)) },
+      { location: game1.location, date: game1.releaseDate },
+    ]);
+  });
+
+  it("should update releaseDates", async () => {
+    const game1 = getGame();
+
+    const saveSpy = sinon.spy();
+
+    const existingGame = {
+      nsuids: [{ region: Region.Europe, nsuid: 131313 }],
+      releaseDates: [{ location: game1.location, date: new Date(Date.UTC(2020, 1, 1)) }],
+      save: saveSpy,
+    };
+
+    const source = getGameStreamFromArray([[game1]]);
+    const i = new AdditionalIntegration(source);
+    sinon.stub(Game, "findBySlug").resolves(existingGame as any);
+    await i.integrate();
+
+    expect(saveSpy.callCount).to.eq(1);
+    assert.sameDeepMembers(existingGame.releaseDates, [{ location: game1.location, date: game1.releaseDate }]);
   });
 });
