@@ -6,7 +6,7 @@ import sinon from "sinon";
 import humanReadableRandomString from "human-readable-random-string";
 import { BaseIntegration } from "./BaseIntegration";
 import { IntegrationGame, IntegrationSource } from "./IntegrationSource";
-import { Game } from "../data/mongo/Game";
+import { Game, Region } from "../data/mongo/Game";
 
 function getGame(): IntegrationGame {
   return {
@@ -21,6 +21,7 @@ function getGame(): IntegrationGame {
     remoteLastModified: new Date(),
     sortingName: humanReadableRandomString(12),
     title: humanReadableRandomString(12),
+    region: Region.Europe,
   };
 }
 
@@ -41,7 +42,7 @@ describe("BaseIntegration", () => {
     const ofStub = sinon.stub(Game, "findOneAndUpdate").resolves({} as any);
     await i.integrate();
     const game = ofStub.firstCall.args[1];
-    expect(game.nsuid).to.be.eq(game1.nsuid);
+    expect(game.nsuids.pop()).to.be.deep.eq({ nsuid: game1.nsuid, region: game1.region });
     expect(game.name).to.be.eq(game1.title);
     expect(game.sortingName).to.be.eq(game1.sortingName);
     expect(game.releaseDate).to.be.eq(game1.releaseDate);

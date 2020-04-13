@@ -3,6 +3,7 @@
 import { IntegrationSource, IntegrationGame } from "./IntegrationSource";
 import { Game } from "../data/mongo/Game";
 import { logger } from "../logging/logger";
+import { toGameDocument } from "./IntegrationGameConverter";
 
 export class BaseIntegration {
   private source: IntegrationSource;
@@ -19,18 +20,7 @@ export class BaseIntegration {
   }
 
   private async saveBatch(batch: IntegrationGame[]) {
-    const games = batch.map((game) => ({
-      nsuid: game.nsuid,
-      slug: game.slug,
-      name: game.title,
-      sortingName: game.sortingName,
-      titles: [{ location: game.location, content: game.title }],
-      description: [{ location: game.location, content: game.description }],
-      releaseDate: game.releaseDate,
-      remoteLastModified: game.remoteLastModified,
-      categories: game.categories,
-      publishers: game.publishers,
-    }));
+    const games = batch.map((game) => toGameDocument(game));
 
     for (const game of games) {
       // eslint-disable-next-line no-await-in-loop

@@ -1,3 +1,5 @@
+import { Region } from "../data/mongo/Game";
+
 export type IntegrationSource = AsyncGenerator<IntegrationGame[], void, unknown>;
 
 export interface IntegrationGame {
@@ -6,6 +8,8 @@ export interface IntegrationGame {
   slug: string;
 
   title: string;
+
+  region: Region;
 
   imageUrl: string;
 

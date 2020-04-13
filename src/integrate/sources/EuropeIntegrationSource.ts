@@ -3,6 +3,7 @@ import { EuropeDumper } from "../../dumpers/europe/EuropeDumper";
 import { EuropeDocument } from "../../dumpers/europe/EuropeTypes";
 import { logger } from "../../logging/logger";
 import { buildSlug } from "../SlugBuilder";
+import { Region } from "../../data/mongo/Game";
 
 const convertGame = (dumper: EuropeDumper) => (game: EuropeDocument): IntegrationGame => {
   if (!game.title) throw Error(`Null property title`);
@@ -37,6 +38,7 @@ const convertGame = (dumper: EuropeDumper) => (game: EuropeDocument): Integratio
     publishers: [game.publisher],
     releaseDate,
     remoteLastModified: new Date(game.change_date),
+    region: Region.Europe,
   };
 };
 

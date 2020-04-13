@@ -53,30 +53,30 @@ describe("Game", () => {
 
   it("should save game at db", async () => {
     await new Game({
-      nsuid: 21311,
+      nsuids: [{ nsuid: 21311, region: "America" }],
       name: "Zeldinha",
       slug: "zelda-switch",
       sortingName: "Zeldinha",
       prices: [],
     }).save();
 
-    await new Game({
-      nsuid: 13131,
+    await Game.saveDocument({
+      nsuids: [{ nsuid: 13131, region: "America" }],
       name: "Zeldinha2",
       slug: "zelda2",
       sortingName: "Zeldinha2",
       prices: [],
-    }).save();
+    });
 
     const games = await Game.find().lean().exec();
 
-    expect(games.shift()?.nsuid).to.eq(21311);
-    expect(games.shift()?.nsuid).to.eq(13131);
+    expect(games.shift()?.nsuids.shift()?.nsuid).to.eq(21311);
+    expect(games.shift()?.nsuids.shift()?.nsuid).to.eq(13131);
   });
 
   it("should retrieve game by nsuid", async () => {
     await new Game({
-      nsuid: 21311,
+      nsuids: [{ nsuid: 21311, region: "America" }],
       name: "Zeldinha",
       slug: "zelda-switch",
       sortingName: "Zeldinha",
@@ -85,25 +85,37 @@ describe("Game", () => {
 
     const game = await Game.findByNsuid(21311).lean().exec();
 
-    expect(game?.nsuid).to.eq(21311);
+    expect(game?.nsuids.shift()?.nsuid).to.eq(21311);
+  });
+
+  it("should return null for non existing", async () => {
+    const game = await Game.findBySlug("anyslug").exec();
+
+    expect(game).to.eq(null);
+  });
+
+  it("should return false for non existing", async () => {
+    const game = await Game.exists({ slug: "anyslug" });
+
+    expect(game).to.eq(false);
   });
 
   it("should save the creation date", async () => {
     const g = await new Game({
-      nsuid: 21311,
+      nsuids: [{ nsuid: 21311, region: "America" }],
       name: "Zeldinha",
       slug: "zelda-switch",
       sortingName: "Zeldinha",
       prices: [],
     }).save();
 
-    expect(g.nsuid).to.eq(21311);
+    expect(g.nsuids.pop()?.nsuid).to.eq(21311);
     expect(g.createdAt).to.not.be.null;
   });
 
   it("should update the update date when anything is changed", async () => {
     const g = await new Game({
-      nsuid: 21311,
+      nsuids: [{ nsuid: 21311, region: "America" }],
       name: "Zeldinha",
       slug: "zelda-switch",
       sortingName: "Zeldinha",
@@ -123,7 +135,7 @@ describe("Game", () => {
 
   it("should not update the creation date when anything is changed", async () => {
     const g = await new Game({
-      nsuid: 21311,
+      nsuids: [{ nsuid: 21311, region: "America" }],
       name: "Zeldinha",
       slug: "zelda-switch",
       sortingName: "Zeldinha",
@@ -143,7 +155,7 @@ describe("Game", () => {
 
   it("should not update the update date when nothing is changed", async () => {
     const g = await new Game({
-      nsuid: 21311,
+      nsuids: [{ nsuid: 21311, region: "America" }],
       name: "Zeldinha",
       slug: "zelda-switch",
       sortingName: "Zeldinha",
@@ -161,7 +173,7 @@ describe("Game", () => {
 
   it("should save game at db with alternative title", async () => {
     await new Game({
-      nsuid: 21311,
+      nsuids: [{ nsuid: 21311, region: "America" }],
       name: "Zeldinha",
       slug: "zelda-switch",
       sortingName: "Zeldinha",
@@ -170,12 +182,12 @@ describe("Game", () => {
 
     const games = await Game.find().lean().exec();
 
-    expect(games.shift()?.nsuid).to.eq(21311);
+    expect(games.shift()?.nsuids.pop()?.nsuid).to.eq(21311);
   });
 
   it("should not save game at db with alternative title without location", async () => {
     const g = new Game({
-      nsuid: 21311,
+      nsuids: [{ nsuid: 21311, region: "America" }],
       name: "Zeldinha",
       slug: "zelda-switch",
       sortingName: "Zeldinha",
@@ -187,7 +199,7 @@ describe("Game", () => {
 
   it("should saveAndFind", async () => {
     const g = await new Game({
-      nsuid: 21311,
+      nsuids: [{ nsuid: 21311, region: "America" }],
       name: "Zeldinha",
       slug: "zelda-switch",
       sortingName: "Zeldinha",
@@ -199,14 +211,14 @@ describe("Game", () => {
 
   it("should allow two games with same name", async () => {
     await new Game({
-      nsuid: 21311,
+      nsuids: [{ nsuid: 21311, region: "America" }],
       name: "Zeldinha",
       slug: "zelda-switch",
       sortingName: "Zeldinha",
     }).save();
 
     await new Game({
-      nsuid: 13131,
+      nsuids: [{ nsuid: 13131, region: "America" }],
       name: "Zeldinha",
       slug: "zelda-switchx",
       sortingName: "Zeldinha",
@@ -214,20 +226,59 @@ describe("Game", () => {
 
     const games = await Game.find().lean().exec();
 
-    expect(games.shift()?.nsuid).to.eq(21311);
-    expect(games.shift()?.nsuid).to.eq(13131);
+    expect(games.shift()?.nsuids.pop()?.nsuid).to.eq(21311);
+    expect(games.shift()?.nsuids.pop()?.nsuid).to.eq(13131);
   });
 
   it("should not allow two games with same nsuid", async () => {
     await new Game({
-      nsuid: 21311,
+      nsuids: [{ nsuid: 21311, region: "America" }],
       name: "Zeldinha",
       slug: "zelda-switch",
       sortingName: "Zeldinha",
     }).save();
 
     const saveGameWithSameId = new Game({
-      nsuid: 21311,
+      nsuids: [{ nsuid: 21311, region: "America" }],
+      name: "Zeldinha2",
+      slug: "zelda2",
+      sortingName: "Zeldinha2",
+    }).save();
+
+    await expect(saveGameWithSameId).to.be.eventually.rejected;
+  });
+
+  it("should not allow game with two entries of the same nsuid", async () => {
+    const saveGameWithSameId = new Game({
+      nsuids: [
+        { nsuid: 21311, region: "America" },
+        { nsuid: 21311, region: "Europe" },
+      ],
+      name: "Zeldinha2",
+      slug: "zelda2",
+      sortingName: "Zeldinha2",
+    }).save();
+
+    await expect(saveGameWithSameId).to.be.eventually.rejected;
+  });
+
+  it("should not allow game with more than one nsuid for the same region", async () => {
+    const saveGameWithSameId = new Game({
+      nsuids: [
+        { nsuid: 21311, region: "America" },
+        { nsuid: 21312, region: "America" },
+      ],
+      name: "Zeldinha2",
+      slug: "zelda2",
+      sortingName: "Zeldinha2",
+    }).save();
+
+    await expect(saveGameWithSameId).to.be.eventually.rejected;
+  });
+
+  it("should not allow game with unknown nsuid region", async () => {
+    const saveGameWithSameId = new Game({
+      nsuids: [{ nsuid: 21311, region: "Americx" }],
       name: "Zeldinha2",
       slug: "zelda2",
       sortingName: "Zeldinha2",
@@ -238,7 +289,7 @@ describe("Game", () => {
 
   it("should not allow two games with same slug", async () => {
     await new Game({
-      nsuid: 21311,
+      nsuids: [{ nsuid: 21311, region: "America" }],
       name: "Zeldinha",
       slug: "zelda-switch",
       sortingName: "Zeldinha",
@@ -256,7 +307,7 @@ describe("Game", () => {
 
   it("should save price information", async () => {
     const g = await new Game({
-      nsuid: 21311,
+      nsuids: [{ nsuid: 21311, region: "America" }],
       name: "Zeldinha",
       slug: "zelda-switch",
       sortingName: "Zeldinha",
@@ -290,7 +341,7 @@ describe("Game", () => {
 
   it("should not save incomplete price information", async () => {
     const g = new Game({
-      nsuid: 21311,
+      nsuids: [{ nsuid: 21311, region: "America" }],
       name: "Zeldinha",
       slug: "zelda-switch",
       sortingName: "Zeldinha",
@@ -302,7 +353,7 @@ describe("Game", () => {
 
   it("should save price information without optional fields", async () => {
     const g = await new Game({
-      nsuid: 21311,
+      nsuids: [{ nsuid: 21311, region: "America" }],
       name: "Zeldinha",
       slug: "zelda-switch",
       sortingName: "Zeldinha",
@@ -325,7 +376,7 @@ describe("Game", () => {
 
   it("should not save price with non-unique location-currency", async () => {
     const g = new Game({
-      nsuid: 21311,
+      nsuids: [{ nsuid: 21311, region: "America" }],
       name: "Zeldinha",
       slug: "zelda-switch",
       sortingName: "Zeldinha",
@@ -356,7 +407,7 @@ describe("Game", () => {
 
   it("should not update price with non-unique location-currency", async () => {
     const g = await new Game({
-      nsuid: 21311,
+      nsuids: [{ nsuid: 21311, region: "America" }],
       name: "Zeldinha",
       slug: "zelda-switch",
       sortingName: "Zeldinha",
@@ -390,7 +441,7 @@ describe("Game", () => {
 
   it("should search for BRL prices lower than specified", async () => {
     await new Game({
-      nsuid: 999,
+      nsuids: [{ nsuid: 999, region: "America" }],
       name: "Zeldinha",
       slug: "zelda-switch3",
       sortingName: "Zeldinha",
@@ -417,7 +468,7 @@ describe("Game", () => {
     }).save();
 
     await new Game({
-      nsuid: 2,
+      nsuids: [{ nsuid: 2, region: "America" }],
       name: "Zeldinha2",
       slug: "zelda2",
       sortingName: "Zeldinha2",
@@ -435,7 +486,7 @@ describe("Game", () => {
     }).save();
 
     await new Game({
-      nsuid: 3,
+      nsuids: [{ nsuid: 3, region: "America" }],
       name: "Zeldinha",
       slug: "zelda-switc1h",
       sortingName: "Zeldinha",
@@ -462,6 +513,6 @@ describe("Game", () => {
       .exec();
 
     expect(games.length).to.eq(1);
-    expect(games.pop()?.nsuid).to.eq(999);
+    expect(games.pop()?.nsuids.pop()?.nsuid).to.eq(999);
   });
 });

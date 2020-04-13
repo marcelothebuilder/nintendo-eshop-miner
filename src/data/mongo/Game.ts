@@ -1,10 +1,17 @@
 /* eslint-disable no-var */
-import mongoose, { Schema, Document, Model, DocumentQuery } from "mongoose";
+import mongoose, { Schema, Document, Model, DocumentQuery, Error } from "mongoose";
+import _ from "lodash";
 
 const ModelName = "Game";
 
+export enum Region {
+  America = "America",
+  Japan = "Japan",
+  Europe = "Europe",
+}
+
 export interface GameDocument extends Document {
-  nsuid: number;
+  nsuids: { region: Region; nsuid: number }[];
 
   name: string;
 
@@ -42,14 +49,7 @@ export interface GameDocument extends Document {
 
 export const GameSchema = new Schema<GameDocument>(
   {
-    nsuid: {
-      type: Number,
-      required: true,
-      min: 1,
-      trim: true,
-      index: true,
-      unique: true,
-    },
+    nsuids: [{ region: String, nsuid: { type: Number, index: true, unique: true } }],
 
     slug: {
       type: String,
@@ -128,14 +128,19 @@ GameSchema.statics.of = function of(doc?: any) {
 };
 
 GameSchema.statics.findByNsuid = function findByNsuid(nsuid: number) {
-  return (this as GameModel).findOne({ nsuid });
+  return (this as GameModel).findOne({ "nsuids.nsuid": nsuid });
 };
 
 GameSchema.statics.findBySlug = function findByNsuid(slug: string) {
   return (this as GameModel).findOne({ slug });
 };
 
-GameSchema.pre("validate", function validate(next) {
+GameSchema.statics.saveDocument = function saveDocument(doc: any) {
+  const newGame = new this(doc);
+  return newGame.save();
+};
+
+GameSchema.pre("validate", function validatePrice(next) {
   const unique = [];
 
   const self = this as any;
@@ -153,9 +158,38 @@ GameSchema.pre("validate", function validate(next) {
   return next();
 });
 
+GameSchema.pre("validate", function validateNsuid(next) {
+  const self = this as any;
+
+  const { nsuids } = self;
+
+  if (_.isEmpty(nsuids)) {
+    return next();
+  }
+
+  if (_.uniqBy(nsuids, "nsuid").length !== nsuids.length) {
+    return next(new Error("Duplicated nsuids.nsuid information"));
+  }
+
+  if (_.uniqBy(nsuids, "region").length !== nsuids.length) {
+    return next(new Error("Duplicated nsuids.region information"));
+  }
+
+  const regions = nsuids.map((n: { region: string }) => n.region);
+
+  const unknownRegions = _.difference(regions, Object.keys(Region));
+
+  if (unknownRegions.length) {
+    return next(new Error(`Unknown region in nsuids.region entry ${unknownRegions.toString()}`));
+  }
+
+  return next();
+});
+
 export interface GameModel extends Model<GameDocument> {
   findByNsuid(nsuid: number): DocumentQuery<GameDocument | null, GameDocument, {}>;
   findBySlug(slug: string): DocumentQuery<GameDocument | null, GameDocument, {}>;
+  saveDocument(doc?: any): Promise<GameDocument>;
   of(doc?: any): GameDocument;
 }
 
