@@ -64,11 +64,14 @@ import { connectDefault } from "./data/mongo/connect";
 import { Mongoose } from "mongoose";
 import "source-map-support/register";
 import { BaseIntegrationTask } from "./tasks/BaseIntegrationTask";
+import { AdditionalIntegration } from "./integrate/AdditionalIntegration";
+import { AdditionalIntegrationTask } from "./tasks/AdditionalIntegrationTask";
 
 let db: Mongoose;
 (async () => {
   db = await connectDefault();
   await BaseIntegrationTask();
+  await AdditionalIntegrationTask();
 })()
   .catch((err) => {
     logger.error("Error while running app", err);
