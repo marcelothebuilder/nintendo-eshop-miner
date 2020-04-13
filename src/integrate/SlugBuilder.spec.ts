@@ -67,6 +67,12 @@ describe("SlugBuilder", () => {
     );
   });
 
+  it("should create links awakening slug", () => {
+    expect(buildSlug("switch")("The Legend of Zelda: Link's Awakening")).to.be.eq(
+      "the-legend-of-zelda-links-awakening-switch",
+    );
+  });
+
   it("should build slugs correctly", () => {
     slugs.forEach((slug) => {
       expect(buildSlug("switch")(slug.title)).to.be.eq(slug.slug);
