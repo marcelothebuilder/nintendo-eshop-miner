@@ -55,7 +55,7 @@ export const GameSchema = new Schema<GameDocument>(
   {
     nsuids: [{ region: String, nsuid: { type: Number, index: true, unique: true } }],
 
-    uniqueIds: [{ type: Schema.Types.Mixed, index: true, unique: false }],
+    uniqueIds: [{ type: Schema.Types.Mixed, index: true, unique: false, required: true, trim: true }],
 
     slug: {
       type: String,

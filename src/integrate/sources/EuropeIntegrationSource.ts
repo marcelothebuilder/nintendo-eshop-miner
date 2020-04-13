@@ -31,8 +31,8 @@ const convertGame = (dumper: EuropeDumper) => (game: EuropeDocument): Integratio
 
   const uniqueIds = [];
   uniqueIds.push(buildUniqueId(game.title));
-  uniqueIds.push(productCode);
-  uniqueIds.push(nsuid);
+  if (productCode) uniqueIds.push(productCode);
+  if (nsuid) uniqueIds.push(nsuid);
 
   return {
     title: game.title,

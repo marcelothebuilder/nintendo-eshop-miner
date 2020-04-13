@@ -30,50 +30,57 @@ export class Integration {
   }
 
   private async saveGame(game: IntegrationGame) {
-    try {
-      const existing = await Game.findByUniqueIds(game.uniqueIds);
-      if (existing) {
-        existing.categories = _.uniq(game.categories.concat(existing.categories)).sort();
-        const regionNsuid = existing.nsuids.find((n) => n.region === game.region);
-        if (!regionNsuid) {
-          existing.nsuids.push({ nsuid: game.nsuid, region: game.region });
-        } else {
-          regionNsuid.nsuid = game.nsuid;
-        }
+    const existing = await Game.findByUniqueIds(game.uniqueIds);
 
-        existing.titles = existing.titles || [];
-        const locationTitle = existing.titles.find((title) => title.location === game.location);
-        if (!locationTitle) {
-          existing.titles.push({ location: game.location, content: game.title });
-        } else {
-          locationTitle.content = game.title;
-        }
-
-        existing.description = existing.description || [];
-        const locationDescription = existing.description.find((desc) => desc.location === game.location);
-        if (!locationDescription) {
-          existing.description.push({ location: game.location, content: game.description });
-        } else {
-          locationDescription.content = game.description;
-        }
-
-        existing.releaseDates = existing.releaseDates || [];
-        const locationDate = existing.releaseDates.find((desc) => desc.location === game.location);
-        if (!locationDate) {
-          existing.releaseDates.push({ location: game.location, date: game.releaseDate });
-        } else {
-          locationDate.date = game.releaseDate;
-        }
-
-        existing.uniqueIds = (existing.uniqueIds || []).concat(game.uniqueIds);
-        existing.uniqueIds = _.uniq(existing.uniqueIds.sort());
-
-        await existing.save();
+    if (existing) {
+      existing.categories = _.uniq(game.categories.concat(existing.categories)).sort();
+      const regionNsuid = existing.nsuids.find((n) => n.region === game.region);
+      if (!regionNsuid) {
+        existing.nsuids.push({ nsuid: game.nsuid, region: game.region });
       } else {
-        await this.saveNew(game);
+        regionNsuid.nsuid = game.nsuid;
       }
-    } catch (e) {
-      logger.error(`Error while updating game ${game.nsuid} - ${game.title}`, e);
+
+      existing.titles = existing.titles || [];
+      const locationTitle = existing.titles.find((title) => title.location === game.location);
+      if (!locationTitle) {
+        existing.titles.push({ location: game.location, content: game.title });
+      } else {
+        locationTitle.content = game.title;
+      }
+
+      existing.description = existing.description || [];
+      const locationDescription = existing.description.find((desc) => desc.location === game.location);
+      if (!locationDescription) {
+        existing.description.push({ location: game.location, content: game.description });
+      } else {
+        locationDescription.content = game.description;
+      }
+
+      existing.releaseDates = existing.releaseDates || [];
+      const locationDate = existing.releaseDates.find((desc) => desc.location === game.location);
+      if (!locationDate) {
+        existing.releaseDates.push({ location: game.location, date: game.releaseDate });
+      } else {
+        locationDate.date = game.releaseDate;
+      }
+
+      existing.uniqueIds = (existing.uniqueIds || []).concat(game.uniqueIds);
+      existing.uniqueIds = _.uniq(existing.uniqueIds.sort());
+    }
+
+    if (existing) {
+      try {
+        await existing.save();
+      } catch (e) {
+        logger.error(`Error while updating game ${game.nsuid} - ${game.title} - ${existing.toJSON()}`, e);
+      }
+    } else {
+      try {
+        await this.saveNew(game);
+      } catch (e) {
+        logger.error(`Error while saving new game ${game.nsuid} - ${game.title} - ${JSON.stringify(game)}`, e);
+      }
     }
   }
 
