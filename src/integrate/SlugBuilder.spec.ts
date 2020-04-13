@@ -85,6 +85,10 @@ describe("SlugBuilder", () => {
     expect(buildSlug("switch")("ŌKAMI™ HD")).to.be.eq("okami-hd-switch");
   });
 
+  it.skip("should create Xenon Valkyrie+ slug", () => {
+    expect(buildSlug("switch")("Xenon Valkyrie+")).to.be.eq("xenon-valkyrie-plus-switch");
+  });
+
   // ŌKAMI™ HD
   // okami-hd-switch
 
