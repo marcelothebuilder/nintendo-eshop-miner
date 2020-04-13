@@ -6,7 +6,7 @@ import { logger } from "../logging/logger";
 import { Game } from "../data/mongo/Game";
 import { toGameDocument } from "./IntegrationGameConverter";
 
-export class AdditionalIntegration {
+export class Integration {
   private source: IntegrationSource;
 
   constructor(source: IntegrationSource) {

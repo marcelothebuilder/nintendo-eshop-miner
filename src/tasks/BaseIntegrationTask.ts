@@ -1,7 +1,7 @@
 import { Task } from "./Task";
 import { EuropeIntegrationSource } from "../integrate/sources/EuropeIntegrationSource";
 import { EuropeDumper } from "../dumpers/europe/EuropeDumper";
-import { AdditionalIntegration } from "../integrate/AdditionalIntegration";
+import { Integration } from "../integrate/Integration";
 
 export const BaseIntegrationTask: Task<void> = () =>
-  new AdditionalIntegration(EuropeIntegrationSource(new EuropeDumper("en"))).integrate();
+  new Integration(EuropeIntegrationSource(new EuropeDumper("en"))).integrate();

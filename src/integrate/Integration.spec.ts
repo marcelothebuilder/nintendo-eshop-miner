@@ -6,7 +6,7 @@ import sinon from "sinon";
 import humanReadableRandomString from "human-readable-random-string";
 import { IntegrationGame, IntegrationSource } from "./IntegrationSource";
 import { Game, Region } from "../data/mongo/Game";
-import { AdditionalIntegration } from "./AdditionalIntegration";
+import { Integration } from "./Integration";
 
 function getGame(): IntegrationGame {
   return {
@@ -33,13 +33,13 @@ async function* getGameStreamFromArray(streamArray: IntegrationGame[][]): Integr
   }
 }
 
-describe("AdditionalIntegration", () => {
+describe("Integration", () => {
   afterEach(() => sinon.restore());
 
   it("should request from one and save to local if slug is not present yet", async () => {
     const game1 = getGame();
     const source = getGameStreamFromArray([[game1]]);
-    const i = new AdditionalIntegration(source);
+    const i = new Integration(source);
     sinon.stub(Game, "findByUniqueIds").resolves(null);
     const saveDocumentStub = sinon.stub(Game, "saveDocument").resolves({} as any);
     await i.integrate();
@@ -64,7 +64,7 @@ describe("AdditionalIntegration", () => {
     };
 
     const source = getGameStreamFromArray([[game1]]);
-    const i = new AdditionalIntegration(source);
+    const i = new Integration(source);
     sinon.stub(Game, "findByUniqueIds").resolves(existingGame as any);
     await i.integrate();
 
@@ -83,7 +83,7 @@ describe("AdditionalIntegration", () => {
     };
 
     const source = getGameStreamFromArray([[game1]]);
-    const i = new AdditionalIntegration(source);
+    const i = new Integration(source);
     sinon.stub(Game, "findByUniqueIds").resolves(existingGame as any);
     await i.integrate();
 
@@ -106,7 +106,7 @@ describe("AdditionalIntegration", () => {
     };
 
     const source = getGameStreamFromArray([[game1]]);
-    const i = new AdditionalIntegration(source);
+    const i = new Integration(source);
     sinon.stub(Game, "findByUniqueIds").resolves(existingGame as any);
     await i.integrate();
 
@@ -129,7 +129,7 @@ describe("AdditionalIntegration", () => {
     };
 
     const source = getGameStreamFromArray([[game1]]);
-    const i = new AdditionalIntegration(source);
+    const i = new Integration(source);
     sinon.stub(Game, "findByUniqueIds").resolves(existingGame as any);
     await i.integrate();
 
@@ -152,7 +152,7 @@ describe("AdditionalIntegration", () => {
     };
 
     const source = getGameStreamFromArray([[game1]]);
-    const i = new AdditionalIntegration(source);
+    const i = new Integration(source);
     sinon.stub(Game, "findByUniqueIds").resolves(existingGame as any);
     await i.integrate();
 
@@ -175,7 +175,7 @@ describe("AdditionalIntegration", () => {
     };
 
     const source = getGameStreamFromArray([[game1]]);
-    const i = new AdditionalIntegration(source);
+    const i = new Integration(source);
     sinon.stub(Game, "findByUniqueIds").resolves(existingGame as any);
     await i.integrate();
 
