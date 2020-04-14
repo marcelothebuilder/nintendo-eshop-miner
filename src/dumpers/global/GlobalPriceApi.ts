@@ -9,7 +9,8 @@ const url = "https://api.ec.nintendo.com/v1/price";
 const httpAgent = new http.Agent({ keepAlive: true });
 const httpsAgent = new https.Agent({ keepAlive: true });
 
-export const ZeldaBreathOfTheWildNSUID = 70010000000025;
+export const AmericanZeldaBreathOfTheWildNSUID = 70010000000025;
+export const JapaneseZeldaBreathOfTheWildNSUID = 70010000000026;
 export const EuropeanZeldaBreathOfTheWildNSUID = 70010000000023;
 
 export class GlobalPriceApi {

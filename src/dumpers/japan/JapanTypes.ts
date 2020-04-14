@@ -15,7 +15,7 @@ export interface JapanGame {
   titlek: null | string;
   nsuid: null | string;
   pdate: Date; // future date, what is this?
-  icode: null | string;
+  icode: null | string; // japanese game code
   hard: Hardware | null;
   sform: Sform | null;
   pprice: number | null;
