@@ -8,6 +8,7 @@ import { Region } from "../../data/mongo/Region";
 import { CachedTranslationService } from "../../language/cacheTranslation";
 import { buildUniqueId } from "../id/buildUniqueId";
 import { buildSlug } from "../id/SlugBuilder";
+import { isJapaneseString } from "../../language/languageTest";
 
 const convertGame = (game: JapanGame): IntegrationGame => {
   const nsuidText = game.nsuid;
@@ -58,6 +59,23 @@ const convertGames = (games: JapanGame[]) =>
     })
     .filter((g) => g !== null) as IntegrationGame[];
 
+const getTranslation = async (title: string) => {
+  if (isJapaneseString(title)) {
+    const tx = await CachedTranslationService.translate(title, {
+      to: "en",
+      from: "auto",
+    });
+
+    logger.debug(`Got ${title} translation: ${tx.text}`);
+
+    return tx.text;
+  }
+
+  logger.debug(`${title} has no japanese characters, keeping it as-is.`);
+
+  return title;
+};
+
 // eslint-disable-next-line func-names
 export const JapanIntegrationSource = async function* (dumper: JapanDumper): IntegrationSource {
   const games = await dumper.getFullDump().then(convertGames);
@@ -65,14 +83,12 @@ export const JapanIntegrationSource = async function* (dumper: JapanDumper): Int
   logger.debug("Got the dump!");
   for (const game of games) {
     logger.debug(`Fetching ${game.title} translation`);
-    const translation = await CachedTranslationService.translate(game.title, { to: "en" });
-    logger.debug(`Got ${game.title} translation: ${translation.text}`);
-    const enTitle = translation.text;
+    const translation = await getTranslation(game.title);
     yield [
       {
         ...game,
-        slug: buildSlug("switch")(enTitle),
-        uniqueIds: game.uniqueIds.concat([buildUniqueId(enTitle)]),
+        slug: buildSlug("switch")(translation),
+        uniqueIds: game.uniqueIds.concat([buildUniqueId(translation)]),
       },
     ];
   }
