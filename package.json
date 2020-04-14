@@ -45,7 +45,7 @@
     "lazy-arr": "^1.1.1",
     "lodash": "^4.17.15",
     "memorystream": "^0.3.1",
-    "mongoose": "^5.9.7",
+    "mongoose": "^5.9.9",
     "node-uuid": "^1.4.8",
     "pg": "^8.0.2",
     "pg-hstore": "^2.3.3",
