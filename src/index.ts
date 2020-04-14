@@ -62,12 +62,16 @@ import { connectDefault } from "./data/mongo/connect";
 import { logger } from "./logging/logger";
 import { AdditionalIntegrationTask } from "./tasks/AdditionalIntegrationTask";
 import { BaseIntegrationTask } from "./tasks/BaseIntegrationTask";
+import { Integration } from "./integrate/Integration";
+import { JapanIntegrationSource } from "./integrate/sources/JapanIntegrationSource";
+import { JapanDumper } from "./dumpers/japan/JapanDumper";
 
 let db: Mongoose;
 (async () => {
   db = await connectDefault();
   await BaseIntegrationTask();
   await AdditionalIntegrationTask();
+  await new Integration(JapanIntegrationSource(new JapanDumper())).integrate();
 })()
   .catch((err) => {
     logger.error("Error while running app", err);

@@ -5,23 +5,23 @@ export type IntegrationSource = AsyncGenerator<IntegrationGame[], void, unknown>
 export interface IntegrationGame {
   nsuid: number;
 
-  slug: string;
+  slug?: string;
 
   title: string;
 
   region: Region;
 
-  imageUrl: string;
+  imageUrl?: string;
 
   sortingName: string;
 
-  description: string;
+  description?: string;
 
   location: string;
 
   releaseDate: Date;
 
-  remoteLastModified: Date;
+  remoteLastModified?: Date;
 
   categories: string[];
 

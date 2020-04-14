@@ -1,11 +1,5 @@
-// To parse this data:
-//
-//   import { Convert } from "./file";
-//
-//   const japanTypes = Convert.toJapanTypes(json);
-//
-// These functions will throw an error if the JSON doesn't
-// match the expected interface, even if the JSON is valid.
+// https://img-eshop.cdn.nintendo.net/i/66a1e231272eb0241d0aa0a81f9eb0416e9bd5b205759caaac71220aebdc3a84.jpg?w=1920
+// 66a1e231272eb0241d0aa0a81f9eb0416e9bd5b205759caaac71220aebdc3a84 can be replaced be image ids
 
 export interface JapanGame {
   id: string; // nsuid

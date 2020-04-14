@@ -49,12 +49,14 @@ export class Integration {
         locationTitle.content = game.title;
       }
 
-      existing.description = existing.description || [];
-      const locationDescription = existing.description.find((desc) => desc.location === game.location);
-      if (!locationDescription) {
-        existing.description.push({ location: game.location, content: game.description });
-      } else {
-        locationDescription.content = game.description;
+      if (game.description) {
+        existing.description = existing.description || [];
+        const locationDescription = existing.description.find((desc) => desc.location === game.location);
+        if (!locationDescription) {
+          existing.description.push({ location: game.location, content: game.description });
+        } else {
+          locationDescription.content = game.description;
+        }
       }
 
       existing.releaseDates = existing.releaseDates || [];
