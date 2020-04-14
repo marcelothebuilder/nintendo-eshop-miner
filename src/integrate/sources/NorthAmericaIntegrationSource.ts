@@ -2,8 +2,8 @@ import { NorthAmericaDumper } from "../../dumpers/northamerica/NorthAmericaDumpe
 import { IntegrationSource, IntegrationGame } from "../IntegrationSource";
 import { NorthAmericaGame } from "../../dumpers/northamerica/NorthAmericaGame";
 import { logger } from "../../logging/logger";
-import { buildSlug } from "../SlugBuilder";
-import { buildUniqueId } from "../buildUniqueId";
+import { buildSlug } from "../id/SlugBuilder";
+import { buildUniqueId } from "../id/buildUniqueId";
 import { Region } from "../../data/mongo/Region";
 
 const convertGame = (game: NorthAmericaGame): IntegrationGame => {

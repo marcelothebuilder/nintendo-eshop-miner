@@ -2,8 +2,8 @@ import { IntegrationSource, IntegrationGame } from "../IntegrationSource";
 import { EuropeDumper } from "../../dumpers/europe/EuropeDumper";
 import { EuropeDocument } from "../../dumpers/europe/EuropeTypes";
 import { logger } from "../../logging/logger";
-import { buildSlug } from "../SlugBuilder";
-import { buildUniqueId } from "../buildUniqueId";
+import { buildSlug } from "../id/SlugBuilder";
+import { buildUniqueId } from "../id/buildUniqueId";
 import { Region } from "../../data/mongo/Region";
 
 const convertGame = (dumper: EuropeDumper) => (game: EuropeDocument): IntegrationGame => {
