@@ -62,8 +62,12 @@ const convertGames = (games: JapanGame[]) =>
 export const JapanIntegrationSource = async function* (dumper: JapanDumper): IntegrationSource {
   const games = await dumper.getFullDump().then(convertGames);
 
+  logger.debug("Got the dump!");
   for (const game of games) {
-    const enTitle = (await CachedTranslationService.translate(game.title, { to: "en" })).text;
+    logger.debug(`Fetching ${game.title} translation`);
+    const translation = await CachedTranslationService.translate(game.title, { to: "en" });
+    logger.debug(`Got ${game.title} translation: ${translation.text}`);
+    const enTitle = translation.text;
     yield [
       {
         ...game,

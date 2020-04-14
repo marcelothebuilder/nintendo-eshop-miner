@@ -17,6 +17,7 @@ export class Integration {
     for await (const batch of this.source) {
       logger.info(`Integrating additional batch of games ${batch.length}`);
       await this.saveBatch(batch);
+      logger.info(`Integrated! additional batch of games ${batch.length}`);
     }
   }
 

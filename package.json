@@ -8,7 +8,7 @@
     "check": "tsc && npm run lint && npm run coverage",
     "dev": "tsc -w",
     "transpile": "tsc",
-    "start": "tsc && node dist/index.js",
+    "start": "tsc && node --trace-warnings dist/index.js",
     "lint": "eslint ./src/**/* --ext .ts",
     "lint:watch": "esw ./src/**/* --ext .ts -w --changed --color",
     "lint:fix": "eslint --fix ./src/**/* --ext .ts",
