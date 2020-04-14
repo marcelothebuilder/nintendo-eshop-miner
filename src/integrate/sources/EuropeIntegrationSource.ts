@@ -6,6 +6,8 @@ import { buildSlug } from "../id/SlugBuilder";
 import { buildUniqueId } from "../id/buildUniqueId";
 import { Region } from "../../data/mongo/Region";
 
+const normalizeProductCode = (code: string): string => code.replace("HACP", "");
+
 const convertGame = (dumper: EuropeDumper) => (game: EuropeDocument): IntegrationGame => {
   if (!game.title) throw Error(`Null property title`);
   if (!game.nsuid_txt) throw Error(`Null property nsuid_txt`);
@@ -31,7 +33,7 @@ const convertGame = (dumper: EuropeDumper) => (game: EuropeDocument): Integratio
 
   const uniqueIds = [];
   uniqueIds.push(buildUniqueId(game.title));
-  if (productCode) uniqueIds.push(productCode);
+  if (productCode) uniqueIds.push(normalizeProductCode(productCode));
   if (nsuid) uniqueIds.push(nsuid);
 
   return {
@@ -47,7 +49,7 @@ const convertGame = (dumper: EuropeDumper) => (game: EuropeDocument): Integratio
     releaseDate,
     remoteLastModified: new Date(game.change_date),
     region: Region.Europe,
-    productCode,
+    productCode: productCode && normalizeProductCode(productCode),
     uniqueIds,
   };
 };

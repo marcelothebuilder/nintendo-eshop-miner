@@ -100,7 +100,7 @@ export const GameSchema = new Schema<GameDocument>(
 
     publishers: [String],
 
-    productCode: { type: String, index: true },
+    productCode: { type: String, index: true, minlength: 5, maxlength: 5 },
 
     prices: [
       {
