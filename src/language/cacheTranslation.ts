@@ -4,7 +4,7 @@ import { TranslationService } from "./translationService";
 
 type TranslationFunction = (text: string, options: Options) => Promise<Response>;
 
-export const cachedTranslation: TranslationFunction = async (text: string, options: Options) => {
+const cachedTranslation: TranslationFunction = async (text: string, options: Options) => {
   const translation = await Translation.findBy(text, options);
   if (translation) return translation.response;
   const serviceTranslation = await TranslationService.translate(text, options);
@@ -17,3 +17,9 @@ export const cachedTranslation: TranslationFunction = async (text: string, optio
   }).save();
   return serviceTranslation;
 };
+
+class CachedTranslationService {
+  static translate = cachedTranslation;
+}
+
+export { CachedTranslationService };

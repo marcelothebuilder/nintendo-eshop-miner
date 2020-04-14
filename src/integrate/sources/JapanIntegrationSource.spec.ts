@@ -8,6 +8,7 @@ import { IntegrationGame } from "../IntegrationSource";
 import { JapaneseZeldaBreathOfTheWildNSUID } from "../../dumpers/global/GlobalPriceApi";
 import { JapanDumper } from "../../dumpers/japan/JapanDumper";
 import { JapanIntegrationSource } from "./JapanIntegrationSource";
+import { CachedTranslationService } from "../../language/cacheTranslation";
 
 const botw = {
   id: "70010000000026",
@@ -187,13 +188,20 @@ describe("JapanIntegrationSource", () => {
     const dumper = new JapanDumper();
     sinon.stub(dumper, "getFullDump").resolves([botw as any]);
 
+    sinon
+      .stub(CachedTranslationService, "translate")
+      .resolves({ text: "The Legend of Zelda: Breath of the Wild" } as any);
+
     const instance = JapanIntegrationSource(dumper);
     const games = (await instance.next()).value! as IntegrationGame[];
     expect(games.length).to.be.deep.eq(1);
     const game = games.pop();
     expect(game?.nsuid).to.be.eq(JapaneseZeldaBreathOfTheWildNSUID);
-    expect(game?.slug).to.be.undefined;
     expect(game?.productCode).to.be.eq("AAAAA");
-    assert.sameMembers(game?.uniqueIds || [], ["AAAAA", JapaneseZeldaBreathOfTheWildNSUID]);
+    assert.sameMembers(game?.uniqueIds || [], [
+      "AAAAA",
+      JapaneseZeldaBreathOfTheWildNSUID,
+      "thelegendofzeldabreathofthewild",
+    ]);
   });
 });

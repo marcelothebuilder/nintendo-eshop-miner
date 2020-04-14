@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { describe, it, afterEach } from "mocha";
 import sinon from "sinon";
-import { cachedTranslation } from "./cacheTranslation";
+import { CachedTranslationService } from "./cacheTranslation";
 import { Translation } from "../data/mongo/Translation";
 import { TranslationService } from "./translationService";
 
@@ -22,7 +22,7 @@ describe("cacheTranslation", () => {
       raw: "",
     });
 
-    await cachedTranslation("ＮＡＲＵＴＯ－ナルト－ 疾風伝　ナルティメットストーム４ ROAD TO BORUTO", {
+    await CachedTranslationService.translate("ＮＡＲＵＴＯ－ナルト－ 疾風伝　ナルティメットストーム４ ROAD TO BORUTO", {
       to: "en",
       from: "auto",
     });
@@ -34,10 +34,13 @@ describe("cacheTranslation", () => {
 
   it("should return cached translation", async () => {
     sinon.stub(Translation, "findBy").resolves({ response: "test" } as any);
-    const r = await cachedTranslation("ＮＡＲＵＴＯ－ナルト－ 疾風伝　ナルティメットストーム４ ROAD TO BORUTO", {
-      to: "en",
-      from: "auto",
-    });
+    const r = await CachedTranslationService.translate(
+      "ＮＡＲＵＴＯ－ナルト－ 疾風伝　ナルティメットストーム４ ROAD TO BORUTO",
+      {
+        to: "en",
+        from: "auto",
+      },
+    );
 
     expect(r).to.be.eq("test");
   });

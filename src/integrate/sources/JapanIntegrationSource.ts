@@ -1,8 +1,13 @@
+/* eslint-disable no-await-in-loop */
+/* eslint-disable no-restricted-syntax */
 import { JapanDumper } from "../../dumpers/japan/JapanDumper";
 import { JapanGame } from "../../dumpers/japan/JapanTypes";
 import { IntegrationGame, IntegrationSource } from "../IntegrationSource";
 import { logger } from "../../logging/logger";
 import { Region } from "../../data/mongo/Region";
+import { CachedTranslationService } from "../../language/cacheTranslation";
+import { buildUniqueId } from "../id/buildUniqueId";
+import { buildSlug } from "../id/SlugBuilder";
 
 const convertGame = (game: JapanGame): IntegrationGame => {
   const nsuidText = game.nsuid;
@@ -55,5 +60,16 @@ const convertGames = (games: JapanGame[]) =>
 
 // eslint-disable-next-line func-names
 export const JapanIntegrationSource = async function* (dumper: JapanDumper): IntegrationSource {
-  yield dumper.getFullDump().then(convertGames);
+  const games = await dumper.getFullDump().then(convertGames);
+
+  for (const game of games) {
+    const enTitle = (await CachedTranslationService.translate(game.title, { to: "en" })).text;
+    yield [
+      {
+        ...game,
+        slug: buildSlug("switch")(enTitle),
+        uniqueIds: game.uniqueIds.concat([buildUniqueId(enTitle)]),
+      },
+    ];
+  }
 };
