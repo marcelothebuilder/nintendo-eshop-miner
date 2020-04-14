@@ -69,8 +69,8 @@ import { JapanDumper } from "./dumpers/japan/JapanDumper";
 let db: Mongoose;
 (async () => {
   db = await connectDefault();
-  // await BaseIntegrationTask();
-  // await AdditionalIntegrationTask();
+  await BaseIntegrationTask();
+  await AdditionalIntegrationTask();
   await new Integration(JapanIntegrationSource(new JapanDumper())).integrate();
 })()
   .catch((err) => {
