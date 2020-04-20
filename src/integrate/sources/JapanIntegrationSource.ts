@@ -43,7 +43,7 @@ const convertGame = (game: JapanGame): IntegrationGame => {
     imageUrl: undefined,
     description: game.text || undefined,
     sortingName: sanitizeName(game.title),
-    location: "JP",
+    location: "jp",
     categories: game.genre || [],
     publishers: [game.maker],
     releaseDate,
