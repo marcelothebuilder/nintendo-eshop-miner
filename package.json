@@ -16,6 +16,8 @@
     "test:integration": "mocha --config .mocharc.integration.json",
     "test:integration:watch": "mocha --watch --config .mocharc.integration.json",
     "coverage": "nyc mocha",
+    "coverage:integration": "nyc --no-clean mocha --config .mocharc.integration.json",
+    "coverage:combined": "npm run coverage && npm run coverage:integration",
     "coverage:ci": "nyc mocha || true",
     "pre-commit": "npm run lint && npm run coverage",
     "pre-push": "echo Nothing to do on pre-push"
