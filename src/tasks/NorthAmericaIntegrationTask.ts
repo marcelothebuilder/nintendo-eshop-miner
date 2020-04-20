@@ -4,7 +4,7 @@ import { Integration } from "../integrate/Integration";
 import { NorthAmericaIntegrationSource } from "../integrate/sources/NorthAmericaIntegrationSource";
 import { Task } from "./Task";
 
-export const AdditionalIntegrationTask: Task<void> = () => {
-  const dumper = new NorthAmericaDumperFactory({ region: NorthAmericaRegions.UNITED_STATES }).getInstance();
-  return new Integration(NorthAmericaIntegrationSource(dumper)).integrate();
-};
+const getDumper = () => new NorthAmericaDumperFactory({ region: NorthAmericaRegions.UNITED_STATES }).getInstance();
+
+export const NorthAmericaIntegrationTask: Task<void> = () =>
+  new Integration(NorthAmericaIntegrationSource(getDumper())).integrate();

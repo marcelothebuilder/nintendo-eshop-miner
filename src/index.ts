@@ -60,18 +60,16 @@ import { Mongoose } from "mongoose";
 import "source-map-support/register";
 import { connectDefault } from "./data/mongo/connect";
 import { logger } from "./logging/logger";
-import { AdditionalIntegrationTask } from "./tasks/AdditionalIntegrationTask";
 import { BaseIntegrationTask } from "./tasks/BaseIntegrationTask";
-import { Integration } from "./integrate/Integration";
-import { JapanIntegrationSource } from "./integrate/sources/JapanIntegrationSource";
-import { JapanDumper } from "./dumpers/japan/JapanDumper";
+import { JapanIntegrationTask } from "./tasks/JapanIntegrationTask";
+import { NorthAmericaIntegrationTask } from "./tasks/NorthAmericaIntegrationTask";
 
 let db: Mongoose;
 (async () => {
   db = await connectDefault();
   await BaseIntegrationTask();
-  await AdditionalIntegrationTask();
-  await new Integration(JapanIntegrationSource(new JapanDumper())).integrate();
+  await NorthAmericaIntegrationTask();
+  await JapanIntegrationTask();
 })()
   .catch((err) => {
     logger.error("Error while running app", err);
