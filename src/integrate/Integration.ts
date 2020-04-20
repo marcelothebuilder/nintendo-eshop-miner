@@ -15,9 +15,9 @@ export class Integration {
 
   async integrate() {
     for await (const batch of this.source) {
-      logger.info(`Integrating additional batch of games ${batch.length}`);
+      logger.info(`Integration: Integrating additional batch of games ${batch.length}`);
       await this.saveBatch(batch);
-      logger.info(`Integrated! additional batch of games ${batch.length}`);
+      logger.info(`Integration: Integrated! additional batch of games ${batch.length}`);
     }
   }
 
@@ -76,13 +76,16 @@ export class Integration {
       try {
         await existing.save();
       } catch (e) {
-        logger.error(`Error while updating game ${game.nsuid} - ${game.title} - ${existing.toJSON()}`, e);
+        logger.error(`Integration: Error while updating game ${game.nsuid} - ${game.title} - ${existing.toJSON()}`, e);
       }
     } else {
       try {
         await this.saveNew(game);
       } catch (e) {
-        logger.error(`Error while saving new game ${game.nsuid} - ${game.title} - ${JSON.stringify(game)}`, e);
+        logger.error(
+          `Integration: Error while saving new game ${game.nsuid} - ${game.title} - ${JSON.stringify(game)}`,
+          e,
+        );
       }
     }
   }

@@ -52,7 +52,7 @@ export const NorthAmericaIntegrationSource = async function* (dumper: NorthAmeri
       try {
         return convertGame(game);
       } catch (e) {
-        logger.error(`Skipping game ${game.title} because of ${e.message}`);
+        logger.error(`NorthAmericaIntegrationSource: Skipping game ${game.title} because of ${e.message}`);
         return null;
       }
     })

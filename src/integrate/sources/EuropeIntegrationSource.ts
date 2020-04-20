@@ -60,7 +60,7 @@ const convertGames = (dumper: EuropeDumper) => (games: EuropeDocument[]) =>
       try {
         return convertGame(dumper)(game);
       } catch (e) {
-        logger.error(`Skipping game ${game.title} because of ${e.message}`);
+        logger.error(`EuropeIntegrationSource: Skipping game ${game.title} because of ${e.message}`);
         return null;
       }
     })

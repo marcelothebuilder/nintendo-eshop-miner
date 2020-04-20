@@ -53,7 +53,7 @@ const convertGames = (games: JapanGame[]) =>
       try {
         return convertGame(game);
       } catch (e) {
-        logger.error(`Skipping game ${game.title} because of ${e.message}`);
+        logger.error(`JapanIntegrationSource: Skipping game ${game.title} because of ${e.message}`);
         return null;
       }
     })
@@ -66,12 +66,12 @@ const getTranslation = async (title: string) => {
       from: "auto",
     });
 
-    logger.debug(`Got ${title} translation: ${tx.text}`);
+    logger.debug(`JapanIntegrationSource: Got ${title} translation: ${tx.text}`);
 
     return tx.text;
   }
 
-  logger.debug(`${title} has no japanese characters, keeping it as-is.`);
+  logger.debug(`JapanIntegrationSource: ${title} has no japanese characters, keeping it as-is.`);
 
   return title;
 };
@@ -80,9 +80,9 @@ const getTranslation = async (title: string) => {
 export const JapanIntegrationSource = async function* (dumper: JapanDumper): IntegrationSource {
   const games = await dumper.getFullDump().then(convertGames);
 
-  logger.debug("Got the dump!");
+  logger.debug("JapanIntegrationSource: Got the dump!");
   for (const game of games) {
-    logger.debug(`Fetching ${game.title} translation`);
+    logger.debug(`JapanIntegrationSource: Fetching ${game.title} translation`);
     const translation = await getTranslation(game.title);
     yield [
       {
