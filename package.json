@@ -4,7 +4,6 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "setup": "git config core.hooksPath .githooks && chmod +x .githooks/*",
     "check": "tsc && npm run lint && npm run coverage",
     "dev": "tsc -w",
     "transpile": "tsc",
@@ -18,7 +17,8 @@
     "test:integration:watch": "mocha --watch --config .mocharc.integration.json",
     "coverage": "nyc mocha",
     "coverage:ci": "nyc mocha || true",
-    "pre-commit": "npm run lint && npm run coverage"
+    "pre-commit": "npm run lint && npm run test",
+    "pre-push": "npm run lint && npm run coverage"
   },
   "private": true,
   "author": "Revok",
@@ -81,6 +81,7 @@
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-watch": "^6.0.1",
+    "husky": "^4.2.5",
     "mocha": "^7.1.1",
     "mocked-env": "^1.3.2",
     "moxios": "^0.4.0",
