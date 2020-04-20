@@ -23,26 +23,26 @@ class TranslationBulk {
 
     const { texts } = this;
 
-    let currentBulk = [];
-    let currentBulkCharactersCount = 0;
+    let currentBulk: string[] = [];
+    let currentBulkCharsCount = 0;
 
-    for (let index = 0; index < texts.length; index += 1) {
-      const text = texts[index];
-      const futureBulkLength = currentBulkCharactersCount + text.length + BULK_SEPARATOR.length;
-      if (this.isAboveLimit(futureBulkLength)) {
+    texts.forEach((text) => {
+      const textSizeInsideBulk = text.length + BULK_SEPARATOR.length;
+
+      const futureBulkCharsLength = currentBulkCharsCount + textSizeInsideBulk;
+
+      if (this.isAboveLimit(futureBulkCharsLength)) {
         translateBulks.push(currentBulk);
         currentBulk = [];
-        currentBulkCharactersCount = 0;
+        currentBulkCharsCount = 0;
       }
-      currentBulk.push(text);
-      currentBulkCharactersCount += text.length + BULK_SEPARATOR.length;
-    }
 
-    if (currentBulk.length > 0) {
-      translateBulks.push(currentBulk);
-      currentBulk = [];
-      currentBulkCharactersCount = 0;
-    }
+      currentBulk.push(text);
+
+      currentBulkCharsCount += textSizeInsideBulk;
+    });
+
+    if (currentBulk.length > 0) translateBulks.push(currentBulk);
 
     return translateBulks;
   }
