@@ -1,9 +1,9 @@
 import { expect } from "chai";
-import { describe, it, afterEach } from "mocha";
+import { afterEach, describe, it } from "mocha";
 import sinon from "sinon";
-import { CachedTranslationService } from "./cacheTranslation";
 import { Translation } from "../data/mongo/Translation";
-import { TranslationService } from "./translationService";
+import { CachedTranslationService } from "./cacheTranslation";
+import { TranslationService } from "./TranslationService";
 
 describe("cacheTranslation", () => {
   afterEach(() => sinon.restore());
@@ -13,7 +13,7 @@ describe("cacheTranslation", () => {
     const findStub = sinon.stub(Translation, "findBy").resolves(null);
     const saveStub = sinon.stub().resolves(null);
     sinon.stub(Translation, "of").returns({ save: saveStub } as any);
-    const translateSpy = sinon.stub(TranslationService, "translate").resolves({
+    const translateSpy = sinon.stub(TranslationService.prototype, "translate").resolves({
       text: "NARUTO Shippuden Ultimate Storm 4 ROAD TO BORUTO",
       from: {
         language: { didYouMean: false, iso: "ja" },
