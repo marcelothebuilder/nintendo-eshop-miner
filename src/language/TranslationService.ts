@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import _ from "lodash";
 import translate, { Options } from "translation-google";
@@ -6,6 +7,50 @@ import { logger } from "../logging/logger";
 const BULK_SEPARATOR = "\n";
 
 export type TranslationMap = Record<string, string>;
+
+class TranslationBulk {
+  private texts: string[];
+
+  private characterLimit: number;
+
+  constructor(texts: string[], characterLimit: number) {
+    this.texts = texts;
+    this.characterLimit = characterLimit;
+  }
+
+  getBulks() {
+    const translateBulks: string[][] = [];
+
+    const { texts } = this;
+
+    let currentBulk = [];
+    let currentBulkCharactersCount = 0;
+
+    for (let index = 0; index < texts.length; index += 1) {
+      const text = texts[index];
+      const futureBulkLength = currentBulkCharactersCount + text.length + BULK_SEPARATOR.length;
+      if (this.isAboveLimit(futureBulkLength)) {
+        translateBulks.push(currentBulk);
+        currentBulk = [];
+        currentBulkCharactersCount = 0;
+      }
+      currentBulk.push(text);
+      currentBulkCharactersCount += text.length + BULK_SEPARATOR.length;
+    }
+
+    if (currentBulk.length > 0) {
+      translateBulks.push(currentBulk);
+      currentBulk = [];
+      currentBulkCharactersCount = 0;
+    }
+
+    return translateBulks;
+  }
+
+  private isAboveLimit(charCount: number) {
+    return charCount > this.characterLimit;
+  }
+}
 
 export class TranslationService {
   private static DEFAULT_CHARACTER_LIMIT = 5000;
@@ -28,36 +73,11 @@ export class TranslationService {
 
   async bulkTranslate(inputTextx: string[], options: Options): Promise<TranslationMap> {
     const texts = inputTextx.map((t) => t.trim().replace(/\r?\n|\r/g, ""));
-    const translateBulks: string[][] = [];
-    let currentBulk: string[] = [];
-    let currentBulkCharactersCount = 0;
 
-    for (let index = 0; index < texts.length; index += 1) {
-      const text = texts[index];
-      const futureBulkLength = currentBulkCharactersCount + text.length + BULK_SEPARATOR.length;
-      if (this.isAboveLimit(futureBulkLength)) {
-        translateBulks.push(currentBulk);
-        currentBulk = [];
-        currentBulkCharactersCount = 0;
-      }
-      currentBulk.push(text);
-      currentBulkCharactersCount += text.length + BULK_SEPARATOR.length;
-    }
-
-    if (currentBulk.length > 0) {
-      translateBulks.push(currentBulk);
-      currentBulk = [];
-      currentBulkCharactersCount = 0;
-    }
-
-    const itemsInBulkCount = _.flatten(translateBulks).length;
-
-    if (itemsInBulkCount !== inputTextx.length) {
-      throw Error(`Items in bulk mismatch ${itemsInBulkCount} !== ${inputTextx.length}`);
-    }
+    const bulks = new TranslationBulk(texts, this.characterLimit);
 
     const translations = _.flatten(
-      await Promise.all(translateBulks.map((bulk) => this.bulkTranslateArray(bulk, options))),
+      await Promise.all(bulks.getBulks().map((bulk) => this.bulkTranslateArray(bulk, options))),
     );
 
     if (translations.length !== inputTextx.length) {
@@ -77,14 +97,8 @@ export class TranslationService {
     }, {});
   }
 
-  private isAboveLimit(charCount: number) {
-    return charCount > this.characterLimit;
-  }
-
   private async bulkTranslateArray(texts: string[], options: Options): Promise<string[]> {
     const translateText = texts.join(BULK_SEPARATOR);
-
-    if (this.isAboveLimit(translateText.length)) throw Error(`Cant translate ${translateText.length}`);
 
     const result = await this.translate(translateText, options);
     const translations = result.text.split(BULK_SEPARATOR);
