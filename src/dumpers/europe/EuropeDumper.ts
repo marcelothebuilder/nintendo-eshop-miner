@@ -52,7 +52,7 @@ export class EuropeDumper {
   }
 
   async getSwitchGames(options: EuropeSearchOptions): Promise<SwitchGameDocument[]> {
-    logger.debug("Fetching switch games", options);
+    logger.debug("EuropeDumper: Fetching switch games", options);
 
     return this.searchSolr<SwitchGameDocument>({
       q: "*",

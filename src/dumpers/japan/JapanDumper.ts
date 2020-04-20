@@ -78,7 +78,7 @@ export class JapanDumper {
     const { result } = await this.getPage(1);
     const { total, items } = result;
 
-    logger.debug(`First request done, got total of ${total} hits`);
+    logger.debug(`JapanDumper: First request done, got total of ${total} hits`);
 
     if (items.length > total) {
       throw Error("Got more results from the request than the report item count");
@@ -91,13 +91,13 @@ export class JapanDumper {
     for (let pageNumber = 2; total + this.pageSize > pageNumber * this.pageSize; pageNumber += 1) {
       p.push(() =>
         this.getPage(pageNumber).then((r) => {
-          logger.debug(`Got page ${pageNumber} result (${r.result.items.length} items)`);
+          logger.debug(`JapanDumper:  Got page ${pageNumber} result (${r.result.items.length} items)`);
           return r.result.items;
         }),
       );
     }
 
-    logger.debug(`${p.length} more requests on the way`);
+    logger.debug(`JapanDumper: ${p.length} more requests on the way`);
 
     const r = await promiseSerial(p, { parallelize: this.maxRequestsInParallel });
     return items.concat(flatten(r));

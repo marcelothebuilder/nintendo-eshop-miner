@@ -66,7 +66,7 @@ export class NorthAmericaDumper implements NintendoDumper {
    * loop through algolia index fetching until we have no more records
    */
   async searchAll(): Promise<DumperResult> {
-    logger.info(`${this.index.indexName}:searchAll`);
+    logger.info(`NorthAmericaDumper: ${this.index.indexName}:searchAll`);
 
     const categories = await this.getCategoriesAndGamesCount();
 
