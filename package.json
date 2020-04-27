@@ -50,8 +50,8 @@
     "coverage:integration": "nyc --no-clean mocha --config .mocharc.integration.json",
     "coverage:combined": "npm run coverage && npm run coverage:integration",
     "coverage:ci": "nyc mocha || true",
-    "pre-commit": "npm run lint && npm run coverage",
-    "pre-push": "echo Nothing to do on pre-push"
+    "pre-commit": "npm run tsc && npm run lint",
+    "pre-push": "npm run coverage"
   },
   "private": true,
   "author": "Revok",
