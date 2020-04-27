@@ -3,10 +3,41 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "watch": {
+    "tsc": {
+      "patterns": [
+        "src"
+      ],
+      "extensions": "ts",
+      "runOnChangeOnly": false,
+      "quiet": false,
+      "inherit": true
+    },
+    "lint": {
+      "patterns": [
+        "src"
+      ],
+      "extensions": "ts",
+      "runOnChangeOnly": false,
+      "quiet": false,
+      "inherit": true
+    },
+    "test": {
+      "patterns": [
+        "src"
+      ],
+      "extensions": "ts",
+      "runOnChangeOnly": false,
+      "quiet": false,
+      "inherit": true
+    }
+  },
   "scripts": {
     "check": "tsc && npm run lint && npm run coverage",
-    "dev": "tsc -w",
-    "transpile": "tsc",
+    "watch": "npm-watch",
+    "dev": "npm run tsc && concurrently --names tsc,lint,test \"npm:tsc:watch\" \"npm:lint:watch\" \"npm:test:watch\"",
+    "tsc:watch": "tsc -w --preserveWatchOutput",
+    "tsc": "tsc",
     "start": "tsc && node --trace-warnings dist/index.js",
     "lint": "eslint ./src/**/* --ext .ts",
     "lint:watch": "esw ./src/**/* --ext .ts -w --changed --color",
@@ -77,6 +108,7 @@
     "@typescript-eslint/parser": "^2.28.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
+    "concurrently": "^5.2.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-config-prettier": "^6.10.1",
@@ -87,6 +119,7 @@
     "mocha": "^7.1.1",
     "mocked-env": "^1.3.2",
     "moxios": "^0.4.0",
+    "npm-watch": "^0.6.0",
     "nyc": "^15.0.1",
     "prettier": "^2.0.4",
     "sinon": "^9.0.2",
