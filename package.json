@@ -25,7 +25,7 @@
   "license": "private",
   "dependencies": {
     "@algolia/client-search": "^4.1.0",
-    "@algolia/transporter": "^4.1.0",
+    "@algolia/transporter": "^4.8.4",
     "@types/bluebird": "^3.5.30",
     "@types/chai-as-promised": "^7.1.2",
     "@types/dockerode": "^2.5.27",
