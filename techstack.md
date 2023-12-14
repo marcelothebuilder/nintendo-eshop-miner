@@ -1,7 +1,8 @@
 <!--
---- Readme.md Snippet without images Start ---
+&lt;--- Readme.md Snippet without images Start ---&gt;
 ## Tech Stack
 marcelothebuilder/nintendo-eshop-miner is built on the following main stack:
+
 - [Mocha](http://mochajs.org/) – Javascript Testing Framework
 - [Node.js](http://nodejs.org/) – Frameworks (Full Stack)
 - [PostgreSQL](http://www.postgresql.org/) – Databases
@@ -18,16 +19,21 @@ marcelothebuilder/nintendo-eshop-miner is built on the following main stack:
 - [Shell](https://en.wikipedia.org/wiki/Shell_script) – Shells
 - [axios](https://github.com/mzabriskie/axios) – Javascript Utilities & Libraries
 - [Prettier](https://prettier.io/) – Code Review
+- [Testcontainers](https://www.testcontainers.org/) – Container Tools
 - [date-fns](https://date-fns.org/) – Javascript Utilities & Libraries
 - [GitHub Actions](https://github.com/features/actions) – Continuous Integration
+- [LangChain](https://github.com/hwchase17/langchain) – Large Language Model Tools
+- [pgvector](https://github.com/pgvector/pgvector/) – Database Tools
 - [Algolia](https://www.algolia.com/?utm_source=stackshare&utm_medium=referral) – Search as a Service
 
 Full tech stack [here](/techstack.md)
---- Readme.md Snippet without images End ---
 
---- Readme.md Snippet with images Start ---
+&lt;--- Readme.md Snippet without images End ---&gt;
+
+&lt;--- Readme.md Snippet with images Start ---&gt;
 ## Tech Stack
 marcelothebuilder/nintendo-eshop-miner is built on the following main stack:
+
 - <img width='25' height='25' src='https://img.stackshare.io/service/832/mocha.png' alt='Mocha'/> [Mocha](http://mochajs.org/) – Javascript Testing Framework
 - <img width='25' height='25' src='https://img.stackshare.io/service/1011/n1JRsFeB_400x400.png' alt='Node.js'/> [Node.js](http://nodejs.org/) – Frameworks (Full Stack)
 - <img width='25' height='25' src='https://img.stackshare.io/service/1028/ASOhU5xJ.png' alt='PostgreSQL'/> [PostgreSQL](http://www.postgresql.org/) – Databases
@@ -44,19 +50,23 @@ marcelothebuilder/nintendo-eshop-miner is built on the following main stack:
 - <img width='25' height='25' src='https://img.stackshare.io/service/4631/default_c2062d40130562bdc836c13dbca02d318205a962.png' alt='Shell'/> [Shell](https://en.wikipedia.org/wiki/Shell_script) – Shells
 - <img width='25' height='25' src='https://img.stackshare.io/no-img-open-source.png' alt='axios'/> [axios](https://github.com/mzabriskie/axios) – Javascript Utilities & Libraries
 - <img width='25' height='25' src='https://img.stackshare.io/service/7035/default_66f265943abed56bcdbfca1c866a4261b1fbb063.jpg' alt='Prettier'/> [Prettier](https://prettier.io/) – Code Review
+- <img width='25' height='25' src='https://img.stackshare.io/service/9791/IOUXc3V1_400x400.png' alt='Testcontainers'/> [Testcontainers](https://www.testcontainers.org/) – Container Tools
 - <img width='25' height='25' src='https://img.stackshare.io/service/10865/default_5551fb8853689f607a2bc0d5a09355d5a3d52bf0.png' alt='date-fns'/> [date-fns](https://date-fns.org/) – Javascript Utilities & Libraries
 - <img width='25' height='25' src='https://img.stackshare.io/service/11563/actions.png' alt='GitHub Actions'/> [GitHub Actions](https://github.com/features/actions) – Continuous Integration
+- <img width='25' height='25' src='https://img.stackshare.io/service/48790/default_5b6c6b73f1ff3775c85d2a1ba954cb87e30cbf13.jpg' alt='LangChain'/> [LangChain](https://github.com/hwchase17/langchain) – Large Language Model Tools
+- <img width='25' height='25' src='https://img.stackshare.io/service/109221/default_b888cdf5617d936aa6aacf130911906955508639.png' alt='pgvector'/> [pgvector](https://github.com/pgvector/pgvector/) – Database Tools
 - <img width='25' height='25' src='https://img.stackshare.io/service/589/default_452afb716f8f4b904f267638e5c6b9172f9fa06d.png' alt='Algolia'/> [Algolia](https://www.algolia.com/?utm_source=stackshare&utm_medium=referral) – Search as a Service
 
 Full tech stack [here](/techstack.md)
---- Readme.md Snippet with images End ---
+
+&lt;--- Readme.md Snippet with images End ---&gt;
 -->
 <div align="center">
 
 # Tech Stack File
 ![](https://img.stackshare.io/repo.svg "repo") [marcelothebuilder/nintendo-eshop-miner](https://github.com/marcelothebuilder/nintendo-eshop-miner)![](https://img.stackshare.io/public_badge.svg "public")
 <br/><br/>
-|58<br/>Tools used|11/10/23 <br/>Report generated|
+|62<br/>Tools used|12/14/23 <br/>Report generated|
 |------|------|
 </div>
 
@@ -94,7 +104,7 @@ Full tech stack [here](/techstack.md)
 </tr>
 </table>
 
-## <img src='https://img.stackshare.io/databases.svg'/> Data (4)
+## <img src='https://img.stackshare.io/databases.svg'/> Data (5)
 <table><tr>
   <td align='center'>
   <img width='36' height='36' src='https://img.stackshare.io/service/1231/0TXzZU7W_400x400.jpg' alt='Mongoose'>
@@ -128,10 +138,18 @@ Full tech stack [here](/techstack.md)
   <sub>v5.21.6</sub>
 </td>
 
+<td align='center'>
+  <img width='36' height='36' src='https://img.stackshare.io/service/109221/default_b888cdf5617d936aa6aacf130911906955508639.png' alt='pgvector'>
+  <br>
+  <sub><a href="https://github.com/pgvector/pgvector/">pgvector</a></sub>
+  <br>
+  <sub></sub>
+</td>
+
 </tr>
 </table>
 
-## <img src='https://img.stackshare.io/devops.svg'/> DevOps (9)
+## <img src='https://img.stackshare.io/devops.svg'/> DevOps (10)
 <table><tr>
   <td align='center'>
   <img width='36' height='36' src='https://img.stackshare.io/service/1725/chai.png' alt='Chai'>
@@ -200,6 +218,14 @@ Full tech stack [here](/techstack.md)
 </tr>
 <tr>
   <td align='center'>
+  <img width='36' height='36' src='https://img.stackshare.io/service/9791/IOUXc3V1_400x400.png' alt='Testcontainers'>
+  <br>
+  <sub><a href="https://www.testcontainers.org/">Testcontainers</a></sub>
+  <br>
+  <sub></sub>
+</td>
+
+<td align='center'>
   <img width='36' height='36' src='https://img.stackshare.io/service/1120/lejvzrnlpb308aftn31u.png' alt='npm'>
   <br>
   <sub><a href="https://www.npmjs.com/">npm</a></sub>
@@ -223,9 +249,25 @@ Full tech stack [here](/techstack.md)
 </tr>
 </table>
 
-## Other (4)
+## Other (7)
 <table><tr>
   <td align='center'>
+  <img width='36' height='36' src='https://img.stackshare.io/service/2270/no-img-open-source.png' alt='HTML'>
+  <br>
+  <sub><a href="http://">HTML</a></sub>
+  <br>
+  <sub></sub>
+</td>
+
+<td align='center'>
+  <img width='36' height='36' src='https://img.stackshare.io/service/48790/default_5b6c6b73f1ff3775c85d2a1ba954cb87e30cbf13.jpg' alt='LangChain'>
+  <br>
+  <sub><a href="https://github.com/hwchase17/langchain">LangChain</a></sub>
+  <br>
+  <sub></sub>
+</td>
+
+<td align='center'>
   <img width='36' height='36' src='https://img.stackshare.io/service/2438/lodash.png' alt='Lodash'>
   <br>
   <sub><a href="https://lodash.com">Lodash</a></sub>
@@ -237,6 +279,14 @@ Full tech stack [here](/techstack.md)
   <img width='36' height='36' src='https://img.stackshare.io/service/4631/default_c2062d40130562bdc836c13dbca02d318205a962.png' alt='Shell'>
   <br>
   <sub><a href="https://en.wikipedia.org/wiki/Shell_script">Shell</a></sub>
+  <br>
+  <sub></sub>
+</td>
+
+<td align='center'>
+  <img width='36' height='36' src='https://img.stackshare.io/service/6668/9682013.png' alt='Winston'>
+  <br>
+  <sub><a href="https://github.com/winstonjs/winston">Winston</a></sub>
   <br>
   <sub></sub>
 </td>
@@ -261,9 +311,9 @@ Full tech stack [here](/techstack.md)
 </table>
 
 
-## <img src='https://img.stackshare.io/group.svg' /> Open source packages (37)</h2>
+## <img src='https://img.stackshare.io/group.svg' /> Open source packages (36)</h2>
 
-## <img width='24' height='24' src='https://img.stackshare.io/service/1120/lejvzrnlpb308aftn31u.png'/> npm (37)
+## <img width='24' height='24' src='https://img.stackshare.io/service/1120/lejvzrnlpb308aftn31u.png'/> npm (36)
 
 |NAME|VERSION|LAST UPDATED|LAST UPDATED BY|LICENSE|VULNERABILITIES|
 |:------|:------|:------|:------|:------|:------|
@@ -302,10 +352,9 @@ Full tech stack [here](/techstack.md)
 |[source-map-support](https://www.npmjs.com/source-map-support)|v0.5.17|04/20/20|dependabot-preview[bot] |MIT|N/A|
 |[sqlite3](https://www.npmjs.com/sqlite3)|v4.1.1|04/09/20|Marcelo Paixão Resende |BSD-3-Clause|N/A|
 |[ts-node](https://www.npmjs.com/ts-node)|v8.8.2|04/20/20|dependabot-preview[bot] |MIT|N/A|
-|[winston](https://www.npmjs.com/winston)|v3.2.1|04/02/20|Marcelo Paixão Resende |MIT|N/A|
 |[xml2js](https://www.npmjs.com/xml2js)|v0.4.23|04/02/20|Marcelo Paixão Resende |MIT|[CVE-2023-0842](https://github.com/advisories/GHSA-776f-qx25-q3cc) (Moderate)|
 
 <br/>
 <div align='center'>
 
-Generated via [Stack File](https://github.com/apps/stack-file)
+Generated via [Stack File](https://github.com/marketplace/stack-file)
