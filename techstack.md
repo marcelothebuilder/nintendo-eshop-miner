@@ -66,7 +66,7 @@ Full tech stack [here](/techstack.md)
 # Tech Stack File
 ![](https://img.stackshare.io/repo.svg "repo") [marcelothebuilder/nintendo-eshop-miner](https://github.com/marcelothebuilder/nintendo-eshop-miner)![](https://img.stackshare.io/public_badge.svg "public")
 <br/><br/>
-|62<br/>Tools used|12/14/23 <br/>Report generated|
+|63<br/>Tools used|01/05/24 <br/>Report generated|
 |------|------|
 </div>
 
@@ -311,9 +311,9 @@ Full tech stack [here](/techstack.md)
 </table>
 
 
-## <img src='https://img.stackshare.io/group.svg' /> Open source packages (36)</h2>
+## <img src='https://img.stackshare.io/group.svg' /> Open source packages (37)</h2>
 
-## <img width='24' height='24' src='https://img.stackshare.io/service/1120/lejvzrnlpb308aftn31u.png'/> npm (36)
+## <img width='24' height='24' src='https://img.stackshare.io/service/1120/lejvzrnlpb308aftn31u.png'/> npm (37)
 
 |NAME|VERSION|LAST UPDATED|LAST UPDATED BY|LICENSE|VULNERABILITIES|
 |:------|:------|:------|:------|:------|:------|
@@ -352,6 +352,7 @@ Full tech stack [here](/techstack.md)
 |[source-map-support](https://www.npmjs.com/source-map-support)|v0.5.17|04/20/20|dependabot-preview[bot] |MIT|N/A|
 |[sqlite3](https://www.npmjs.com/sqlite3)|v4.1.1|04/09/20|Marcelo Paixão Resende |BSD-3-Clause|N/A|
 |[ts-node](https://www.npmjs.com/ts-node)|v8.8.2|04/20/20|dependabot-preview[bot] |MIT|N/A|
+|[winston](https://www.npmjs.com/winston)|v3.2.1|04/02/20|Marcelo Paixão Resende |MIT|N/A|
 |[xml2js](https://www.npmjs.com/xml2js)|v0.4.23|04/02/20|Marcelo Paixão Resende |MIT|[CVE-2023-0842](https://github.com/advisories/GHSA-776f-qx25-q3cc) (Moderate)|
 
 <br/>
