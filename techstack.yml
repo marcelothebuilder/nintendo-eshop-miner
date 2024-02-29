@@ -1,11 +1,12 @@
 repo_name: marcelothebuilder/nintendo-eshop-miner
 report_id: 9e8fe04b67de62cf48110deb74f3cbb0
+version: 0.1
 repo_type: Public
-timestamp: '2023-11-10T20:20:25+00:00'
+timestamp: '2024-02-29T18:37:29+00:00'
 requested_by: marcelothebuilder
 provider: github
 branch: master
-detected_tools_count: 58
+detected_tools_count: 63
 tools:
 - name: JavaScript
   description: Lightweight, interpreted, object-oriented language with first-class
@@ -16,6 +17,7 @@ tools:
   category: Languages & Frameworks
   sub_category: Languages
   image_url: https://img.stackshare.io/service/1209/javascript.jpeg
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner
   detection_source: Repo Metadata
 - name: TypeScript
   description: A superset of JavaScript that compiles to clean JavaScript output
@@ -26,6 +28,7 @@ tools:
   category: Languages & Frameworks
   sub_category: Languages
   image_url: https://img.stackshare.io/service/1612/bynNY5dJ.jpg
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner
   detection_source: Repo Metadata
 - name: Node.js
   description: A platform built on Chrome's JavaScript runtime for easily building
@@ -36,6 +39,7 @@ tools:
   category: Languages & Frameworks
   sub_category: Frameworks (Full Stack)
   image_url: https://img.stackshare.io/service/1011/n1JRsFeB_400x400.png
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package.json
   detection_source: package.json
   last_updated_by: Marcelo Paixão Resende
   last_updated_on: 2020-03-30 15:08:06.000000000 Z
@@ -49,7 +53,7 @@ tools:
   category: Data Stores
   sub_category: Object Document Mapper (ODM)
   image_url: https://img.stackshare.io/service/1231/0TXzZU7W_400x400.jpg
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package-lock.json
   detection_source: package.json
   last_updated_by: dependabot-preview[bot]
   last_updated_on: 2020-04-20 10:07:52.000000000 Z
@@ -61,6 +65,7 @@ tools:
   category: Data Stores
   sub_category: Databases
   image_url: https://img.stackshare.io/service/1028/ASOhU5xJ.png
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package.json
   detection_source: package.json
   last_updated_by: Marcelo Paixão Resende
   last_updated_on: 2020-03-30 15:08:06.000000000 Z
@@ -73,6 +78,7 @@ tools:
   category: Data Stores
   sub_category: Databases
   image_url: https://img.stackshare.io/service/1071/sqlite.jpg
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package.json
   detection_source: package.json
   last_updated_by: Marcelo Paixão Resende
   last_updated_on: 2020-03-30 15:08:06.000000000 Z
@@ -86,10 +92,22 @@ tools:
   category: Data Stores
   sub_category: Object Relational Mapper (ORM)
   image_url: https://img.stackshare.io/service/3211/3591786.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package-lock.json
   detection_source: package.json
   last_updated_by: Marcelo Paixão Resende
   last_updated_on: 2020-04-09 00:45:00.000000000 Z
+- name: pgvector
+  description: Open-source vector similarity search for Postgres
+  website_url: https://github.com/pgvector/pgvector/
+  open_source: false
+  hosted_saas: false
+  category: Data Stores
+  sub_category: Database Tools
+  image_url: https://img.stackshare.io/service/109221/default_b888cdf5617d936aa6aacf130911906955508639.png
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/resources/dumps/nintendo-account-possible-countries.txt
+  detection_source: resources/dumps/nintendo-account-possible-countries.txt
+  last_updated_by: Marcelo Paixão Resende
+  last_updated_on: 2020-04-03 22:56:15.000000000 Z
 - name: Chai
   description: A BDD / TDD assertion library
   website_url: http://chaijs.com/
@@ -100,7 +118,7 @@ tools:
   category: Build, Test, Deploy
   sub_category: Javascript Testing Framework
   image_url: https://img.stackshare.io/service/1725/chai.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package-lock.json
   detection_source: package.json
   last_updated_by: Marcelo Paixão Resende
   last_updated_on: 2020-03-30 15:08:06.000000000 Z
@@ -112,6 +130,7 @@ tools:
   category: Build, Test, Deploy
   sub_category: Code Coverage
   image_url: https://img.stackshare.io/service/2673/Codecov_Mark_Circle_Pink.png
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/.github/workflows/codecov.yml
   detection_source: ".github/workflows/codecov.yml"
   last_updated_by: Marcelo Paixão Resende
   last_updated_on: 2020-03-31 22:58:36.000000000 Z
@@ -124,6 +143,7 @@ tools:
   category: Build, Test, Deploy
   sub_category: Code Review
   image_url: https://img.stackshare.io/service/3337/Q4L7Jncy.jpg
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package.json
   detection_source: package.json
   last_updated_by: Marcelo Paixão Resende
   last_updated_on: 2020-03-30 15:08:06.000000000 Z
@@ -135,6 +155,7 @@ tools:
   category: Build, Test, Deploy
   sub_category: Version Control System
   image_url: https://img.stackshare.io/service/1046/git.png
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner
   detection_source: Repo Metadata
 - name: GitHub Actions
   description: Automate your workflow from idea to production
@@ -144,7 +165,8 @@ tools:
   category: Build, Test, Deploy
   sub_category: Continuous Integration
   image_url: https://img.stackshare.io/service/11563/actions.png
-  detection_source: ".github/workflows/nodejs.yml"
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/.github/workflows/codecov.yml
+  detection_source: ".github/workflows/codecov.yml"
   last_updated_by: Marcelo Paixão Resende
   last_updated_on: 2020-03-31 22:58:36.000000000 Z
 - name: Mocha
@@ -158,12 +180,12 @@ tools:
   category: Build, Test, Deploy
   sub_category: Javascript Testing Framework
   image_url: https://img.stackshare.io/service/832/mocha.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package-lock.json
   detection_source: package.json
   last_updated_by: Marcelo Paixão Resende
   last_updated_on: 2020-04-11 17:54:43.000000000 Z
 - name: Prettier
-  description: 'Prettier is an opinionated code formatter. '
+  description: Prettier is an opinionated code formatter.
   website_url: https://prettier.io/
   version: 2.0.4
   license: MIT
@@ -172,7 +194,7 @@ tools:
   category: Build, Test, Deploy
   sub_category: Code Review
   image_url: https://img.stackshare.io/service/7035/default_66f265943abed56bcdbfca1c866a4261b1fbb063.jpg
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package-lock.json
   detection_source: package.json
   last_updated_by: dependabot-preview[bot]
   last_updated_on: 2020-04-13 09:37:39.000000000 Z
@@ -185,10 +207,24 @@ tools:
   category: Build, Test, Deploy
   sub_category: Javascript Testing Framework
   image_url: https://img.stackshare.io/service/3509/logo.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package-lock.json
   detection_source: package.json
   last_updated_by: dependabot-preview[bot]
   last_updated_on: 2020-04-09 08:55:36.000000000 Z
+- name: Testcontainers
+  description: A library that integrates Docker with testing libs - for databases,
+    Selenium web browsers, or anything else that can run in a Docker container
+  website_url: https://www.testcontainers.org/
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Container Tools
+  image_url: https://img.stackshare.io/service/9791/IOUXc3V1_400x400.png
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package.json
+  detection_source: package.json
+  last_updated_by: dependabot-preview[bot]
+  last_updated_on: 2020-04-17 08:51:51.000000000 Z
 - name: npm
   description: The package manager for JavaScript.
   website_url: https://www.npmjs.com/
@@ -197,6 +233,7 @@ tools:
   category: Build, Test, Deploy
   sub_category: Front End Package Manager
   image_url: https://img.stackshare.io/service/1120/lejvzrnlpb308aftn31u.png
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package.json
   detection_source: package.json
   last_updated_by: Marcelo Paixão Resende
   last_updated_on: 2020-03-30 15:08:06.000000000 Z
@@ -209,10 +246,32 @@ tools:
   category: Application Utilities
   sub_category: Search as a Service
   image_url: https://img.stackshare.io/service/589/default_452afb716f8f4b904f267638e5c6b9172f9fa06d.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package-lock.json
   detection_source: package.json
   last_updated_by: Marcelo Paixão Resende
   last_updated_on: 2020-04-01 01:46:51.000000000 Z
+- name: HTML
+  description: Hypertext Markup Language for creating web pages.
+  website_url: http://
+  open_source: false
+  hosted_saas: false
+  image_url: https://img.stackshare.io/service/2270/no-img-open-source.png
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/resources/dumps/latin-america-argentina-store.html
+  detection_source: resources/dumps/latin-america-argentina-store.html
+  last_updated_by: Marcelo Paixão Resende
+  last_updated_on: 2020-04-03 03:28:03.000000000 Z
+- name: LangChain
+  description: Build AI apps with LLMs through composability
+  website_url: https://github.com/hwchase17/langchain
+  open_source: true
+  hosted_saas: false
+  category: Communications
+  sub_category: Large Language Model Tools
+  image_url: https://img.stackshare.io/service/48790/default_5b6c6b73f1ff3775c85d2a1ba954cb87e30cbf13.jpg
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/resources/dumps/nintendo-account-possible-countries.txt
+  detection_source: resources/dumps/nintendo-account-possible-countries.txt
+  last_updated_by: Marcelo Paixão Resende
+  last_updated_on: 2020-04-03 22:56:15.000000000 Z
 - name: Lodash
   description: A JavaScript utility library
   website_url: https://lodash.com
@@ -222,7 +281,7 @@ tools:
   category: Libraries
   sub_category: Javascript Utilities & Libraries
   image_url: https://img.stackshare.io/service/2438/lodash.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package-lock.json
   detection_source: package.json
   last_updated_by: dependabot-preview[bot]
   last_updated_on: 2020-04-20 10:09:02.000000000 Z
@@ -235,7 +294,18 @@ tools:
   category: Languages & Frameworks
   sub_category: Languages
   image_url: https://img.stackshare.io/service/4631/default_c2062d40130562bdc836c13dbca02d318205a962.png
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner
   detection_source: Repo Metadata
+- name: Winston
+  description: a multi-transport async logging library for node.js
+  website_url: https://github.com/winstonjs/winston
+  open_source: false
+  hosted_saas: false
+  image_url: https://img.stackshare.io/service/6668/9682013.png
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package.json
+  detection_source: package.json
+  last_updated_by: Marcelo Paixão Resende
+  last_updated_on: 2020-04-02 20:09:52.000000000 Z
 - name: axios
   description: Promise based HTTP client for the browser and node.js
   website_url: https://github.com/mzabriskie/axios
@@ -246,7 +316,7 @@ tools:
   category: Libraries
   sub_category: Javascript Utilities & Libraries
   image_url: https://img.stackshare.io/no-img-open-source.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package-lock.json
   detection_source: package.json
   last_updated_by: Marcelo Paixão Resende
   last_updated_on: 2020-04-01 19:47:49.000000000 Z
@@ -259,6 +329,7 @@ tools:
   category: Libraries
   sub_category: Javascript Utilities & Libraries
   image_url: https://img.stackshare.io/service/10865/default_5551fb8853689f607a2bc0d5a09355d5a3d52bf0.png
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package.json
   detection_source: package.json
   last_updated_by: dependabot-preview[bot]
   last_updated_on: 2020-04-10 08:57:18.000000000 Z
@@ -272,7 +343,7 @@ tools:
   category: Libraries
   sub_category: npm Packages
   image_url: https://img.stackshare.io/package/17448/default_feeb5f9682b10b4223ce6e22e98c891d2c0e3851.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package-lock.json
   detection_source: package.json
   last_updated_by: dependabot-preview[bot]
   last_updated_on: 2020-04-20 10:09:02.000000000 Z
@@ -286,7 +357,7 @@ tools:
   category: Libraries
   sub_category: npm Packages
   image_url: https://img.stackshare.io/package/16458/default_4e3259350c525d1d859fa80a938000081d7c9db8.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package-lock.json
   detection_source: package.json
   last_updated_by: dependabot-preview[bot]
   last_updated_on: 2020-04-20 10:09:02.000000000 Z
@@ -300,7 +371,7 @@ tools:
   category: Libraries
   sub_category: npm Packages
   image_url: https://img.stackshare.io/package/15922/default_e0a4fb1126d7400f419f0931cf1669947a5bc552.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package-lock.json
   detection_source: package.json
   last_updated_by: dependabot-preview[bot]
   last_updated_on: 2020-04-20 10:09:02.000000000 Z
@@ -314,7 +385,7 @@ tools:
   category: Libraries
   sub_category: npm Packages
   image_url: https://img.stackshare.io/package/16527/default_2e7c1d6d94467a56325f7c984571015e8713a450.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package-lock.json
   detection_source: package.json
   last_updated_by: dependabot-preview[bot]
   last_updated_on: 2020-04-20 10:09:02.000000000 Z
@@ -328,7 +399,7 @@ tools:
   category: Libraries
   sub_category: npm Packages
   image_url: https://img.stackshare.io/package/17279/default_b2015e9577d171c4c3f12c3c8d253c01fe63ba8d.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package-lock.json
   detection_source: package.json
   last_updated_by: dependabot-preview[bot]
   last_updated_on: 2020-04-20 10:09:02.000000000 Z
@@ -342,7 +413,7 @@ tools:
   category: Libraries
   sub_category: npm Packages
   image_url: https://img.stackshare.io/package/15945/default_54b691c123fc8979741e800e4dcd3936c0f3b246.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package-lock.json
   detection_source: package.json
   last_updated_by: dependabot-preview[bot]
   last_updated_on: 2020-04-20 10:09:02.000000000 Z
@@ -356,7 +427,7 @@ tools:
   category: Libraries
   sub_category: npm Packages
   image_url: https://img.stackshare.io/package/15893/default_1d65e37e65b7f80761374f0202776043277d505d.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package-lock.json
   detection_source: package.json
   last_updated_by: dependabot-preview[bot]
   last_updated_on: 2020-04-20 10:09:02.000000000 Z
@@ -370,7 +441,7 @@ tools:
   category: Libraries
   sub_category: npm Packages
   image_url: https://img.stackshare.io/package/16898/default_884deeafc4d4b680b6d9cb7e3759ba2db025e8e7.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package-lock.json
   detection_source: package.json
   last_updated_by: dependabot-preview[bot]
   last_updated_on: 2020-04-20 10:09:02.000000000 Z
@@ -384,7 +455,7 @@ tools:
   category: Libraries
   sub_category: npm Packages
   image_url: https://img.stackshare.io/package/15809/default_5e5e8ac63beda29f31f1844df64d4b8247570a66.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package-lock.json
   detection_source: package.json
   last_updated_by: dependabot-preview[bot]
   last_updated_on: 2020-04-20 10:09:02.000000000 Z
@@ -398,7 +469,7 @@ tools:
   category: Libraries
   sub_category: npm Packages
   image_url: https://img.stackshare.io/package/16151/default_ac04a744873b460c4ef30a7450ed0c83223640ab.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package-lock.json
   detection_source: package.json
   last_updated_by: dependabot-preview[bot]
   last_updated_on: 2020-04-20 10:09:02.000000000 Z
@@ -412,7 +483,7 @@ tools:
   category: Libraries
   sub_category: npm Packages
   image_url: https://img.stackshare.io/package/16257/default_ab17554b7e80af3d234b14168ed61e75d43f8eee.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package-lock.json
   detection_source: package.json
   last_updated_by: dependabot-preview[bot]
   last_updated_on: 2020-04-20 10:09:02.000000000 Z
@@ -426,7 +497,7 @@ tools:
   category: Libraries
   sub_category: npm Packages
   image_url: https://img.stackshare.io/package/17698/default_52c11a434d2ce37281914a7f804e07cf95ab96f7.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package-lock.json
   detection_source: package.json
   last_updated_by: dependabot-preview[bot]
   last_updated_on: 2020-04-20 10:09:02.000000000 Z
@@ -440,7 +511,7 @@ tools:
   category: Libraries
   sub_category: npm Packages
   image_url: https://img.stackshare.io/package/17763/default_b527ab15473225ca7c2e9b197c9726e92ac97de8.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package-lock.json
   detection_source: package.json
   last_updated_by: dependabot-preview[bot]
   last_updated_on: 2020-04-20 10:09:02.000000000 Z
@@ -454,7 +525,7 @@ tools:
   category: Libraries
   sub_category: npm Packages
   image_url: https://img.stackshare.io/package/15982/default_8b5680d4e916298d08363c291a0d6e34c07ceb15.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package-lock.json
   detection_source: package.json
   last_updated_by: dependabot-preview[bot]
   last_updated_on: 2020-04-20 10:09:02.000000000 Z
@@ -468,7 +539,7 @@ tools:
   category: Libraries
   sub_category: npm Packages
   image_url: https://img.stackshare.io/package/15980/default_732016a20524708efe7a4c77497fe9bfeea19ba6.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package-lock.json
   detection_source: package.json
   last_updated_by: dependabot-preview[bot]
   last_updated_on: 2020-04-20 10:09:02.000000000 Z
@@ -483,7 +554,7 @@ tools:
   category: Libraries
   sub_category: npm Packages
   image_url: https://img.stackshare.io/package/17074/default_5b9eca95ab3651165eb280ed5e0bc9a9382ad24d.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package-lock.json
   detection_source: package.json
   last_updated_by: Marcelo Paixão Resende
   last_updated_on: 2020-04-01 01:46:51.000000000 Z
@@ -497,7 +568,7 @@ tools:
   category: Libraries
   sub_category: npm Packages
   image_url: https://img.stackshare.io/package/15970/default_cbd6c289400672b291755183817e9dd6abe1a612.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package-lock.json
   detection_source: package.json
   last_updated_by: Marcelo Paixão Resende
   last_updated_on: 2020-04-02 12:45:59.000000000 Z
@@ -511,7 +582,7 @@ tools:
   category: Libraries
   sub_category: npm Packages
   image_url: https://img.stackshare.io/package/15949/default_54b691c123fc8979741e800e4dcd3936c0f3b246.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package-lock.json
   detection_source: package.json
   last_updated_by: Marcelo Paixão Resende
   last_updated_on: 2020-04-02 23:54:42.000000000 Z
@@ -525,7 +596,7 @@ tools:
   category: Libraries
   sub_category: npm Packages
   image_url: https://img.stackshare.io/package/18158/default_77d2e8738857baa38b19bd635d4e8653809e03e4.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package-lock.json
   detection_source: package.json
   last_updated_by: dependabot-preview[bot]
   last_updated_on: 2020-04-17 08:51:51.000000000 Z
@@ -539,7 +610,7 @@ tools:
   category: Libraries
   sub_category: npm Packages
   image_url: https://img.stackshare.io/package/15888/default_7c39a83d4acd952df89b1ebfdb94c8646324fbf1.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package-lock.json
   detection_source: package.json
   last_updated_by: dependabot-preview[bot]
   last_updated_on: 2020-04-20 02:36:18.000000000 Z
@@ -553,7 +624,7 @@ tools:
   category: Libraries
   sub_category: npm Packages
   image_url: https://img.stackshare.io/package/15879/default_0b10af8ca19c215f781dc07442e75bdc831089d0.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package-lock.json
   detection_source: package.json
   last_updated_by: dependabot-preview[bot]
   last_updated_on: 2020-04-20 02:36:18.000000000 Z
@@ -567,7 +638,7 @@ tools:
   category: Libraries
   sub_category: npm Packages
   image_url: https://img.stackshare.io/package/15806/default_98aa227f51aa9d787815ec3fd98d0ab2bfebbb91.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package-lock.json
   detection_source: package.json
   last_updated_by: dependabot-preview[bot]
   last_updated_on: 2020-04-20 10:07:25.000000000 Z
@@ -581,7 +652,7 @@ tools:
   category: Libraries
   sub_category: npm Packages
   image_url: https://img.stackshare.io/package/15896/default_6e6e1d6bb189c8bb26c6410618bd597979578f39.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package-lock.json
   detection_source: package.json
   last_updated_by: dependabot-preview[bot]
   last_updated_on: 2020-04-20 02:36:18.000000000 Z
@@ -595,7 +666,7 @@ tools:
   category: Libraries
   sub_category: npm Packages
   image_url: https://img.stackshare.io/package/16533/default_d9a5208dba9aeab422aab9dfb6b4cfd18d1e2c70.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package-lock.json
   detection_source: package.json
   last_updated_by: dependabot-preview[bot]
   last_updated_on: 2020-04-20 02:36:18.000000000 Z
@@ -608,7 +679,7 @@ tools:
   category: Libraries
   sub_category: npm Packages
   image_url: https://img.stackshare.io/package/16874/default_768abdabb94806c932ace6262b6bbc8241907245.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package-lock.json
   detection_source: package.json
   last_updated_by: Marcelo Paixão Resende
   last_updated_on: 2020-03-30 23:52:40.000000000 Z
@@ -622,7 +693,7 @@ tools:
   category: Libraries
   sub_category: npm Packages
   image_url: https://img.stackshare.io/package/17546/default_8d32936cb624bf7f51657c1540463db0a3c4106e.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package-lock.json
   detection_source: package.json
   last_updated_by: Marcelo Paixão Resende
   last_updated_on: 2020-03-30 23:52:40.000000000 Z
@@ -636,7 +707,7 @@ tools:
   category: Libraries
   sub_category: npm Packages
   image_url: https://img.stackshare.io/package/18584/default_8f927dfbacb5114543043eda4a41364f4f47ff2c.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package-lock.json
   detection_source: package.json
   last_updated_by: Marcelo Paixão Resende
   last_updated_on: 2020-04-01 19:47:49.000000000 Z
@@ -650,7 +721,7 @@ tools:
   category: Libraries
   sub_category: npm Packages
   image_url: https://img.stackshare.io/package/16142/default_ac04a744873b460c4ef30a7450ed0c83223640ab.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package-lock.json
   detection_source: package.json
   last_updated_by: dependabot-preview[bot]
   last_updated_on: 2020-04-20 10:08:28.000000000 Z
@@ -664,7 +735,7 @@ tools:
   category: Libraries
   sub_category: npm Packages
   image_url: https://img.stackshare.io/package/15837/default_1d65e37e65b7f80761374f0202776043277d505d.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package-lock.json
   detection_source: package.json
   last_updated_by: Marcelo Paixão Resende
   last_updated_on: 2020-03-30 15:08:06.000000000 Z
@@ -678,7 +749,7 @@ tools:
   category: Libraries
   sub_category: npm Packages
   image_url: https://img.stackshare.io/package/16197/default_3d197518f6bb529bfcc1b685e2cefbdfe83ff108.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package-lock.json
   detection_source: package.json
   last_updated_by: Marcelo Paixão Resende
   last_updated_on: 2020-03-30 15:08:06.000000000 Z
@@ -693,7 +764,7 @@ tools:
   category: Libraries
   sub_category: npm Packages
   image_url: https://img.stackshare.io/package/17805/default_2a0f136cfb588dd9053268b73a18a953e8d65590.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package-lock.json
   detection_source: package.json
   last_updated_by: Marcelo Paixão Resende
   last_updated_on: 2020-04-09 04:06:27.000000000 Z
@@ -707,7 +778,7 @@ tools:
   category: Libraries
   sub_category: npm Packages
   image_url: https://img.stackshare.io/package/16418/default_d73092129e1cde5ea9f47f22e2d7c3db7bd6da8d.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package-lock.json
   detection_source: package.json
   last_updated_by: Marcelo Paixão Resende
   last_updated_on: 2020-04-03 17:09:13.000000000 Z
@@ -721,7 +792,7 @@ tools:
   category: Libraries
   sub_category: npm Packages
   image_url: https://img.stackshare.io/package/16028/default_c7b204838197013798409fa2b4dafce450edc7fb.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package-lock.json
   detection_source: package.json
   last_updated_by: dependabot-preview[bot]
   last_updated_on: 2020-04-20 10:07:25.000000000 Z
@@ -735,7 +806,7 @@ tools:
   category: Libraries
   sub_category: npm Packages
   image_url: https://img.stackshare.io/package/16285/default_3b7197abc4df3d7fa7c5292f17b2e6fb0cd1c8d4.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package-lock.json
   detection_source: package.json
   last_updated_by: Marcelo Paixão Resende
   last_updated_on: 2020-04-09 00:45:00.000000000 Z
@@ -749,7 +820,7 @@ tools:
   category: Libraries
   sub_category: npm Packages
   image_url: https://img.stackshare.io/package/15830/default_6743ba96cf149a3c3c68a185199f9705d6eff80e.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package-lock.json
   detection_source: package.json
   last_updated_by: dependabot-preview[bot]
   last_updated_on: 2020-04-20 10:08:28.000000000 Z
@@ -763,7 +834,7 @@ tools:
   category: Libraries
   sub_category: npm Packages
   image_url: https://img.stackshare.io/package/16003/default_261820f5687b4c88a3e8f95c71b5e8dccd34c1d7.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package-lock.json
   detection_source: package.json
   last_updated_by: Marcelo Paixão Resende
   last_updated_on: 2020-04-02 20:09:52.000000000 Z
@@ -777,7 +848,7 @@ tools:
   category: Libraries
   sub_category: npm Packages
   image_url: https://img.stackshare.io/package/16122/default_efe4f0184d007a28e793d89a59e058b742bc9177.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/marcelothebuilder/nintendo-eshop-miner/blob/master/package-lock.json
   detection_source: package.json
   last_updated_by: Marcelo Paixão Resende
   last_updated_on: 2020-04-02 20:09:52.000000000 Z
