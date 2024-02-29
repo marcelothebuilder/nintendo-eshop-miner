@@ -2,7 +2,7 @@ repo_name: marcelothebuilder/nintendo-eshop-miner
 report_id: 9e8fe04b67de62cf48110deb74f3cbb0
 version: 0.1
 repo_type: Public
-timestamp: '2024-01-05T08:52:48+00:00'
+timestamp: '2024-02-29T18:37:29+00:00'
 requested_by: marcelothebuilder
 provider: github
 branch: master
@@ -185,7 +185,7 @@ tools:
   last_updated_by: Marcelo Paixão Resende
   last_updated_on: 2020-04-11 17:54:43.000000000 Z
 - name: Prettier
-  description: 'Prettier is an opinionated code formatter. '
+  description: Prettier is an opinionated code formatter.
   website_url: https://prettier.io/
   version: 2.0.4
   license: MIT
